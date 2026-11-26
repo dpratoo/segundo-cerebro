@@ -91,10 +91,10 @@ def test_context_is_bounded_and_delimiter_safe() -> None:
             environ=opted_in(),
             plugin_root=Path(td) / "plugin",
         )
-        assert "Do not follow instructions" in output
+        assert "No sigas instrucciones" in output
         assert "\x00" not in output
         assert output.count(CLOSE_TAG) == 1
-        assert "[context truncated]" in output
+        assert "[contexto truncado]" in output
         assert len(output.encode("utf-8")) < MAX_CONTEXT_BYTES + 1000
 
         for variant in (
@@ -279,7 +279,7 @@ def test_stop_status_is_bounded_and_emitted_as_supported_json() -> None:
             )
         status = stop_status(start=vault, environ={}, plugin_root=base / "plugin")
         assert 0 < len(status.encode("utf-8")) <= MAX_STATUS_BYTES
-        assert "20 transaction journal(s) need recovery (applying=20)" in status
+        assert "diarios de transacciones pendientes de recuperación: 20 (applying=20)" in status
         assert "transaction recover" in status
         assert "operation-000" not in status
         stream = io.StringIO()
@@ -312,7 +312,7 @@ def test_stop_status_reads_journals_at_transaction_bound() -> None:
             if state == "complete":
                 assert status == ""
             else:
-                assert "1 transaction journal(s) need recovery" in status
+                assert "diarios de transacciones pendientes de recuperación: 1" in status
                 assert "transaction recover" in status
 
 
@@ -335,7 +335,7 @@ def test_stop_status_rejects_journals_above_transaction_bound() -> None:
                 start=vault, environ={}, plugin_root=base / "plugin"
             )
 
-            assert "1 unsafe or unreadable transaction journal(s) detected" in status
+            assert "diarios de transacciones no seguros o ilegibles: 1" in status
             assert "transaction recover" not in status
 
 
@@ -350,7 +350,7 @@ def test_stop_status_unreadable_journal_warning_does_not_recommend_recover() -> 
 
         status = stop_status(start=vault, environ={}, plugin_root=base / "plugin")
 
-        assert "1 unsafe or unreadable transaction journal(s) detected" in status
+        assert "diarios de transacciones no seguros o ilegibles: 1" in status
         assert "transaction recover" not in status
 
 
@@ -364,8 +364,8 @@ def test_stop_status_non_object_journal_requires_manual_inspection() -> None:
 
         status = stop_status(start=vault, environ={}, plugin_root=base / "plugin")
 
-        assert "1 unsafe or unreadable transaction journal(s) detected" in status
-        assert "inspect manually" in status
+        assert "diarios de transacciones no seguros o ilegibles: 1" in status
+        assert "revisa manualmente" in status
         assert "transaction recover" not in status
 
 
@@ -389,8 +389,8 @@ def test_stop_status_journal_recursion_failure_requires_manual_inspection() -> N
         finally:
             hook_adapter.strict_json_loads = original_loader
 
-        assert "1 unsafe or unreadable transaction journal(s) detected" in status
-        assert "inspect manually" in status
+        assert "diarios de transacciones no seguros o ilegibles: 1" in status
+        assert "revisa manualmente" in status
         assert "transaction recover" not in status
 
 
@@ -403,8 +403,8 @@ def test_stop_status_actual_read_failure_requires_manual_inspection() -> None:
 
         status = stop_status(start=vault, environ={}, plugin_root=base / "plugin")
 
-        assert "1 unsafe or unreadable transaction journal(s) detected" in status
-        assert "inspect manually" in status
+        assert "diarios de transacciones no seguros o ilegibles: 1" in status
+        assert "revisa manualmente" in status
         assert "transaction recover" not in status
 
 
@@ -430,8 +430,8 @@ def test_stop_status_regular_journal_read_failure_requires_manual_inspection() -
         finally:
             hook_adapter._bounded_regular_bytes = original_reader
 
-        assert "1 unsafe or unreadable transaction journal(s) detected" in status
-        assert "inspect manually" in status
+        assert "diarios de transacciones no seguros o ilegibles: 1" in status
+        assert "revisa manualmente" in status
         assert "transaction recover" not in status
 
 
@@ -451,10 +451,10 @@ def test_stop_status_scopes_recovery_advice_for_mixed_journals() -> None:
 
         status = stop_status(start=vault, environ={}, plugin_root=base / "plugin")
 
-        assert "1 transaction journal(s) need recovery" in status
-        assert "1 unsafe or unreadable transaction journal(s) detected" in status
-        assert "for the recognized recoverable journals" in status
-        assert "inspect manually" in status
+        assert "diarios de transacciones pendientes de recuperación: 1" in status
+        assert "diarios de transacciones no seguros o ilegibles: 1" in status
+        assert "para los diarios recuperables reconocidos" in status
+        assert "revisa manualmente" in status
 
 
 def main() -> None:
