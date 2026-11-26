@@ -42,14 +42,15 @@ The catalog write and hash remain required for existing pages, keeping navigatio
 and the note update in the same approved, recoverable operation and replay.
 Catalogs and selected content pages must use visible canonical paths: a
 dot-prefixed directory or filename cannot satisfy this navigation obligation.
-An active catalog is a catalog declared in `workflow.catalogs` that is either
-`wiki/index.md` or already exists (a hash-bound `replace` write). A catalog that
-the same bundle creates must be linked from one of those active catalog writes;
-otherwise inspection reports `INACTIVE_CATALOG`, so a new throwaway page cannot
-stand in for navigation. To link a new MOC from the root index, list
-`wiki/index.md` beside the MOC so it is also declared in `workflow.catalogs`; an
-undeclared index write does not count. The gate cannot judge whether an
-existing declared page is a useful MOC.
+Un catálogo activo es un catálogo declarado en `workflow.catalogs` que es
+`wiki/index.md` o que ya existe (una escritura `replace` vinculada a un hash).
+A catalog that the same bundle creates must be linked from one of those active
+catalog writes; otherwise inspection reports `INACTIVE_CATALOG`, so a new
+throwaway page cannot stand in for navigation. Para enlazar un MOC nuevo desde
+el índice raíz, incluye `wiki/index.md` en la lista junto al MOC para que
+también quede declarado en `workflow.catalogs`; una escritura del índice no
+declarada no cuenta. The gate cannot judge whether an existing declared page
+is a useful MOC.
 
 Ingest includes both source and claim ledger writes; Save includes ledgers when
 evidence records changed. Ingest also needs a source: a create-only `.raw/`

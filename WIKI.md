@@ -69,17 +69,17 @@ vault policy requires them.
 
 Common page types:
 
-| Type | Purpose |
+| Tipo | Propósito |
 |---|---|
-| `source` | Traceable summary of one source identity |
-| `entity` | Person, organization, product, project, or other named thing |
-| `concept` | Idea, framework, mechanism, or definition |
-| `question` | A scoped answer with visible evidence status |
-| `comparison` | Criteria-based contrast with cited support |
-| `session` | User-approved summary of selected conversation content |
-| `overview` | High-level map of a domain or vault |
-| `meta` | Index, log, cache, convention, or maintenance page |
-| `fold` | Extractive rollup of identified log entries |
+| `source` | Resumen trazable de una identidad de fuente |
+| `entity` | Persona, organización, producto, proyecto u otra cosa con nombre |
+| `concept` | Idea, marco, mecanismo o definición |
+| `question` | Una respuesta acotada con un estado de evidencia visible |
+| `comparison` | Contraste basado en criterios con respaldo citado |
+| `session` | Resumen, aprobado por el usuario, del contenido seleccionado de la conversación |
+| `overview` | Mapa general de un dominio o de una bóveda |
+| `meta` | Página de índice, bitácora, caché, convención o mantenimiento |
+| `fold` | Resumen consolidado extractivo de entradas identificadas de la bitácora |
 
 `claude_obsidian/page_schema.py` is the one declaration of this vocabulary. The
 table above documents it for a reader; code reads the module rather than
@@ -111,11 +111,12 @@ help a reader navigate or understand a relationship.
 
 ### `wiki/index.md`
 
-The index is a curated catalog. Every linked target must resolve. An index entry
-is not evidence by itself. Every canonical page create or removal updates at
-least one active catalog or MOC in the same transaction. Update `wiki/index.md`
-when it is that active catalog; methodology-specific MOCs may satisfy the
-navigation invariant instead.
+El índice es un catálogo curado. Cada destino enlazado debe resolverse. Una
+entrada del índice no es evidencia por sí sola. Cada creación o eliminación de
+una página canónica actualiza al menos un catálogo activo o MOC en la misma
+transacción. Actualiza `wiki/index.md` cuando sea ese catálogo activo; en su
+lugar, los MOC específicos de una metodología pueden cumplir el invariante de
+navegación.
 
 ### `wiki/log.md`
 

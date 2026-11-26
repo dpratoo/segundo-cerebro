@@ -1,6 +1,6 @@
 ---
 name: defuddle
-description: Plan optional Defuddle extraction and retain already available local source files through reviewed filesystem capture. Use for defuddle, clean this URL, strip page clutter, readable Markdown from a web page, or preparing a web source for later wiki ingestion. Network extraction remains unavailable until an enforcing adapter is verified.
+description: "Planifica la extracción opcional con Defuddle y conserva archivos de origen locales ya disponibles con una captura revisada del sistema de archivos. Úsala para preparar una fuente web antes de ingerirla en la wiki. La extracción por red no está disponible hasta verificar un adaptador que imponga los límites. Se activa con: defuddle, limpia esta URL, quita el desorden de la página, Markdown legible de una página web."
 ---
 
 # Defuddle
@@ -18,9 +18,9 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 Upstream flags may be checked in a separately installed `kepano/obsidian-skills`
 reference, but do not override this package's privacy and transaction boundary.
 
@@ -35,12 +35,13 @@ python3 "$CORE" capture external-plan url "HTTPS_URL"
 python3 "$CORE" contracts --verify --capability defuddle --vault "$VAULT"
 ```
 
-The plan executes no network request. Report the normalized host, required
-network egress, redirect policy, optional dependency, and `execute: false`.
-An `available` state means no executable was found. A `configured` state means
-an executable was discovered without a bundled behavioral verifier. Identify
-the manual executable and its reported reason; never run it merely because it
-was found. Never relabel `configured` as `verified`.
+El plan no ejecuta ninguna solicitud de red. Informa el host normalizado, la
+salida de red necesaria, la política de redirecciones, la dependencia opcional
+y `execute: false`. Un estado `available` significa que no se encontró ningún
+ejecutable. Un estado `configured` significa que se descubrió un ejecutable sin
+un verificador de comportamiento incluido. Identifica el ejecutable manual y el
+motivo informado; nunca lo ejecutes solo porque se encontró.
+Nunca cambies la etiqueta `configured` por `verified`.
 
 ## Why execution stops here
 

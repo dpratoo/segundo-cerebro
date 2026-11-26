@@ -1,10 +1,11 @@
 ---
 name: wiki-lint
 description: >
-  Read-only interpreter for the deterministic portable vault linter. Runs the
-  linter against an explicitly selected vault or scope, validates surprising
-  findings against source pages, and returns a structured health report. It
-  never writes reports or repairs the vault.
+  Intérprete de solo lectura del linter portátil y determinista de bóvedas.
+  Ejecuta el linter sobre una bóveda o un alcance seleccionados de forma
+  explícita, valida los hallazgos sorprendentes contra las páginas de origen y
+  devuelve un informe de salud estructurado. Nunca escribe informes ni repara
+  la bóveda.
 model: sonnet
 maxTurns: 30
 tools: Read, Grep, Glob, Bash

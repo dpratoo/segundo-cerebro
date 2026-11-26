@@ -1,6 +1,6 @@
 ---
 name: obsidian-bases
-description: Explain, draft, and validate Obsidian Bases .base files with filters, formulas, properties, summaries, and table, card, list, or version-gated kanban views. Use for Obsidian Bases, database-like vault views, dynamic tables, reading lists, task trackers, filters, formulas, summaries, and .base file edits.
+description: "Explica, redacta y valida archivos .base de Obsidian Bases con filtros, fórmulas, propiedades, resúmenes y vistas de tabla, tarjetas, lista o kanban (esta última según la versión). Úsala para Obsidian Bases, vistas de la bóveda tipo base de datos, tablas dinámicas, listas de lectura, seguimiento de tareas, filtros, fórmulas, resúmenes y ediciones de archivos .base."
 ---
 
 # Obsidian Bases
@@ -23,9 +23,9 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
 ## Workflow
 
@@ -128,10 +128,11 @@ describes a Duration, and the pinned upstream skill also uses a Duration field.
 The recorded excerpts of the
 [API types at the reviewed commit](https://github.com/obsidianmd/obsidian-api/blob/9abd9605ce081383674aae1ed111c456edde0688/obsidian.d.ts)
 do not include a Duration definition, so they are not cited for either reading.
-No native app observation in this update resolves that disagreement.
+Ninguna observación en la aplicación nativa resuelve ese desacuerdo en esta
+actualización.
 
-These retained millisecond expressions are candidates for an isolated test,
-not a compatibility guarantee:
+Estas expresiones en milisegundos que se conservan son candidatas para una
+prueba aislada, no una garantía de compatibilidad:
 
 ```yaml
 formulas:

@@ -1,6 +1,6 @@
 ---
 name: wiki-retrieve
-description: "Build and query a vault-local contextual BM25 retrieval index with optional multilingual Nomic cosine reranking; use for retrieve, hybrid retrieval, BM25, rerank, contextual retrieval, chunk search, vault search, semantic search, find relevant passages, or retrieval diagnostics. Derived caches stay under .vault-meta, remote egress requires explicit consent, and unavailable reranking falls back deterministically."
+description: "Crea y consulta un índice de recuperación BM25 contextual y local a la bóveda, con reordenamiento opcional por coseno multilingüe de Nomic. Las cachés derivadas quedan en .vault-meta, la salida de red requiere consentimiento explícito y, sin reordenamiento disponible, se usa una alternativa determinista. Se activa con: retrieve, recuperación híbrida, BM25, rerank, recuperación contextual, búsqueda por fragmentos, búsqueda en la bóveda, búsqueda semántica, encuentra pasajes relevantes, diagnóstico de recuperación."
 ---
 
 # Retrieve relevant passages

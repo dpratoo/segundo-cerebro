@@ -170,8 +170,8 @@ class CanonicalContractTests(unittest.TestCase):
         canvas = next(item for item in document["capabilities"] if item["id"] == "canvas")
         self.assertEqual("explicit", canvas["confirmation"]["destructive"])
         skill = (ROOT / "skills/canvas/SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("node or edge removal", skill)
-        self.assertIn("explicit consent", skill)
+        self.assertIn("eliminación de nodos o conexiones", skill)
+        self.assertIn("consentimiento explícito", skill)
 
     def test_wiki_cli_and_lint_scopes_are_least_privilege(self) -> None:
         document = _read(ROOT / "config" / "capabilities.json")

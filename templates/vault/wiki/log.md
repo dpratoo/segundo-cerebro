@@ -9,8 +9,8 @@ tags:
   - log
 ---
 
-# Wiki Log
+# Bitácora de la wiki
 
-Newest completed operations appear first.
+Las operaciones completadas más recientes aparecen primero.
 
-Navigation: [[index|Wiki index]] · [[overview|Vault overview]] · [[hot|Recent context]]
+Navegación: [[index|Índice de la wiki]] · [[overview|Vista general de la bóveda]] · [[hot|Contexto reciente]]

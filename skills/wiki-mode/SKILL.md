@@ -1,6 +1,6 @@
 ---
 name: wiki-mode
-description: "Read or configure the vault filing methodology and suggest destinations for planned knowledge creation under Generic, LYT, PARA, or Zettelkasten. Use for wiki mode, methodology mode, what is my vault mode, set vault mode, switch to PARA, use LYT, Zettelkasten setup, change mode, configure mode, or methodology routing. This skill does not save content or migrate notes."
+description: "Lee o configura la metodología de organización de la bóveda y sugiere destinos para el conocimiento que se planea crear con Generic, LYT, PARA o Zettelkasten. Esta skill no guarda contenido ni migra notas. Se activa con: modo wiki, modo de metodología, cuál es el modo de mi bóveda, define el modo de la bóveda, cambia a PARA, usa LYT, configura Zettelkasten, cambia el modo, configura el modo, enrutamiento por metodología."
 ---
 
 # Route by vault methodology
@@ -21,9 +21,9 @@ MODE_HELPER="$PRODUCT_ROOT/scripts/wiki-mode.py"
 test -f "$CORE" && test -f "$MODE_HELPER"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
 ## Read and route safely
 

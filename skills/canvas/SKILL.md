@@ -1,6 +1,6 @@
 ---
 name: canvas
-description: Create, inspect, and update Obsidian JSON Canvas boards with text, file, link, group, and edge nodes. Use for canvas status, canvas lists, visual maps, zones, spatial layouts, adding vault notes or media to a .canvas file, and requests such as create canvas, add to canvas, or put this on the canvas.
+description: "Crea, inspecciona y actualiza tableros JSON Canvas de Obsidian con nodos de texto, archivo, enlace y grupo, y con conexiones. Úsala para el estado o la lista de los canvas, mapas visuales, zonas, diseños espaciales y para agregar notas o archivos multimedia de la bóveda a un archivo .canvas. Se activa con: crea un canvas, agrega al canvas, pon esto en el canvas."
 ---
 
 # Canvas
@@ -17,9 +17,9 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
 ## Choose the syntax source
 
@@ -49,11 +49,11 @@ syntax skill is available.
   media capability is detected, compose with it and consume its returned
   vault-relative path. Do not assume a particular plugin, command, or session
   log, and do not download or copy assets in this skill.
-- Use `link` nodes for URLs. Accept HTTPS URLs only; a link node does not grant
-  permission to fetch the page. Creating its JSON makes no request, but opening
-  it in Obsidian may fetch Open Graph metadata from that URL's host. Disclose
-  that render-time egress and confirm it is acceptable; otherwise use a text
-  node containing the URL.
+- Usa nodos `link` para las URL. Acepta solo URL HTTPS; un nodo de enlace no
+  da permiso para obtener la página. Crear su JSON no hace ninguna solicitud,
+  pero abrirlo en Obsidian puede obtener metadatos Open Graph del host de esa
+  URL. Advierte sobre esa salida de red al renderizar y confirma que sea
+  aceptable; de lo contrario, usa un nodo de texto que contenga la URL.
 
 ## Read-only operations
 
@@ -134,7 +134,9 @@ python3 "$CORE" transaction apply BUNDLE --vault VAULT \
   --approved-plan-sha256 "$APPROVAL_SHA256"
 ```
 
-For destructive edits within a board, including node or edge removal, obtain
-explicit consent after presenting the preview. These edits replace the board
-file through the transaction engine. Report the operation ID, exact
-changed paths, board name, node IDs, and final positions. Do not commit Git.
+Para las ediciones destructivas dentro de un tablero, incluida la
+eliminación de nodos o conexiones, obtén el consentimiento explícito después de
+presentar la vista previa. Estas ediciones reemplazan el archivo del tablero
+mediante el motor de transacciones. Informa el ID de la operación, las rutas
+exactas modificadas, el nombre del tablero, los ID de los nodos y las
+posiciones finales. No hagas commits en Git.

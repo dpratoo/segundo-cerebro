@@ -1,6 +1,6 @@
 ---
 name: wiki-fold
-description: "Create a bounded, extractive, structurally idempotent rollup of recent Obsidian wiki log entries, with dry-run preview by default and one optional transaction apply. Use for manual log compression without modifying child pages. Triggers: fold the log, run a fold, run wiki-fold, log rollup, roll up log entries, commit the fold."
+description: "Consolida de forma acotada, extractiva y estructuralmente idempotente las entradas recientes de la bitácora de una wiki de Obsidian, con simulación por defecto y una aplicación transaccional opcional. Úsala para compactar la bitácora a mano sin modificar páginas hijas. Se activa con: consolida la bitácora o sus entradas, haz una consolidación, ejecuta wiki-fold, resumen consolidado, aplica la consolidación."
 ---
 
 # Extractive log fold
@@ -19,9 +19,9 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
 This skill needs no network egress. Do not call external services.
 

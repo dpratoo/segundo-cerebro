@@ -37,7 +37,7 @@ Do not overload one ledger with all three jobs.
   percent-encoding spelling differs. Escaped reserved path/query bytes remain
   distinct because they can identify a different resource.
 
-## Claim rules
+## Reglas de afirmaciones
 
 - Assessment is `accepted`, `provisional`, `contested`, `unsupported`, or
   `deprecated`.
@@ -48,7 +48,7 @@ Do not overload one ledger with all three jobs.
   than confident invention.
 - Never fabricate quotations, page numbers, dates, or evidence locators.
 
-## Migration
+## Migración
 
 Run migration as a dry-run first:
 

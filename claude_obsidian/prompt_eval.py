@@ -176,8 +176,8 @@ def _fixture_title(value: str, selected_content: str) -> bool:
 
 
 def _claim_rules(text: str) -> str:
-    start_marker = "## Claim rules\n"
-    end_marker = "\n## Migration"
+    start_marker = "## Reglas de afirmaciones\n"
+    end_marker = "\n## Migración"
     start = text.find(start_marker)
     end = text.find(end_marker, start + len(start_marker))
     if start < 0 or end < 0:

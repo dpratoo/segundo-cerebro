@@ -1,6 +1,6 @@
 ---
 name: wiki-lint
-description: "Run a deterministic, read-only health check on an Obsidian wiki. Use for lint, vault health check, audit wiki health, find orphans, find dead links, frontmatter audit, provenance audit, or wiki audit. Reports graph, link, frontmatter, provenance-ledger, empty-section, and stale-index findings; it does not reason broadly or repair files."
+description: "Hace una revisión de salud determinista y de solo lectura de una wiki de Obsidian. Informa sobre grafo, enlaces, frontmatter, registro de procedencia, secciones vacías e índice obsoleto; no razona en sentido amplio ni repara archivos. Se activa con: lint, revisa la salud de la bóveda, audita la salud de la wiki, busca páginas huérfanas, busca enlaces rotos, audita el frontmatter, audita la procedencia, audita la wiki."
 ---
 
 # Lint the wiki
@@ -17,9 +17,9 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
 ## Run
 

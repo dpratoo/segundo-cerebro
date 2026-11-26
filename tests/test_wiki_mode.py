@@ -824,7 +824,7 @@ def test_legacy_mode_json_on_disk_routes_through_both_callers():
 
 
 def _documented_page_types() -> list[str]:
-    """Page types read from WIKI.md's `| Type | Purpose |` TABLE.
+    """Page types read from WIKI.md's `| Tipo | Propósito |` TABLE.
 
     Anchored on the table header and stopping at the first non-row, because a
     whole-file substring search is not a check: the first version of this test
@@ -835,7 +835,7 @@ def _documented_page_types() -> list[str]:
     """
     lines = (ROOT / "WIKI.md").read_text(encoding="utf-8").splitlines()
     try:
-        start = lines.index("| Type | Purpose |")
+        start = lines.index("| Tipo | Propósito |")
     except ValueError:  # pragma: no cover - asserted by the caller
         return []
     found = []
@@ -863,7 +863,7 @@ def test_page_vocabulary_matches_the_documented_table():
     assert_true(
         "the WIKI.md type table was found and parsed",
         len(documented) > 0,
-        hint="header `| Type | Purpose |` missing or table empty",
+        hint="header `| Tipo | Propósito |` missing or table empty",
     )
     assert_eq(
         "WIKI.md's table and PAGE_TYPES hold the same values",

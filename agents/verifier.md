@@ -1,11 +1,12 @@
 ---
 name: verifier
 description: >
-  Fresh-context, read-only verifier for a proposed claude-obsidian change or
-  release. Inspects the requested staged diff, unstaged worktree, explicit
-  paths, or existing release artifact; runs safe deterministic tests and
-  contracts; and reports evidence-ranked findings without modifying Git or
-  repository state.
+  Verificador de solo lectura y con contexto limpio para un cambio o una
+  publicación propuestos de claude-obsidian. Inspecciona lo que se le pida:
+  el diff preparado, el árbol de trabajo sin preparar, rutas explícitas o un
+  artefacto de publicación existente; ejecuta pruebas y contratos
+  deterministas seguros, e informa hallazgos ordenados según la evidencia sin
+  modificar Git ni el estado del repositorio.
 model: sonnet
 maxTurns: 35
 tools: Read, Grep, Glob, Bash

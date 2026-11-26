@@ -95,7 +95,8 @@ risk: low
 7. Preserve unknown valid properties during an edit.
 8. Do not treat a frontmatter confidence label as evidence; the claim ledger
    and linked active sources determine support.
-9. A numeric-only tag is invalid even when quoted. Use `year/2026` or `y2026`,
-   or a numeric `year` property. Preserve existing user metadata unless its
-   correction is explicitly requested. See [Obsidian Tags](https://obsidian.md/help/tags),
-   checked 2026-10-17.
+9. Una etiqueta solo numérica no es válida aunque esté entre comillas. Usa
+   `year/2026` o `y2026`, o una propiedad numérica `year`. Conserva los
+   metadatos existentes del usuario salvo que se pida explícitamente
+   corregirlos. Consulta [Etiquetas de Obsidian](https://obsidian.md/help/tags),
+   revisado el 2026-10-17.

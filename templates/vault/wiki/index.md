@@ -18,16 +18,16 @@ Start with [[overview|Vault overview]]. See [[hot|Recent context]] and
 
 ## Sources
 
-- No sources indexed yet.
+- Aún no hay fuentes indexadas.
 
 ## Concepts
 
-- No concepts indexed yet.
+- Aún no hay conceptos indexados.
 
 ## Entities
 
-- No entities indexed yet.
+- Aún no hay entidades indexadas.
 
 ## Questions
 
-- No questions indexed yet.
+- Aún no hay preguntas indexadas.

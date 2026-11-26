@@ -5,12 +5,13 @@ Obsidian reads and writes them as UTF-8 JSON files with `.canvas` extension.
 
 This reference aligns with the [JSON Canvas 1.0 open specification](https://jsoncanvas.org/spec/1.0/). All structures support arbitrary additional fields (`[key: string]: any`) for forward compatibility. Obsidian will preserve unknown fields when reading and writing canvas files.
 
-**ID format**: JSON Canvas 1.0 requires each node and edge ID to be a unique
-string; it does not prescribe a length or character set. As a product
-convention, new mutations from this skill prefer random 16-character lowercase
-hexadecimal IDs (for example, `"a1b2c3d4e5f67890"`) and verify uniqueness.
-Descriptive IDs in the longer examples below are readability labels only, not
-the generation rule.
+**Formato de los ID**: JSON Canvas 1.0 exige que el ID de cada nodo y conexión
+sea una cadena única; no prescribe una longitud ni un conjunto de caracteres.
+Como convención del producto, las nuevas modificaciones de esta skill prefieren
+ID aleatorios de 16 caracteres hexadecimales en minúsculas (por ejemplo,
+`"a1b2c3d4e5f67890"`) y verifican que sean únicos. Los ID descriptivos de los
+ejemplos más largos de abajo son solo etiquetas de legibilidad, no la regla de
+generación.
 
 ---
 
@@ -79,8 +80,8 @@ Renders an image, PDF, markdown note, or other vault file inline.
 - Supported: `.png` `.jpg` `.webp` `.gif` `.pdf` `.md` `.canvas`
 - For `.md` files: renders as a preview card.
 - For `.pdf` files: renders the first page as preview.
-- Like every generic node, a file node may include the optional `color` field.
-  Omit it for the default appearance.
+- Un nodo de archivo puede incluir el campo opcional `color`, como todo nodo
+  genérico. Omítelo para usar la apariencia predeterminada.
 
 ---
 
@@ -133,9 +134,10 @@ Renders a web URL as an embedded preview card.
 
 - `url`: must be a valid `https://` URL.
 - Obsidian fetches the Open Graph preview (title, description, thumbnail).
-- Writing the node itself performs no fetch. Opening or rendering it in
-  Obsidian may contact the URL's host, so disclose that egress first and use a
-  text node when preview fetching is not acceptable.
+- Escribir el nodo en sí no realiza ninguna solicitud. Abrirlo o renderizarlo en
+  Obsidian puede contactar al host de la URL, así que primero advierte sobre esa
+  salida de red y usa un nodo de texto cuando no sea aceptable obtener la vista
+  previa.
 
 ---
 

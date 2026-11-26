@@ -322,7 +322,7 @@ def _validate_wiki_reference_link_anchors(root: Path) -> list[dict[str, str]]:
 
     findings: list[dict[str, str]] = []
     link_pattern = re.compile(r"\.\./wiki/references/")
-    anchor_phrase = "relative to this skill's own directory under `$PRODUCT_ROOT`"
+    anchor_phrase = "respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`"
     for path in sorted((root / "skills").glob("*/SKILL.md")):
         text = path.read_text(encoding="utf-8")
         if not link_pattern.search(text):

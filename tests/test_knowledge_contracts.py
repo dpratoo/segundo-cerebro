@@ -63,8 +63,8 @@ class KnowledgeContractTests(unittest.TestCase):
 
     def test_persistent_content_has_an_explicit_trust_boundary(self) -> None:
         security = (ROOT / "SECURITY.md").read_text(encoding="utf-8").casefold()
-        self.assertIn("content trust hierarchy", security)
-        self.assertIn("untrusted content", security)
+        self.assertIn("jerarquía de confianza del contenido", security)
+        self.assertIn("contenido no confiable", security)
 
         consumers = (
             "skills/save/SKILL.md",
@@ -75,8 +75,8 @@ class KnowledgeContractTests(unittest.TestCase):
         )
         for relative in consumers:
             text = (ROOT / relative).read_text(encoding="utf-8").casefold()
-            self.assertIn("untrusted", text, relative)
-            self.assertIn("embedded", text, relative)
+            self.assertIn("no confiable", text, relative)
+            self.assertIn("incrustad", text, relative)
 
     def test_ambiguous_skill_routes_are_narrowed(self) -> None:
         descriptions = {
@@ -93,13 +93,21 @@ class KnowledgeContractTests(unittest.TestCase):
         }
         self.assertNotIn("add this to the wiki", descriptions["save"])
         self.assertNotIn("add this to the wiki", descriptions["wiki-ingest"])
-        self.assertIn("specific conversation content", descriptions["save"])
-        self.assertIn("source material", descriptions["wiki-ingest"])
-        self.assertIn("explicitly vault-scoped", descriptions["wiki-query"])
-        self.assertIn("not for general markdown", descriptions["obsidian-markdown"])
-        self.assertIn("not a deterministic vault health check", descriptions["think"])
-        self.assertIn("does not save content", descriptions["wiki-mode"])
-        self.assertIn("does not reason broadly or repair", descriptions["wiki-lint"])
+        self.assertNotIn("agrega esto a la wiki", descriptions["save"])
+        self.assertNotIn("añade esto a la wiki", descriptions["save"])
+        self.assertNotIn("agrega esto a la wiki", descriptions["wiki-ingest"])
+        self.assertNotIn("añade esto a la wiki", descriptions["wiki-ingest"])
+        self.assertIn("contenido específico de la conversación", descriptions["save"])
+        self.assertIn("material de origen", descriptions["wiki-ingest"])
+        self.assertIn("explícitamente acotada a la bóveda", descriptions["wiki-query"])
+        self.assertIn("no para markdown general", descriptions["obsidian-markdown"])
+        self.assertIn(
+            "no una revisión de salud determinista de la bóveda", descriptions["think"]
+        )
+        self.assertIn("no guarda contenido", descriptions["wiki-mode"])
+        self.assertIn(
+            "no razona en sentido amplio ni repara", descriptions["wiki-lint"]
+        )
 
     def test_methodology_templates_include_required_page_properties(self) -> None:
         required = {"type", "methodology_role", "title", "status", "created", "updated", "tags"}
@@ -133,11 +141,11 @@ class KnowledgeContractTests(unittest.TestCase):
             self.assertIn(f"references/{name}", wiki_skill)
 
         ingest = (ROOT / "skills/wiki-ingest/SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("compilation-value gate", ingest)
-        self.assertIn("outside the selected vault", ingest)
-        self.assertIn("active methodology index or MOC", ingest)
+        self.assertIn("filtro de valor de compilación", ingest)
+        self.assertIn("fuera de la bóveda seleccionada", ingest)
+        self.assertIn("índice de metodología activo o MOC", ingest)
         schema = (ROOT / "WIKI.md").read_text(encoding="utf-8")
-        self.assertIn("active catalog or MOC", schema)
+        self.assertIn("catálogo activo o MOC", schema)
 
     def test_capability_scopes_match_skill_boundaries(self) -> None:
         document = json.loads(
@@ -209,32 +217,39 @@ class KnowledgeContractTests(unittest.TestCase):
         ingest_agent = (ROOT / "agents/wiki-ingest.md").read_text(encoding="utf-8")
         self.assertRegex(ingest_agent, r"(?m)^maxTurns:\s*60$")
         self.assertIn("status: complete | partial", ingest_agent)
-        self.assertIn("silently truncated", ingest_agent)
-        self.assertIn("Batch independent discovery", ingest_agent)
+        self.assertIn("truncado en silencio", ingest_agent)
+        self.assertIn("Agrupa el trabajo independiente de descubrimiento", ingest_agent)
 
     def test_canvas_discloses_render_time_network_egress(self) -> None:
         skill = (ROOT / "skills/canvas/SKILL.md").read_text(encoding="utf-8")
         reference = (ROOT / "skills/canvas/references/canvas-spec.md").read_text(
             encoding="utf-8"
         )
-        self.assertIn("render-time egress", skill)
-        self.assertIn("Opening or rendering it in", reference)
-        self.assertIn("Obsidian may contact", reference)
-        self.assertRegex(reference, r"16-character lowercase\s+hexadecimal")
-        self.assertIn("does not prescribe a length or character set", reference)
-        self.assertIn("file node may include the optional `color` field", reference)
+        self.assertIn("salida de red al renderizar", skill)
+        self.assertIn("Abrirlo o renderizarlo en", reference)
+        self.assertIn("Obsidian puede contactar", reference)
+        self.assertRegex(
+            reference, r"16\s+caracteres\s+hexadecimales\s+en\s+minúsculas"
+        )
+        self.assertIn(
+            "no prescribe una longitud ni un conjunto de caracteres", reference
+        )
+        self.assertIn(
+            "nodo de archivo puede incluir el campo opcional `color`", reference
+        )
 
     def test_bases_date_arithmetic_keeps_unresolved_candidates_explicit(self) -> None:
         skill = (ROOT / "skills/obsidian-bases/SKILL.md").read_text(encoding="utf-8")
         self.assertIn("/ 86400000", skill)
-        self.assertIn("No native app observation", skill)
-        self.assertIn("not a compatibility guarantee", skill)
+        self.assertIn("Ninguna observación en la aplicación nativa", skill)
+        self.assertIn("no una garantía de compatibilidad", skill)
 
     def test_defuddle_does_not_overstate_configured_runner_evidence(self) -> None:
         skill = (ROOT / "skills/defuddle/SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("Never relabel `configured` as `verified`", skill)
-        self.assertIn("manual executable", skill)
+        self.assertIn("Nunca cambies la etiqueta `configured` por `verified`", skill)
+        self.assertIn("ejecutable manual", skill)
         self.assertNotIn("verified executable", skill)
+        self.assertNotIn("ejecutable verificado", skill)
 
     def test_numeric_only_tag_advice_uses_semantic_values(self) -> None:
         for relative in (
@@ -242,7 +257,7 @@ class KnowledgeContractTests(unittest.TestCase):
             "skills/wiki/references/frontmatter.md",
         ):
             text = (ROOT / relative).read_text(encoding="utf-8")
-            self.assertIn("numeric-only tag", text, relative)
+            self.assertIn("etiqueta solo numérica", text, relative)
             self.assertIn('year/2026', text, relative)
             self.assertNotIn('- "2026"', text, relative)
 

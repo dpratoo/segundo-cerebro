@@ -67,8 +67,8 @@ class PromptEvaluationTests(unittest.TestCase):
             self.assertEqual(expected, source["source_sha256"])
         reference = self.packet["sources"][2]
         self.assertEqual("claim-rules", reference["selection"])
-        self.assertTrue(reference["content"].startswith("## Claim rules\n"))
-        self.assertNotIn("## Migration", reference["content"])
+        self.assertTrue(reference["content"].startswith("## Reglas de afirmaciones\n"))
+        self.assertNotIn("## Migración", reference["content"])
         serialized = json.dumps(self.packet, ensure_ascii=False)
         self.assertNotIn(str(ROOT), serialized)
         self.assertNotIn(os.path.expanduser("~"), serialized)

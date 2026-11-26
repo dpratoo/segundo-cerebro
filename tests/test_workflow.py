@@ -720,7 +720,7 @@ class WorkflowTests(unittest.TestCase):
 
     def seeded_save(self, vault, log, *, operation_id='seeded-save', hot_body='\nSaved Example.\n'):
         read = lambda path: (vault / path).read_text(encoding='utf-8')
-        index = read('wiki/index.md').replace('- No concepts indexed yet.', '- [[concepts/Example]]')
+        index = read('wiki/index.md').replace('- Aún no hay conceptos indexados.', '- [[concepts/Example]]')
         writes = [
             {'path': 'wiki/concepts/Example.md', 'mode': 'create', 'content': '# Example\n\nSelected content.\n'},
             {'path': 'wiki/index.md', 'mode': 'replace', 'content': index},
@@ -735,7 +735,7 @@ class WorkflowTests(unittest.TestCase):
     def test_seeded_log_accepts_entry_below_its_title_and_preserves_history(self):
         vault = self.init_vault()
         seeded = (vault / 'wiki/log.md').read_text(encoding='utf-8')
-        intro = 'Newest completed operations appear first.\n\n'
+        intro = 'Las operaciones completadas más recientes aparecen primero.\n\n'
         self.assertIn(intro, seeded)
         entry = '## [2026-10-18] save | Example\n\n- Saved [[concepts/Example]].\n\n'
         first_log = seeded.replace(intro, intro + entry, 1)
@@ -760,9 +760,9 @@ class WorkflowTests(unittest.TestCase):
         # The prior entry may not be rewritten, dropped, or moved above the new one.
         self.assertIn('LOG_HISTORY_NOT_PRESERVED', second(first_log.replace(intro + entry, intro + newer, 1)))
         self.assertIn('LOG_HISTORY_NOT_PRESERVED', second(first_log.replace('- Saved', '- Edited', 1).replace(intro, intro + newer, 1)))
-        moved = first_log.replace(entry, '', 1).replace('Navigation:', entry + newer + 'Navigation:', 1)
+        moved = first_log.replace(entry, '', 1).replace('Navegación:', entry + newer + 'Navegación:', 1)
         self.assertIn('LOG_HISTORY_NOT_PRESERVED', second(moved))
-        self.assertIn('LOG_HISTORY_NOT_PRESERVED', second(first_log.replace('# Wiki Log\n', '', 1).replace(intro, intro + newer, 1)))
+        self.assertIn('LOG_HISTORY_NOT_PRESERVED', second(first_log.replace('# Bitácora de la wiki\n', '', 1).replace(intro, intro + newer, 1)))
 
     def test_workflow_rejects_list_valued_mode_without_traceback(self):
         bundle = self.bundle()
@@ -827,7 +827,8 @@ class WorkflowTests(unittest.TestCase):
         for guide in ('docs/workflow-acceptance.md', 'skills/save/SKILL.md', 'skills/wiki-ingest/SKILL.md'):
             text = ' '.join((ROOT / guide).read_text(encoding='utf-8').split())
             self.assertNotIn('must be linked from `wiki/index.md` or an existing declared', text, guide)
-            self.assertIn('declared in `workflow.catalogs`', text, guide)
+            self.assertNotIn('debe enlazarse desde `wiki/index.md` o desde un catálogo declarado existente', text, guide)
+            self.assertRegex(text, r'declarad[oa]s? en `workflow\.catalogs`', guide)
 
     def test_large_catalog_is_parsed_once_for_many_selected_pages(self):
         import time
@@ -906,7 +907,7 @@ class WorkflowTests(unittest.TestCase):
         if not hasattr(os, 'mkfifo'):
             return
         vault = self.init_vault()
-        intro = 'Newest completed operations appear first.\n\n'
+        intro = 'Las operaciones completadas más recientes aparecen primero.\n\n'
         log = (vault / 'wiki/log.md').read_text(encoding='utf-8').replace(
             intro, intro + '## [2026-10-18] save | Example\n\n', 1)
         bundle = self.seeded_save(vault, log, operation_id='fifo-save')

@@ -1,6 +1,6 @@
 ---
 name: obsidian-markdown
-description: "Explain, draft, or validate Obsidian Flavored Markdown syntax: properties, wikilinks, embeds, callouts, tags, comments, highlights, block references, math, and Mermaid. Use when the user explicitly requests Obsidian note formatting or syntax help, not for general Markdown or broad vault operations."
+description: "Explica, redacta o valida la sintaxis de Obsidian Flavored Markdown: propiedades, wikilinks, incrustaciones, destacados, etiquetas, comentarios, resaltados, referencias a bloques, matemáticas y Mermaid. Úsala cuando el usuario pida explícitamente ayuda con el formato o la sintaxis de notas de Obsidian, no para Markdown general ni para operaciones amplias en la bóveda."
 ---
 
 # Obsidian Flavored Markdown
@@ -19,9 +19,9 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
 Answer syntax questions read-only. If the user requests a vault edit, draft the
 complete note, read [operation-transactions.md](../wiki/references/operation-transactions.md),
@@ -63,12 +63,14 @@ sources:
 ---
 ```
 
-Do not nest objects in generated wiki properties. Use block lists rather than
-inline YAML arrays. A numeric-only tag is invalid in Obsidian even when quoted as a YAML string.
-Use `year/2026` or `y2026`, or store a number in a `year` property. Tags need
-at least one non-numeric character; valid Unicode tags remain supported. See
-[Tags](https://obsidian.md/help/tags), checked 2026-10-17. Keep unknown existing
-properties unless the requested edit changes them.
+No anides objetos en las propiedades generadas de la wiki. Usa listas en bloque
+en lugar de arreglos YAML en línea. Una etiqueta solo numérica no es válida en
+Obsidian aunque esté entre comillas como cadena YAML. Usa `year/2026` o
+`y2026`, o guarda un número en una propiedad `year`. Las etiquetas necesitan al
+menos un carácter no numérico; las etiquetas Unicode válidas siguen siendo
+compatibles. Consulta [Etiquetas](https://obsidian.md/help/tags), revisado el
+2026-10-17. Conserva las propiedades existentes desconocidas salvo que la
+edición solicitada las cambie.
 
 ## Wikilinks and embeds
 

@@ -457,10 +457,10 @@ class PackageValidationTests(unittest.TestCase):
 
             skill.write_text(
                 skill.read_text(encoding="utf-8")
-                + "\nEvery `../wiki/references/` link in this file resolves the"
-                " same way, relative to this skill's own directory under"
-                " `$PRODUCT_ROOT`, never relative to the selected vault's"
-                " `wiki/` directory.\n",
+                + "\nCada enlace `../wiki/references/` de este archivo se resuelve"
+                " de la misma forma: respecto del directorio propio de esta skill"
+                " dentro de `$PRODUCT_ROOT`, nunca respecto del directorio `wiki/`"
+                " de la bóveda seleccionada.\n",
                 encoding="utf-8",
             )
             codes = {item["code"] for item in validate_package(root)["findings"]}

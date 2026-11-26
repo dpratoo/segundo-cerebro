@@ -1,6 +1,6 @@
 ---
 name: wiki-cli
-description: "Detect and use the official Obsidian command-line interface for read-only vault access; use for wiki-cli, Obsidian CLI, Obsidian read, Obsidian search, vault transport, which transport, transport detection, backlinks, tags, or Obsidian command line. Mutations always go through the claude-obsidian transaction core."
+description: "Detecta y usa la interfaz de línea de comandos oficial de Obsidian para acceder a la bóveda en solo lectura. Toda modificación pasa por el núcleo de transacciones de claude-obsidian. Se activa con: wiki-cli, Obsidian CLI, lee con Obsidian, busca con Obsidian, transporte de la bóveda, qué transporte se usa, detecta el transporte, enlaces entrantes, etiquetas, línea de comandos de Obsidian."
 ---
 
 # Obsidian CLI read transport
@@ -18,9 +18,9 @@ DETECT_TRANSPORT="$PRODUCT_ROOT/scripts/detect-transport.sh"
 test -f "$DETECT_TRANSPORT"
 ```
 
-Every `../wiki/references/` link in this file resolves the same way, relative
-to this skill's own directory under `$PRODUCT_ROOT`, never relative to the
-selected vault's `wiki/` directory.
+Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
+forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
+nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
 ## Detect safely
 

@@ -1,6 +1,6 @@
 ---
 name: think
-description: Apply the Fable-derived 10-stage OBSERVE, OBSERVE, LISTEN, THINK, CONNECT, CONNECT, FEEL, ACCEPT, CREATE, GROW loop to consequential or ambiguous reasoning and decisions. Use for think this through, deep think, architecture review, postmortem, tradeoff analysis, or challenges to assumptions. This is a reasoning review, not a deterministic vault health check or repair workflow.
+description: "Aplica el ciclo de 10 etapas derivado de Fable (OBSERVAR, OBSERVAR, ESCUCHAR, PENSAR, CONECTAR, CONECTAR, SENTIR, ACEPTAR, CREAR, CRECER) a razonamientos y decisiones trascendentes o ambiguos. Es una revisión del razonamiento, no una revisión de salud determinista de la bóveda ni un flujo de reparación. Se activa con: piensa esto a fondo, piensa en profundidad, revisa la arquitectura, haz un postmortem, analiza ventajas y desventajas, cuestiona los supuestos."
 ---
 
 # Think

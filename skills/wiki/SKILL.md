@@ -1,6 +1,6 @@
 ---
 name: wiki
-description: "Initialize, adopt, and route work for a separate Obsidian knowledge vault through the portable claude-obsidian core. Use for vault setup, scaffolding, workspace selection, cross-project configuration, or choosing the correct wiki sub-skill. Triggers: /wiki, set up wiki, scaffold vault, create knowledge base, adopt this vault, Obsidian vault, second brain setup, persistent wiki."
+description: "Inicializa, adopta y enruta el trabajo de una bóveda de conocimiento de Obsidian separada con el núcleo portátil de claude-obsidian. Úsala para configurar la bóveda o su uso entre proyectos, crear su estructura inicial y elegir el espacio de trabajo o la subskill de wiki correcta. Se activa con: /wiki, configura la wiki, crea la estructura inicial, crea una base de conocimiento, adopta esta bóveda, bóveda de Obsidian, configura un segundo cerebro, wiki persistente."
 ---
 
 # Wiki orchestration
