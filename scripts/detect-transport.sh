@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
-# Detect the supported Obsidian CLI and write a normalized transport snapshot.
+# Detecta la CLI de Obsidian admitida y escribe una instantánea normalizada del
+# transporte.
 #
-# Official Obsidian CLI syntax is `obsidian version`. The detector never treats
-# binary presence alone, a legacy --version response, or exit status zero alone
-# as proof of capability.
+# La sintaxis oficial de la CLI de Obsidian es `obsidian version`. El detector
+# nunca toma como prueba de capacidad la sola presencia del binario, una
+# respuesta heredada a --version ni un código de salida cero por sí solo.
 #
-# Usage:
+# Uso:
 #   bash scripts/detect-transport.sh [--vault PATH] [--force] [--quiet]
 #   bash scripts/detect-transport.sh --peek [--vault PATH]
-#   bash scripts/detect-transport.sh [PATH]          # legacy positional vault
+#   bash scripts/detect-transport.sh [PATH]          # bóveda posicional heredada
 #
-# --peek is strictly read-only with respect to the vault. It neither creates
-# .vault-meta nor refreshes transport.json.
+# --peek es estrictamente de solo lectura respecto de la bóveda: no crea
+# .vault-meta ni actualiza transport.json.
 
 set -euo pipefail
 export PYTHONDONTWRITEBYTECODE=1
@@ -29,7 +30,7 @@ STALE_AFTER_DAYS=7
 ACTIVE_TMP=""
 
 usage() {
-  sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'
+  sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'
 }
 
 fail_usage() {
@@ -50,15 +51,15 @@ while [ "$#" -gt 0 ]; do
       QUIET=true
       ;;
     --vault)
-      [ "$#" -ge 2 ] || fail_usage "--vault requires a path"
-      [ -z "$VAULT_INPUT" ] || fail_usage "--vault may be specified only once"
+      [ "$#" -ge 2 ] || fail_usage "--vault requiere una ruta"
+      [ -z "$VAULT_INPUT" ] || fail_usage "--vault solo puede indicarse una vez"
       VAULT_INPUT="$2"
       shift
       ;;
     --vault=*)
-      [ -z "$VAULT_INPUT" ] || fail_usage "--vault may be specified only once"
+      [ -z "$VAULT_INPUT" ] || fail_usage "--vault solo puede indicarse una vez"
       VAULT_INPUT="${1#--vault=}"
-      [ -n "$VAULT_INPUT" ] || fail_usage "--vault requires a path"
+      [ -n "$VAULT_INPUT" ] || fail_usage "--vault requiere una ruta"
       ;;
     -h|--help)
       usage
@@ -66,17 +67,17 @@ while [ "$#" -gt 0 ]; do
       ;;
     --)
       shift
-      [ "$#" -le 1 ] || fail_usage "only one positional vault path is accepted"
+      [ "$#" -le 1 ] || fail_usage "solo se acepta una ruta posicional de bóveda"
       if [ "$#" -eq 1 ]; then
         POSITIONAL_VAULT="$1"
       fi
       break
       ;;
     -*)
-      fail_usage "unknown option: $1"
+      fail_usage "opción desconocida: $1"
       ;;
     *)
-      [ -z "$POSITIONAL_VAULT" ] || fail_usage "only one positional vault path is accepted"
+      [ -z "$POSITIONAL_VAULT" ] || fail_usage "solo se acepta una ruta posicional de bóveda"
       POSITIONAL_VAULT="$1"
       ;;
   esac
@@ -84,7 +85,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 if [ -n "$VAULT_INPUT" ] && [ -n "$POSITIONAL_VAULT" ]; then
-  fail_usage "use either --vault or a positional vault path, not both"
+  fail_usage "usa --vault o una ruta posicional de bóveda, no ambas"
 fi
 
 RAW_VAULT="${VAULT_INPUT:-${POSITIONAL_VAULT:-$PWD}}"
@@ -107,12 +108,12 @@ except VaultSelectionError as exc:
 print(selected.root)
 PY
 )" || {
-  echo "ERR: unable to select a safe user vault" >&2
+  echo "ERR: no se puede seleccionar una bóveda de usuario segura" >&2
   exit 2
 }
 
 if [ ! -d "$VAULT_ROOT" ]; then
-  echo "ERR: vault root is not a directory: $VAULT_ROOT" >&2
+  echo "ERR: la raíz de la bóveda no es un directorio: $VAULT_ROOT" >&2
   exit 2
 fi
 
@@ -127,10 +128,10 @@ import sys
 try:
     value = os.stat(sys.argv[1], follow_symlinks=False)
 except OSError as exc:
-    print(f"ERR: cannot identify vault root: {exc}", file=sys.stderr)
+    print(f"ERR: no se puede identificar la raíz de la bóveda: {exc}", file=sys.stderr)
     raise SystemExit(2)
 if not stat.S_ISDIR(value.st_mode):
-    print("ERR: vault root is not a directory", file=sys.stderr)
+    print("ERR: la raíz de la bóveda no es un directorio", file=sys.stderr)
     raise SystemExit(2)
 print(f"{value.st_dev}:{value.st_ino}")
 PY
@@ -144,11 +145,11 @@ OUTPUT_FILE="$META_DIR/transport.json"
 # Reject indirection before freshness or manual-override reads. Peek remains
 # read-only, but it also must not traverse a hostile metadata symlink.
 if [ -L "$META_DIR" ] || { [ -e "$META_DIR" ] && [ ! -d "$META_DIR" ]; }; then
-  echo "ERR: .vault-meta is not a safe directory: $META_DIR" >&2
+  echo "ERR: .vault-meta no es un directorio seguro: $META_DIR" >&2
   exit 2
 fi
 if [ -L "$OUTPUT_FILE" ] || { [ -e "$OUTPUT_FILE" ] && [ ! -f "$OUTPUT_FILE" ]; }; then
-  echo "ERR: transport snapshot is not a safe regular file: $OUTPUT_FILE" >&2
+  echo "ERR: la instantánea del transporte no es un archivo regular seguro: $OUTPUT_FILE" >&2
   exit 2
 fi
 
@@ -211,11 +212,11 @@ PY
 # A normal run may reuse a fresh snapshot. Peek always probes and never writes.
 if [ "$MODE" = "write" ] && ! $FORCE && [ -f "$OUTPUT_FILE" ] && [ ! -L "$OUTPUT_FILE" ]; then
   if is_fresh "$OUTPUT_FILE" && snapshot_is_valid "$OUTPUT_FILE"; then
-    log "transport.json is fresh (<${STALE_AFTER_DAYS}d). Use --force to refresh."
+    log "transport.json es reciente (<${STALE_AFTER_DAYS}d). Usa --force para actualizarlo."
     cat "$OUTPUT_FILE"
     exit 0
   elif is_fresh "$OUTPUT_FILE"; then
-    log "transport.json is fresh but invalid; refreshing it."
+    log "transport.json es reciente pero no es válido; se actualizará."
   fi
 fi
 
@@ -423,13 +424,13 @@ def require_selected_vault() -> None:
     try:
         value = os.stat(vault, follow_symlinks=False)
     except OSError as exc:
-        print(f"ERR: selected vault changed during transport detection: {exc}", file=sys.stderr)
+        print(f"ERR: la bóveda seleccionada cambió durante la detección del transporte: {exc}", file=sys.stderr)
         raise SystemExit(2) from exc
     if not __import__("stat").S_ISDIR(value.st_mode) or (
         value.st_dev,
         value.st_ino,
     ) != expected_vault_identity:
-        print("ERR: selected vault changed during transport detection", file=sys.stderr)
+        print("ERR: la bóveda seleccionada cambió durante la detección del transporte", file=sys.stderr)
         raise SystemExit(2)
 
 require_selected_vault()
@@ -574,12 +575,12 @@ finally:
         os.close(root_fd)
 PY
 then
-  echo "ERR: cannot publish a confined transport snapshot" >&2
+  echo "ERR: no se puede publicar una instantánea confinada del transporte" >&2
   exit 2
 fi
 
 cat "$ACTIVE_TMP"
 rm -f "$ACTIVE_TMP"
 ACTIVE_TMP=""
-log "Wrote: $OUTPUT_FILE"
-log "Probe: obsidian version"
+log "Se escribió: $OUTPUT_FILE"
+log "Sondeo: obsidian version"

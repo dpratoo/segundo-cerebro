@@ -33,7 +33,7 @@ class SetupMultiAgentTests(unittest.TestCase):
             home = Path(directory)
             result = self.invoke(home)
             self.assertEqual(0, result.returncode, result.stderr)
-            self.assertIn("Dry run only", result.stdout)
+            self.assertIn("Solo simulación", result.stdout)
             self.assertFalse((home / ".codex").exists())
 
     def test_apply_is_idempotent_for_global_hosts(self) -> None:
@@ -162,7 +162,7 @@ class SetupMultiAgentTests(unittest.TestCase):
                     str(workspace),
                 )
                 self.assertEqual(2, preview.returncode)
-                self.assertIn("parent is a symlink", preview.stderr)
+                self.assertIn("la ruta padre es un enlace simbólico", preview.stderr)
                 result = self.invoke(
                     base,
                     "--apply",
@@ -172,7 +172,7 @@ class SetupMultiAgentTests(unittest.TestCase):
                     str(workspace),
                 )
                 self.assertEqual(2, result.returncode)
-                self.assertIn("parent is a symlink", result.stderr)
+                self.assertIn("la ruta padre es un enlace simbólico", result.stderr)
                 self.assertEqual([], list(outside.iterdir()))
 
 

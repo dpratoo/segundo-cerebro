@@ -68,7 +68,7 @@ class SetupWrapperTests(unittest.TestCase):
                     result = self.invoke(wrapper, vault, "--help")
                     self.assertEqual(0, result.returncode, result.stderr)
                     self.assertIn("--generated-at ISO-UTC", result.stdout)
-                    self.assertIn("repeat that exact value", result.stdout)
+                    self.assertIn("repite exactamente ese valor", result.stdout)
                     self.assertIn("--approved-plan-sha256", result.stdout)
 
     def test_setup_vault_is_a_non_writing_core_dispatcher(self) -> None:

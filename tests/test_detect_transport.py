@@ -494,12 +494,12 @@ class DetectTransportTests(unittest.TestCase):
 
             result = _run(vault, "--unknown", path=path)
             self.assertEqual(3, result.returncode)
-            self.assertIn("unknown option", result.stderr)
+            self.assertIn("opción desconocida", result.stderr)
 
             (vault / ".vault-meta").write_text("unsafe", encoding="utf-8")
             result = _run(vault, "--vault", str(vault), path=path)
             self.assertEqual(2, result.returncode)
-            self.assertIn("not a safe directory", result.stderr)
+            self.assertIn("no es un directorio seguro", result.stderr)
             self.assertEqual(
                 "unsafe", (vault / ".vault-meta").read_text(encoding="utf-8")
             )
@@ -552,7 +552,7 @@ printf 'Obsidian 1.12.7\\n'
                 },
             )
             self.assertEqual(2, result.returncode)
-            self.assertIn("cannot publish a confined transport snapshot", result.stderr)
+            self.assertIn("no se puede publicar una instantánea confinada del transporte", result.stderr)
             self.assertNotIn("Traceback", result.stderr)
             self.assertEqual(b"outside-must-survive\x00", sentinel.read_bytes())
             self.assertFalse((outside / "transport.json").exists())
@@ -589,7 +589,7 @@ printf 'Obsidian 1.12.7\\n'
                 },
             )
             self.assertEqual(2, result.returncode)
-            self.assertIn("selected vault changed", result.stderr)
+            self.assertIn("la bóveda seleccionada cambió", result.stderr)
             self.assertNotIn("Traceback", result.stderr)
             self.assertFalse((vault / ".vault-meta").exists())
             self.assertFalse((held / ".vault-meta" / "transport.json").exists())

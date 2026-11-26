@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
-# Thin compatibility wrapper for the portable claude-obsidian vault workflow.
+# Capa ligera de compatibilidad del flujo portátil de bóvedas de claude-obsidian.
 #
-# This wrapper never creates, replaces, or removes vault content itself. It
-# translates the legacy setup-vault flags into the canonical Python CLI, where
-# dry-run planning, exact plan approval, and recoverable transactions live.
+# Esta capa nunca crea, reemplaza ni elimina contenido de la bóveda por sí
+# sola. Traduce las opciones heredadas de setup-vault a la CLI canónica de
+# Python, donde residen la planificación en simulación, la aprobación exacta
+# del plan y las transacciones recuperables.
 #
-# Usage:
+# Uso:
 #   bash scripts/setup-vault.sh [--dry-run] [--init|--adopt] [--vault PATH|PATH]
 #   bash scripts/setup-vault.sh --check [--vault PATH|PATH]
 #   bash scripts/setup-vault.sh --apply --approved-plan-sha256 HASH \
 #     --generated-at ISO-UTC --operation-id ID [--init|--adopt] [--vault PATH|PATH]
 #   bash scripts/setup-vault.sh --dry-run --force --adopt [--vault PATH|PATH]
 #
-# Compatibility:
-#   - preview is the default;
-#   - a missing destination selects init, while an existing directory selects
-#     adopt unless --init or --adopt is explicit;
-#   - --force without an explicit mode retains the legacy meaning of apply;
-#   - no path still means the caller's current working directory.
+# Compatibilidad:
+#   - la vista previa es el modo por defecto;
+#   - si el destino no existe, se elige init; si es un directorio existente, se
+#     elige adopt, salvo que se indique --init o --adopt de forma explícita;
+#   - --force sin un modo explícito conserva el significado heredado de apply;
+#   - sin ruta, se sigue usando el directorio de trabajo actual de quien llama.
 
 set -euo pipefail
 export PYTHONDONTWRITEBYTECODE=1
@@ -34,7 +35,7 @@ GENERATED_AT=""
 OPERATION_ID=""
 
 usage() {
-  sed -n '2,21p' "$0" | sed 's/^# \{0,1\}//'
+  sed -n '2,22p' "$0" | sed 's/^# \{0,1\}//'
 }
 
 fail_usage() {
@@ -46,7 +47,7 @@ fail_usage() {
 set_mode() {
   local requested="$1"
   if $MODE_EXPLICIT && [ "$MODE" != "$requested" ]; then
-    fail_usage "choose exactly one of --check, --dry-run, or --apply"
+    fail_usage "elige exactamente una de --check, --dry-run o --apply"
   fi
   MODE="$requested"
   MODE_EXPLICIT=true
@@ -55,7 +56,7 @@ set_mode() {
 set_action() {
   local requested="$1"
   if $ACTION_EXPLICIT && [ "$ACTION" != "$requested" ]; then
-    fail_usage "choose exactly one of --init or --adopt"
+    fail_usage "elige exactamente una de --init o --adopt"
   fi
   ACTION="$requested"
   ACTION_EXPLICIT=true
@@ -85,34 +86,34 @@ while [ "$#" -gt 0 ]; do
       fi
       ;;
     --approved-plan-sha256)
-      [ "$#" -ge 2 ] || fail_usage "--approved-plan-sha256 requires a value"
+      [ "$#" -ge 2 ] || fail_usage "--approved-plan-sha256 requiere un valor"
       [ -z "$APPROVED_PLAN_SHA256" ] || fail_usage \
-        "--approved-plan-sha256 may be specified only once"
+        "--approved-plan-sha256 solo puede indicarse una vez"
       APPROVED_PLAN_SHA256="$2"
       shift
       ;;
     --generated-at)
-      [ "$#" -ge 2 ] || fail_usage "--generated-at requires a value"
-      [ -z "$GENERATED_AT" ] || fail_usage "--generated-at may be specified only once"
+      [ "$#" -ge 2 ] || fail_usage "--generated-at requiere un valor"
+      [ -z "$GENERATED_AT" ] || fail_usage "--generated-at solo puede indicarse una vez"
       GENERATED_AT="$2"
       shift
       ;;
     --operation-id)
-      [ "$#" -ge 2 ] || fail_usage "--operation-id requires a value"
-      [ -z "$OPERATION_ID" ] || fail_usage "--operation-id may be specified only once"
+      [ "$#" -ge 2 ] || fail_usage "--operation-id requiere un valor"
+      [ -z "$OPERATION_ID" ] || fail_usage "--operation-id solo puede indicarse una vez"
       OPERATION_ID="$2"
       shift
       ;;
     --vault)
-      [ "$#" -ge 2 ] || fail_usage "--vault requires a path"
-      [ -z "$VAULT_INPUT" ] || fail_usage "--vault may be specified only once"
+      [ "$#" -ge 2 ] || fail_usage "--vault requiere una ruta"
+      [ -z "$VAULT_INPUT" ] || fail_usage "--vault solo puede indicarse una vez"
       VAULT_INPUT="$2"
       shift
       ;;
     --vault=*)
-      [ -z "$VAULT_INPUT" ] || fail_usage "--vault may be specified only once"
+      [ -z "$VAULT_INPUT" ] || fail_usage "--vault solo puede indicarse una vez"
       VAULT_INPUT="${1#--vault=}"
-      [ -n "$VAULT_INPUT" ] || fail_usage "--vault requires a path"
+      [ -n "$VAULT_INPUT" ] || fail_usage "--vault requiere una ruta"
       ;;
     -h|--help)
       usage
@@ -120,18 +121,18 @@ while [ "$#" -gt 0 ]; do
       ;;
     --)
       shift
-      [ "$#" -le 1 ] || fail_usage "only one positional vault path is accepted"
+      [ "$#" -le 1 ] || fail_usage "solo se acepta una ruta posicional de bóveda"
       if [ "$#" -eq 1 ]; then
         POSITIONAL_VAULT="$1"
       fi
       break
       ;;
     -*)
-      fail_usage "unknown option: $1"
+      fail_usage "opción desconocida: $1"
       ;;
     *)
       [ -z "$POSITIONAL_VAULT" ] || fail_usage \
-        "only one positional vault path is accepted"
+        "solo se acepta una ruta posicional de bóveda"
       POSITIONAL_VAULT="$1"
       ;;
   esac
@@ -139,7 +140,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 if [ -n "$VAULT_INPUT" ] && [ -n "$POSITIONAL_VAULT" ]; then
-  fail_usage "use either --vault or a positional vault path, not both"
+  fail_usage "usa --vault o una ruta posicional de bóveda, no ambas"
 fi
 
 PLUGIN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -147,12 +148,12 @@ CORE="$PLUGIN_ROOT/scripts/claude-obsidian.py"
 VAULT="${VAULT_INPUT:-${POSITIONAL_VAULT:-$PWD}}"
 
 if [ "$MODE" = "check" ]; then
-  $ACTION_EXPLICIT && fail_usage "--check cannot be combined with --init or --adopt"
-  $FORCE && fail_usage "--check cannot be combined with --force"
+  $ACTION_EXPLICIT && fail_usage "--check no se puede combinar con --init ni con --adopt"
+  $FORCE && fail_usage "--check no se puede combinar con --force"
   [ -z "$APPROVED_PLAN_SHA256" ] || fail_usage \
-    "--check cannot be combined with --approved-plan-sha256"
-  [ -z "$GENERATED_AT" ] || fail_usage "--check cannot be combined with --generated-at"
-  [ -z "$OPERATION_ID" ] || fail_usage "--check cannot be combined with --operation-id"
+    "--check no se puede combinar con --approved-plan-sha256"
+  [ -z "$GENERATED_AT" ] || fail_usage "--check no se puede combinar con --generated-at"
+  [ -z "$OPERATION_ID" ] || fail_usage "--check no se puede combinar con --operation-id"
   exec python3 "$CORE" doctor --vault "$VAULT"
 fi
 
@@ -172,15 +173,15 @@ $FORCE && COMMAND+=(--force)
 case "$MODE" in
   preview)
     [ -z "$APPROVED_PLAN_SHA256" ] || fail_usage \
-      "--approved-plan-sha256 is accepted only with --apply"
+      "--approved-plan-sha256 solo se acepta con --apply"
     ;;
   apply)
     [ -n "$APPROVED_PLAN_SHA256" ] || fail_usage \
-      "--apply requires --approved-plan-sha256 from the reviewed dry run"
+      "--apply requiere --approved-plan-sha256 de la simulación revisada"
     COMMAND+=(--approved-plan-sha256 "$APPROVED_PLAN_SHA256" --apply)
     ;;
   *)
-    fail_usage "unsupported setup mode: $MODE"
+    fail_usage "modo de configuración no admitido: $MODE"
     ;;
 esac
 

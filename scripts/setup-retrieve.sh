@@ -15,19 +15,20 @@ ALLOW_REMOTE_OLLAMA=false
 
 usage() {
   cat <<'EOF'
-Usage: scripts/setup-retrieve.sh [--vault PATH] [--check] [--apply]
-       [--no-llm|--allow-egress] [--rebuild] [--allow-remote-ollama]
+Uso: scripts/setup-retrieve.sh [--vault PATH] [--check] [--apply]
+     [--no-llm|--allow-egress] [--rebuild] [--allow-remote-ollama]
 
-Default is a read-only synthetic-prefix preview. --apply builds vault-scoped
-chunks and BM25 state. Sending page text to a model requires the explicit
---allow-egress flag. Remote Ollama use requires --allow-remote-ollama.
+Por defecto hace una vista previa de solo lectura de los prefijos sintéticos.
+--apply construye los fragmentos y el estado BM25 acotados a la bóveda. Enviar
+texto de las páginas a un modelo requiere la opción explícita --allow-egress.
+Usar Ollama remoto requiere --allow-remote-ollama.
 EOF
 }
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --vault)
-      [ "$#" -ge 2 ] || { echo "ERROR: --vault requires a path" >&2; exit 2; }
+      [ "$#" -ge 2 ] || { echo "ERROR: --vault requiere una ruta" >&2; exit 2; }
       VAULT_INPUT="$2"
       shift
       ;;
@@ -38,19 +39,19 @@ while [ "$#" -gt 0 ]; do
     --rebuild) REBUILD=true ;;
     --allow-remote-ollama) ALLOW_REMOTE_OLLAMA=true ;;
     -h|--help) usage; exit 0 ;;
-    *) echo "ERROR: unknown argument: $1" >&2; usage >&2; exit 2 ;;
+    *) echo "ERROR: argumento desconocido: $1" >&2; usage >&2; exit 2 ;;
   esac
   shift
 done
 
 if $NO_LLM && $ALLOW_EGRESS; then
-  echo "ERROR: --no-llm and --allow-egress are mutually exclusive" >&2
+  echo "ERROR: --no-llm y --allow-egress son mutuamente excluyentes" >&2
   exit 2
 fi
 
 for helper in contextual-prefix.py bm25-index.py rerank.py retrieve.py; do
   [ -f "$PLUGIN_ROOT/scripts/$helper" ] || {
-    echo "ERROR: missing product helper: scripts/$helper" >&2
+    echo "ERROR: falta un script auxiliar del producto: scripts/$helper" >&2
     exit 3
   }
 done
@@ -78,12 +79,12 @@ resolve_status=$?
 set -e
 [ "$resolve_status" -eq 0 ] || exit "$resolve_status"
 
-echo "Vault: $VAULT"
-echo "Product helpers: $PLUGIN_ROOT/scripts"
+echo "Bóveda: $VAULT"
+echo "Scripts auxiliares del producto: $PLUGIN_ROOT/scripts"
 
 if $CHECK; then
   python3 "$PLUGIN_ROOT/scripts/bm25-index.py" --vault "$VAULT" stats 2>/dev/null || {
-    echo "READY: retrieval helpers are installed; vault index is not built yet."
+    echo "READY: los scripts auxiliares de recuperación están instalados; el índice de la bóveda aún no está construido."
   }
   exit 0
 fi
@@ -95,7 +96,7 @@ $REBUILD && prefix_args+=(--rebuild)
 
 if ! $APPLY; then
   python3 "$PLUGIN_ROOT/scripts/contextual-prefix.py" "${prefix_args[@]}" --peek
-  echo "Dry run only. Repeat with --apply to write derived retrieval state."
+  echo "Solo simulación. Repite con --apply para escribir el estado de recuperación derivado."
   exit 0
 fi
 
@@ -105,4 +106,4 @@ python3 "$PLUGIN_ROOT/scripts/bm25-index.py" --vault "$VAULT" build
 retrieve_args=(--vault "$VAULT" "wiki" --top 1 --no-rerank)
 $ALLOW_REMOTE_OLLAMA && retrieve_args+=(--allow-remote-ollama)
 python3 "$PLUGIN_ROOT/scripts/retrieve.py" "${retrieve_args[@]}" >/dev/null
-echo "Retrieval state built successfully."
+echo "Estado de recuperación construido correctamente."

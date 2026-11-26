@@ -271,7 +271,7 @@ class SetupVaultTests(unittest.TestCase):
             base = Path(directory)
             result = _run("--check", "--apply", "--vault", str(base / "vault"))
             self.assertEqual(2, result.returncode)
-            self.assertIn("choose exactly one", result.stderr)
+            self.assertIn("elige exactamente una", result.stderr)
 
             missing_approval = _run(
                 "--apply",
@@ -285,7 +285,7 @@ class SetupVaultTests(unittest.TestCase):
             )
             self.assertEqual(2, missing_approval.returncode)
             self.assertIn(
-                "--apply requires --approved-plan-sha256", missing_approval.stderr
+                "--apply requiere --approved-plan-sha256", missing_approval.stderr
             )
 
             vault = base / "unsafe"

@@ -15,44 +15,45 @@ APPROVED_PLAN_SHA256=""
 
 usage() {
   cat <<'EOF'
-Usage: scripts/setup-mode.sh [--vault PATH] [--mode MODE] [--check] [--apply]
-                         [--generated-at ISO-UTC]
-                         [--approved-plan-sha256 SHA256]
+Uso: scripts/setup-mode.sh [--vault PATH] [--mode MODE] [--check] [--apply]
+                       [--generated-at ISO-UTC]
+                       [--approved-plan-sha256 SHA256]
 
-MODE is generic, lyt, para, or zettelkasten. Without --apply, setting a mode
-prints a complete transaction dry run. Without --mode, the current config is
-shown. This command never moves existing notes or seeds folders implicitly.
-Pin --generated-at for the preview, then repeat that exact value with the
-reviewed --approved-plan-sha256 when applying the plan.
+MODE es generic, lyt, para o zettelkasten. Sin --apply, establecer un modo
+imprime una simulación completa de la transacción. Sin --mode, se muestra la
+configuración actual. Este comando nunca mueve notas existentes ni crea
+carpetas iniciales de forma implícita.
+Fija --generated-at para la vista previa y luego repite exactamente ese valor
+con el --approved-plan-sha256 revisado al aplicar el plan.
 EOF
 }
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --vault)
-      [ "$#" -ge 2 ] || { echo "ERROR: --vault requires a path" >&2; exit 2; }
+      [ "$#" -ge 2 ] || { echo "ERROR: --vault requiere una ruta" >&2; exit 2; }
       VAULT="$2"
       shift
       ;;
     --mode)
-      [ "$#" -ge 2 ] || { echo "ERROR: --mode requires a value" >&2; exit 2; }
+      [ "$#" -ge 2 ] || { echo "ERROR: --mode requiere un valor" >&2; exit 2; }
       MODE="$2"
       shift
       ;;
     --check) CHECK=true ;;
     --apply) APPLY=true ;;
     --approved-plan-sha256)
-      [ "$#" -ge 2 ] || { echo "ERROR: --approved-plan-sha256 requires a value" >&2; exit 2; }
+      [ "$#" -ge 2 ] || { echo "ERROR: --approved-plan-sha256 requiere un valor" >&2; exit 2; }
       APPROVED_PLAN_SHA256="$2"
       shift
       ;;
     --generated-at)
-      [ "$#" -ge 2 ] || { echo "ERROR: --generated-at requires a value" >&2; exit 2; }
+      [ "$#" -ge 2 ] || { echo "ERROR: --generated-at requiere un valor" >&2; exit 2; }
       GENERATED_AT="$2"
       shift
       ;;
     -h|--help) usage; exit 0 ;;
-    *) echo "ERROR: unknown argument: $1" >&2; usage >&2; exit 2 ;;
+    *) echo "ERROR: argumento desconocido: $1" >&2; usage >&2; exit 2 ;;
   esac
   shift
 done
@@ -66,7 +67,7 @@ fi
 
 case "$MODE" in
   generic|lyt|para|zettelkasten) ;;
-  *) echo "ERROR: invalid mode: $MODE" >&2; exit 2 ;;
+  *) echo "ERROR: modo no válido: $MODE" >&2; exit 2 ;;
 esac
 
 arguments=(mode set "$MODE")

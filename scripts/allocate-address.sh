@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
-# Read-only compatibility diagnostic for the legacy address allocator.
+# Diagnóstico de compatibilidad, de solo lectura, para el asignador de
+# direcciones heredado.
 #
-# Address reservation now belongs exclusively to a reviewed
-# claude-obsidian.transaction.v1 operation with address_requests. This helper
-# only prints the next observed counter value and never creates locks, counters,
-# directories, or files.
+# La reserva de direcciones ahora corresponde exclusivamente a una operación
+# claude-obsidian.transaction.v1 revisada y con address_requests. Esta utilidad
+# solo imprime el siguiente valor observado del contador y nunca crea bloqueos,
+# contadores, directorios ni archivos.
 #
-# Usage:
+# Uso:
 #   scripts/allocate-address.sh [--vault PATH] [--peek]
 #
-# Legacy `allocate` and `--rebuild` modes fail closed with migration guidance.
+# Los modos heredados `allocate` y `--rebuild` se rechazan e indican cómo migrar.
 
 set -euo pipefail
 export PYTHONDONTWRITEBYTECODE=1
@@ -21,7 +22,7 @@ MODE="peek"
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --vault)
-      [ "$#" -ge 2 ] || { echo "ERR: --vault requires a path" >&2; exit 2; }
+      [ "$#" -ge 2 ] || { echo "ERR: --vault requiere una ruta" >&2; exit 2; }
       EXPLICIT_VAULT="$2"
       shift
       ;;
@@ -29,16 +30,16 @@ while [ "$#" -gt 0 ]; do
     --peek) MODE="peek" ;;
     allocate|--rebuild) MODE="disabled" ;;
     -h|--help)
-      sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'
+      sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'
       exit 0
       ;;
-    *) echo "ERR: unknown argument: $1" >&2; exit 2 ;;
+    *) echo "ERR: argumento desconocido: $1" >&2; exit 2 ;;
   esac
   shift
 done
 
 if [ "$MODE" = "disabled" ]; then
-  echo "ERR LEGACY_ALLOCATOR_READ_ONLY: reserve addresses through one reviewed transaction address_requests bundle; direct allocation/rebuild is disabled" >&2
+  echo "ERR LEGACY_ALLOCATOR_READ_ONLY: reserva las direcciones con address_requests en un único paquete de transacción revisado; la asignación/reconstrucción directa está desactivada" >&2
   exit 2
 fi
 
@@ -69,7 +70,7 @@ if raw is not None:
     except UnicodeDecodeError:
         value = ""
     if not value.isdigit() or not 1 <= int(value) <= 999999:
-        print("ERR INVALID_ADDRESS_COUNTER: counter must contain 1..999999", file=sys.stderr)
+        print("ERR INVALID_ADDRESS_COUNTER: el contador debe contener 1..999999", file=sys.stderr)
         raise SystemExit(3)
     print(int(value))
     raise SystemExit(0)

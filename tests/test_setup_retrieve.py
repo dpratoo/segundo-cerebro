@@ -41,7 +41,7 @@ class SetupRetrieveTests(unittest.TestCase):
             vault = self.make_vault(Path(directory))
             result = self.invoke("--vault", str(vault), "--no-llm")
             self.assertEqual(0, result.returncode, result.stderr)
-            self.assertIn("Dry run only", result.stdout)
+            self.assertIn("Solo simulación", result.stdout)
             self.assertFalse((vault / ".vault-meta").exists())
 
     def test_offline_apply_builds_only_selected_vault(self) -> None:
