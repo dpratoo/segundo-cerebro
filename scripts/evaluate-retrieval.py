@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mide la recuperación sin conexión, sin escribir en la bóveda de usuario seleccionada."""
+"""Mide la búsqueda sin conexión, sin escribir en la bóveda de usuario seleccionada."""
 
 from __future__ import annotations
 

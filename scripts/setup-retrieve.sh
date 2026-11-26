@@ -84,7 +84,7 @@ echo "Scripts auxiliares del producto: $PLUGIN_ROOT/scripts"
 
 if $CHECK; then
   python3 "$PLUGIN_ROOT/scripts/bm25-index.py" --vault "$VAULT" stats 2>/dev/null || {
-    echo "READY: los scripts auxiliares de recuperación están instalados; el índice de la bóveda aún no está construido."
+    echo "READY: los scripts auxiliares de búsqueda están instalados; el índice de la bóveda aún no está construido."
   }
   exit 0
 fi
@@ -96,7 +96,7 @@ $REBUILD && prefix_args+=(--rebuild)
 
 if ! $APPLY; then
   python3 "$PLUGIN_ROOT/scripts/contextual-prefix.py" "${prefix_args[@]}" --peek
-  echo "Solo simulación. Repite con --apply para escribir el estado de recuperación derivado."
+  echo "Solo simulación. Repite con --apply para escribir el estado de búsqueda derivado."
   exit 0
 fi
 
@@ -106,4 +106,4 @@ python3 "$PLUGIN_ROOT/scripts/bm25-index.py" --vault "$VAULT" build
 retrieve_args=(--vault "$VAULT" "wiki" --top 1 --no-rerank)
 $ALLOW_REMOTE_OLLAMA && retrieve_args+=(--allow-remote-ollama)
 python3 "$PLUGIN_ROOT/scripts/retrieve.py" "${retrieve_args[@]}" >/dev/null
-echo "Estado de recuperación construido correctamente."
+echo "Estado de búsqueda construido correctamente."

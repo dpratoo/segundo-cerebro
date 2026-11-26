@@ -1078,7 +1078,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_approval_argument(compact)
     compact.set_defaults(handler=command_capacity_compact)
 
-    bench = subcommands.add_parser('bench', help='Mide sin conexión la recuperación preconstruida, sin modificar ninguna bóveda')
+    bench = subcommands.add_parser('bench', help='Mide sin conexión la búsqueda preconstruida, sin modificar ninguna bóveda')
     _add_vault_argument(bench)
     bench.add_argument('--queries', type=Path, required=True)
     bench.add_argument('--top', type=int, default=10)
