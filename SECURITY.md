@@ -2,8 +2,9 @@
 
 ## Report a vulnerability
 
-Use GitHub [private vulnerability reporting](https://github.com/AgriciDaniel/claude-obsidian/security/advisories/new)
-for the public canonical repository. If that form is unavailable, contact the
+Use GitHub [private vulnerability reporting](https://github.com/dpratoo/segundo-cerebro/security/advisories/new)
+for the public canonical repository. Si el problema también afecta al proyecto
+original, repórtalo además en https://github.com/AgriciDaniel/claude-obsidian/security/advisories/new. If that form is unavailable, contact the
 repository or community maintainers through an existing private channel and
 request a secure handoff before sharing details. Do not place secrets, private
 vault content, or an active exploit in a public issue. Include affected

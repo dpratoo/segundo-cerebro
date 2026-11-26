@@ -14,6 +14,8 @@
   Drop in sources. Get a connected wiki that grows every time you use it.
 </p>
 
+<p align="center"><sub>Traducción al español de <a href="https://github.com/AgriciDaniel/claude-obsidian">claude-obsidian</a>, creado por <a href="https://github.com/AgriciDaniel">Agrici Daniel</a>. Licencia MIT.</sub></p>
+
 <p align="center">
   <a href="#install">Install</a> ·
   <a href="#see-the-vault">See the vault</a> ·
@@ -25,22 +27,13 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/AgriciDaniel/claude-obsidian/actions/workflows/test.yml"><img src="https://github.com/AgriciDaniel/claude-obsidian/actions/workflows/test.yml/badge.svg" alt="Tests" /></a>
+  <a href="https://github.com/dpratoo/segundo-cerebro/actions/workflows/test.yml"><img src="https://github.com/dpratoo/segundo-cerebro/actions/workflows/test.yml/badge.svg" alt="Tests" /></a>
   <a href="https://code.claude.com/docs/en/plugins"><img src="https://img.shields.io/badge/Claude%20Code-plugin-7c3aed" alt="Claude Code plugin" /></a>
   <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent%20Skills-compatible-2563eb" alt="Agent Skills compatible" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/release-v3.0.1-d97745" alt="Release v3.0.1" /></a>
-  <a href="https://github.com/AgriciDaniel/claude-obsidian/stargazers"><img src="https://img.shields.io/github/stars/AgriciDaniel/claude-obsidian?style=flat" alt="GitHub stars" /></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/release-v3.0.1-d97745" alt="Versión 3.0.1" /></a>
+  <a href="https://github.com/dpratoo/segundo-cerebro/stargazers"><img src="https://img.shields.io/github/stars/dpratoo/segundo-cerebro?style=flat" alt="GitHub stars" /></a>
   <a href="https://www.skool.com/ai-marketing-hub-pro"><img src="https://img.shields.io/badge/AI%20Marketing%20Hub-Pro%20community-purple" alt="AI Marketing Hub Pro community" /></a>
-</p>
-
-<p align="center">
-  <a href="https://www.star-history.com/agricidaniel/claude-obsidian">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=AgriciDaniel/claude-obsidian&type=trending&theme=dark" />
-      <img src="https://api.star-history.com/badge?repo=AgriciDaniel/claude-obsidian&type=trending" alt="GitHub Trending Repository of the Day" />
-    </picture>
-  </a>
 </p>
 
 **claude-obsidian turns the things you read into a knowledge base that keeps getting more useful.** Drop a paper, an article, a transcript or your own notes into the vault, and Claude reads them, writes linked notes with sources, and files everything into one connected knowledge graph you can explore in Obsidian.
@@ -71,8 +64,8 @@ The result is a normal Obsidian vault that stays useful with or without an AI: b
 You need [Claude Code](https://claude.com/product/claude-code), Python 3.11 or newer and, for the visual side, [Obsidian](https://obsidian.md). Install the plugin with two commands:
 
 ```bash
-claude plugin marketplace add AgriciDaniel/claude-obsidian
-claude plugin install claude-obsidian@agricidaniel-claude-obsidian
+claude plugin marketplace add dpratoo/segundo-cerebro
+claude plugin install claude-obsidian@segundo-cerebro
 ```
 
 Then open the folder you want as your vault and start Claude Code there:
@@ -98,8 +91,8 @@ Already have an Obsidian vault? `/claude-obsidian:wiki` can adopt it without mov
 claude-obsidian is a set of [Agent Skills](https://agentskills.io), so it also runs in other hosts. From a copy of this repo, preview the setup, then apply it:
 
 ```bash
-git clone https://github.com/AgriciDaniel/claude-obsidian.git
-cd claude-obsidian
+git clone https://github.com/dpratoo/segundo-cerebro.git
+cd segundo-cerebro
 bash scripts/setup-multi-agent.sh --host codex            # preview, writes nothing
 bash scripts/setup-multi-agent.sh --host codex --apply    # link the skills
 ```
@@ -117,15 +110,24 @@ On Windows, use WSL for anything that writes to the vault. Native Windows can in
 </details>
 
 <details>
-<summary><b>Upgrading from 2.x or 3.0.0</b></summary>
+<summary><b>Actualizar, o pasar desde el plugin original</b></summary>
 <br />
 
+Para actualizar a la última versión publicada:
+
 ```bash
-claude plugin marketplace update agricidaniel-claude-obsidian
-claude plugin update claude-obsidian@agricidaniel-claude-obsidian
+claude plugin marketplace update segundo-cerebro
+claude plugin update claude-obsidian@segundo-cerebro
 ```
 
-Version 3.0.0 alone used the plugin name `agricidaniel-obsidian`. If you installed that one, run the marketplace update, then `claude plugin install claude-obsidian@agricidaniel-claude-obsidian`, and restart Claude Code. See the [namespace migration](docs/namespace-migration.md).
+¿Ya tienes instalado el plugin original en inglés (`claude-obsidian@agricidaniel-claude-obsidian`)? Desinstálalo y quita su marketplace antes de instalar esta versión, porque los dos usan el mismo nombre de plugin y los mismos comandos `/claude-obsidian:*`:
+
+```bash
+claude plugin uninstall claude-obsidian@agricidaniel-claude-obsidian
+claude plugin marketplace remove agricidaniel-claude-obsidian
+```
+
+Después reinicia Claude Code. La [guía de instalación](docs/install-guide.md) tiene los detalles.
 
 </details>
 
@@ -352,7 +354,7 @@ Yes. The skills follow the open Agent Skills format. Claude Code gets the full p
 
 **Limits.** It is not an automatic transcript recorder, a cloud sync service or a fact checker, and it does not replace backups. PDFs and web pages need extra tools for full text.
 
-**Uninstall.** Removing the plugin never removes your vault. Your notes, sources and Obsidian settings stay yours: `claude plugin uninstall claude-obsidian@agricidaniel-claude-obsidian`.
+**Uninstall.** Removing the plugin never removes your vault. Your notes, sources and Obsidian settings stay yours: `claude plugin uninstall claude-obsidian@segundo-cerebro`.
 
 </details>
 

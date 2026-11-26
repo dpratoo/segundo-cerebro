@@ -1,5 +1,9 @@
 # Claude plugin namespace
 
+> **Nota:** esta guía describe la migración de la versión 3.0.0 a la 3.0.1 del
+> proyecto original (marketplace `agricidaniel-claude-obsidian`). Si instalaste
+> desde `segundo-cerebro`, no tienes que hacer nada.
+
 The Claude plugin identity is `claude-obsidian`, so its commands are
 `/claude-obsidian:*`. The repository, portable Python core, vault configuration
 and transaction schemas use the same name. User vaults never need a rename or

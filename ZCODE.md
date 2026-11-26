@@ -27,4 +27,4 @@ Parallel workers draft only. Do not use direct shared writes, automatic commits,
 or the deprecated per-file lock helper. Remote egress and destructive actions
 need explicit user consent.
 
-Public canonical: https://github.com/AgriciDaniel/claude-obsidian
+Public canonical: https://github.com/dpratoo/segundo-cerebro

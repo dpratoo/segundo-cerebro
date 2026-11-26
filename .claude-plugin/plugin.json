@@ -1,14 +1,14 @@
 {
   "name": "claude-obsidian",
   "version": "3.0.1",
-  "description": "Local-first Agent Skills package and Claude Code plugin for source-cited Obsidian knowledge bases. Provides explicit vault initialization and adoption, recoverable operation transactions, deterministic lint and retrieval, provenance ledgers, offline-first capture foundations, and optional methodology modes. User vaults stay outside the plugin cache; network and destructive actions require explicit consent.",
+  "description": "Paquete de Agent Skills y plugin de Claude Code, local por defecto, para bases de conocimiento en Obsidian con fuentes citadas. Ofrece inicialización y adopción explícitas de bóvedas, transacciones de operaciones recuperables, lint y búsqueda deterministas, registros de procedencia, captura que funciona sin conexión y modos de metodología opcionales. Las bóvedas del usuario quedan fuera de la caché del plugin; las acciones de red y las destructivas requieren consentimiento explícito.",
   "author": {
     "name": "AgriciDaniel",
     "url": "https://github.com/AgriciDaniel"
   },
   "license": "MIT",
-  "homepage": "https://github.com/AgriciDaniel/claude-obsidian",
-  "repository": "https://github.com/AgriciDaniel/claude-obsidian",
+  "homepage": "https://github.com/dpratoo/segundo-cerebro",
+  "repository": "https://github.com/dpratoo/segundo-cerebro",
   "keywords": [
     "obsidian",
     "knowledge-base",

@@ -29,4 +29,4 @@ bash scripts/setup-multi-agent.sh --host cursor --workspace "$PWD"
 bash scripts/setup-multi-agent.sh --host cursor --workspace "$PWD" --apply
 ```
 
-Public canonical: https://github.com/AgriciDaniel/claude-obsidian
+Public canonical: https://github.com/dpratoo/segundo-cerebro

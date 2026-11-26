@@ -116,3 +116,17 @@ implementations or personal contributor vaults.
 **License:** MIT (see [LICENSE](LICENSE))
 **Repository (public canonical):** https://github.com/AgriciDaniel/claude-obsidian
 **Community early-access mirror (Pro):** https://github.com/AI-Marketing-Hub
+
+---
+
+## Traducción al español
+
+**Traducción y mantenimiento:** dpratoo  
+**Repositorio:** https://github.com/dpratoo/segundo-cerebro  
+**Base:** claude-obsidian v3.0.1 (commit `2e54556`) de AgriciDaniel, con licencia MIT.
+
+La traducción cubre la documentación, las skills, los agentes, las plantillas,
+las imágenes del README y los mensajes del código que se ven directamente. El
+funcionamiento del plugin no cambia. Las fuentes incrustadas en los SVG del
+README (Silkscreen, Geist, Geist Mono y Pixelify Sans) se distribuyen con la
+SIL Open Font License 1.1.

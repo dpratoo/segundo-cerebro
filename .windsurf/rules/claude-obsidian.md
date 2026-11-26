@@ -12,4 +12,4 @@ parallel workers return drafts; one orchestrator inspects and applies one
 recoverable transaction. Queries and lint remain read-only. Network egress,
 destructive repair, and Git checkpoints require explicit user consent.
 
-Public canonical: https://github.com/AgriciDaniel/claude-obsidian
+Public canonical: https://github.com/dpratoo/segundo-cerebro

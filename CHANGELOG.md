@@ -7,6 +7,12 @@ implementation record for older releases.
 
 ## [Unreleased]
 
+### Añadido
+
+- Traducción completa al español neutro: documentación, skills, agentes,
+  plantillas de bóveda, imágenes del README y mensajes visibles del código. Se
+  distribuye como `claude-obsidian@segundo-cerebro` desde https://github.com/dpratoo/segundo-cerebro.
+
 ## [3.0.1] - 2026-10-21
 
 Restores the Claude plugin name `claude-obsidian`, so commands are

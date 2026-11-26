@@ -615,7 +615,7 @@ class CanonicalPolicyTests(unittest.TestCase):
             changelog,
         )
         self.assertIn(f"release-v{version}-", readme)
-        self.assertIn(f'alt="Release v{version}"', readme)
+        self.assertIn(f'alt="Versión {version}"', readme)
 
     def test_repository_allowlist_is_canonical_and_valid(self) -> None:
         config, errors = _load_config(ROOT)

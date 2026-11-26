@@ -1,6 +1,9 @@
 # Contributing to claude-obsidian
 
 Contributions are welcome in the public canonical repository:
+https://github.com/dpratoo/segundo-cerebro.
+Este repositorio mantiene la traducción al español. Los cambios de
+funcionamiento (código, pruebas, contratos) corresponden al proyecto original:
 https://github.com/AgriciDaniel/claude-obsidian.
 
 For a substantial change, open an issue that describes the user problem,

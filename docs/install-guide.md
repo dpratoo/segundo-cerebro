@@ -23,8 +23,8 @@ for development, but a normal user vault should be a separate directory.
 Add the public catalog and install the namespaced plugin:
 
 ```bash
-claude plugin marketplace add AgriciDaniel/claude-obsidian
-claude plugin install claude-obsidian@agricidaniel-claude-obsidian
+claude plugin marketplace add dpratoo/segundo-cerebro
+claude plugin install claude-obsidian@segundo-cerebro
 claude plugin list
 ```
 
@@ -234,21 +234,25 @@ The Claude plugin is `claude-obsidian`, and its commands are
 `/claude-obsidian:*`. From 2.x, update it as usual:
 
 ```bash
-claude plugin marketplace update agricidaniel-claude-obsidian
-claude plugin update claude-obsidian@agricidaniel-claude-obsidian
+claude plugin marketplace update segundo-cerebro
+claude plugin update claude-obsidian@segundo-cerebro
 ```
 
-Version 3.0.0 alone was named `agricidaniel-obsidian`. If you installed it,
-the marketplace `renames` map moves you back, then you install once:
+¿Vienes del plugin original en inglés
+(`claude-obsidian@agricidaniel-claude-obsidian`)? Desinstálalo y quita su
+marketplace antes de instalar esta versión, porque los dos usan el mismo nombre
+de plugin y los mismos comandos `/claude-obsidian:*`:
 
 ```bash
-claude plugin marketplace update agricidaniel-claude-obsidian
-claude plugin install claude-obsidian@agricidaniel-claude-obsidian
+claude plugin uninstall claude-obsidian@agricidaniel-claude-obsidian
+claude plugin marketplace remove agricidaniel-claude-obsidian
+claude plugin marketplace add dpratoo/segundo-cerebro
+claude plugin install claude-obsidian@segundo-cerebro
 ```
 
-Restart Claude Code after either path. Managed settings that name
-`agricidaniel-obsidian` need an administrator change. See the
-[namespace migration](namespace-migration.md) for verification and rollback.
+Reinicia Claude Code después de cualquiera de los dos caminos. El nombre
+`agricidaniel-obsidian` (versión 3.0.0) solo existió en el proyecto original; la
+[migración de espacio de nombres](namespace-migration.md) explica ese caso.
 
 Upgrade product code independently from the user vault. Before a migration or
 large ingest, make a normal backup or snapshot. Knowledge writes are journaled;
@@ -278,8 +282,8 @@ from its vault-local pending record.
 Remove the host integration, not the vault:
 
 ```bash
-claude plugin uninstall claude-obsidian@agricidaniel-claude-obsidian
-claude plugin marketplace remove agricidaniel-claude-obsidian
+claude plugin uninstall claude-obsidian@segundo-cerebro
+claude plugin marketplace remove segundo-cerebro
 ```
 
 For portable hosts, remove only the per-skill links that the installer reported.

@@ -191,6 +191,7 @@ class KnowledgeContractTests(unittest.TestCase):
             guide,
         )
         self.assertNotIn("marketplace remove AgriciDaniel/claude-obsidian", guide)
+        self.assertNotIn("marketplace remove dpratoo/segundo-cerebro", guide)
 
     def test_release_excludes_host_only_root_claude_context(self) -> None:
         allowlist = json.loads(
