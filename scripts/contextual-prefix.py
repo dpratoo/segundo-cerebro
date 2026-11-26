@@ -1518,48 +1518,48 @@ def _bounded_positive_int(value, *, maximum, label):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Chunk + contextualize wiki pages.")
-    parser.add_argument("--vault", help="Explicit vault root")
+    parser = argparse.ArgumentParser(description="Fragmenta y contextualiza las páginas de la wiki.")
+    parser.add_argument("--vault", help="Raíz explícita de la bóveda")
     parser.add_argument(
         "path",
         nargs="?",
-        help="Page path relative to vault root. Omit (or pass --all) "
-        "to process every wiki page.",
+        help="Ruta de la página, relativa a la raíz de la bóveda. Omítela (o pasa --all) "
+        "para procesar todas las páginas de la wiki.",
     )
     parser.add_argument(
         "--all",
         action="store_true",
-        help="Process every wiki page (equivalent to omitting path).",
+        help="Procesa todas las páginas de la wiki (equivale a omitir path).",
     )
     parser.add_argument(
         "--no-llm",
         action="store_true",
-        help="Force synthetic prefixes and skip every model call.",
+        help="Fuerza prefijos sintéticos y omite toda llamada a un modelo.",
     )
     parser.add_argument(
         "--allow-egress",
         action="store_true",
-        help="Allow direct Anthropic API cloud prefix generation when an API key is present. "
-        "Default is synthetic; --local-ollama is a separate explicit local mode. "
-        "This flag never enables a cloud fallback from local mode.",
+        help="Permite generar prefijos en la nube directamente con la API de Anthropic cuando hay una clave de API. "
+        "Por defecto se usan prefijos sintéticos; --local-ollama es un modo local explícito aparte. "
+        "Esta opción nunca activa una alternativa en la nube desde el modo local.",
     )
     parser.add_argument(
         "--rebuild",
         action="store_true",
-        help="Re-process chunks even if body_hash matches.",
+        help="Vuelve a procesar los fragmentos aunque body_hash coincida.",
     )
     parser.add_argument(
-        "--peek", action="store_true", help="Print plan, write nothing."
+        "--peek", action="store_true", help="Imprime el plan y no escribe nada."
     )
     parser.add_argument("--anthropic-model", choices=sorted(ANTHROPIC_MODEL_PROFILES), default=ANTHROPIC_MODEL,
-                        help="Reviewed API model profile; cloud execution still requires --allow-egress.")
+                        help="Perfil revisado de modelo de la API; la ejecución en la nube sigue requiriendo --allow-egress.")
     parser.add_argument("--local-ollama", action="store_true",
-                        help="Opt into an installed local-only Ollama model; failure uses synthetic, never cloud.")
-    parser.add_argument("--ollama-model", help="Exact installed name:tag, required for --local-ollama. No model is pulled.")
+                        help="Activa un modelo de Ollama instalado y solo local; si falla, usa prefijos sintéticos, nunca la nube.")
+    parser.add_argument("--ollama-model", help="Valor name:tag exacto del modelo instalado, obligatorio con --local-ollama. No se descarga ningún modelo.")
     parser.add_argument("--ollama-url", default=os.environ.get("OLLAMA_URL", DEFAULT_OLLAMA_URL),
-                        help="Ollama root HTTP(S) URL; defaults to local loopback.")
+                        help="URL raíz HTTP(S) de Ollama; por defecto usa la dirección loopback local.")
     parser.add_argument("--allow-remote-ollama", action="store_true",
-                        help="Allow sending page context to the explicitly configured remote Ollama server.")
+                        help="Permite enviar el contexto de las páginas al servidor remoto de Ollama configurado explícitamente.")
     parser.add_argument(
         "--provider-max-requests",
         type=lambda value: _bounded_positive_int(
@@ -1568,7 +1568,7 @@ def main():
             label="provider request budget",
         ),
         default=PROVIDER_OPERATION_MAX_REQUESTS,
-        help="Maximum generation requests for the whole operation (default: 128).",
+        help="Máximo de solicitudes de generación para toda la operación (por defecto: 128).",
     )
     parser.add_argument(
         "--provider-max-bytes",
@@ -1578,7 +1578,7 @@ def main():
             label="provider byte budget",
         ),
         default=PROVIDER_OPERATION_MAX_BYTES,
-        help="Maximum serialized generation request-body bytes for the operation (default: 16777216).",
+        help="Máximo de bytes serializados de los cuerpos de solicitud de generación para la operación (por defecto: 16777216).",
     )
     parser.add_argument(
         "--provider-max-request-bytes",
@@ -1588,7 +1588,7 @@ def main():
             label="provider per-request byte limit",
         ),
         default=PROVIDER_REQUEST_MAX_BYTES,
-        help="Maximum serialized UTF-8 request-body bytes per generation call (default: 1048576).",
+        help="Máximo de bytes UTF-8 serializados del cuerpo de solicitud por cada llamada de generación (por defecto: 1048576).",
     )
     args = parser.parse_args()
     if args.local_ollama and not args.no_llm:

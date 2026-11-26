@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Measure offline retrieval without writing to the selected user vault."""
+"""Mide la recuperación sin conexión, sin escribir en la bóveda de usuario seleccionada."""
 
 from __future__ import annotations
 
@@ -17,10 +17,10 @@ from claude_obsidian.retrieval_eval import EvaluationError, IndexNotReadyError, 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--vault", help="Prebuilt selected vault; evaluation is read-only")
-    parser.add_argument("--queries", help="Explicit local retrieval-queries.v1 JSON labels")
-    parser.add_argument("--top", type=int, default=10, help="Ranking depth, with a minimum measured depth of 10")
-    parser.add_argument("--fixture", action="store_true", help="Build and evaluate the original source fixture only in TemporaryDirectory")
+    parser.add_argument("--vault", help="Bóveda seleccionada y preconstruida; la evaluación es de solo lectura")
+    parser.add_argument("--queries", help="Etiquetas JSON locales y explícitas con formato retrieval-queries.v1")
+    parser.add_argument("--top", type=int, default=10, help="Profundidad de la clasificación, con una profundidad medida mínima de 10")
+    parser.add_argument("--fixture", action="store_true", help="Construye y evalúa el fixture original de fuentes solo dentro de un TemporaryDirectory")
     args = parser.parse_args(argv)
     if args.fixture:
         if args.vault or args.queries or args.top != 10:

@@ -2130,20 +2130,20 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Lint an Obsidian wiki without modifying it"
+        description="Ejecuta el lint sobre una wiki de Obsidian sin modificarla"
     )
     parser.add_argument(
-        "root", nargs="?", default=".", help="vault root (default: current directory)"
+        "root", nargs="?", default=".", help="raíz de la bóveda (por defecto: directorio actual)"
     )
     parser.add_argument(
         "--format",
         choices=("json", "markdown"),
         default="json",
-        help="stdout format",
+        help="formato de la salida estándar",
     )
     parser.add_argument(
         "--as-of",
-        help="ISO YYYY-MM-DD provenance freshness date (default: current UTC date)",
+        help="fecha ISO YYYY-MM-DD para evaluar la vigencia de la procedencia (por defecto: fecha UTC actual)",
     )
     args = parser.parse_args(argv)
     try:

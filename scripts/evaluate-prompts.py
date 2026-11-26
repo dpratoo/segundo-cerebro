@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build or score the frozen offline Query and Save prompt acceptance packet."""
+"""Construye o puntúa, sin conexión, el paquete congelado de aceptación de prompts de Query y Save."""
 
 from __future__ import annotations
 
@@ -24,16 +24,16 @@ def main(argv=None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser(
-        "packet", help="Print a packet bound to the current Query and Save sources"
+        "packet", help="Imprime un paquete vinculado a las fuentes actuales de Query y Save"
     )
 
     evaluate_parser = subparsers.add_parser(
-        "evaluate", help="Evaluate one supplied response without provider execution"
+        "evaluate", help="Evalúa una respuesta proporcionada sin ejecutar ningún proveedor"
     )
-    evaluate_parser.add_argument("response", help="Strict prompt-response.v1 JSON file")
+    evaluate_parser.add_argument("response", help="Archivo JSON estricto con formato prompt-response.v1")
     evaluate_parser.add_argument(
         "--packet",
-        help="Previously generated prompt-packet.v1 JSON; current sources are rechecked",
+        help="JSON prompt-packet.v1 generado antes; las fuentes actuales se vuelven a comprobar",
     )
     args = parser.parse_args(argv)
     try:

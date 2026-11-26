@@ -646,24 +646,24 @@ def rerank(query, candidates, top_k=5, allow_remote=False, model=None):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Rerank chunk candidates by semantic similarity.")
-    parser.add_argument("--vault", help="Explicit vault root")
-    parser.add_argument("query", nargs="?", help="Query text")
-    parser.add_argument("--candidates", help="Path to candidates JSON or `-` for stdin",
+    parser = argparse.ArgumentParser(description="Reordena los fragmentos candidatos por similitud semántica.")
+    parser.add_argument("--vault", help="Raíz explícita de la bóveda")
+    parser.add_argument("query", nargs="?", help="Texto de la consulta")
+    parser.add_argument("--candidates", help="Ruta al JSON de candidatos, o `-` para stdin",
                         default=None)
-    parser.add_argument("--top", type=parse_top_k, default=5, help="Top-K to return")
+    parser.add_argument("--top", type=parse_top_k, default=5, help="Cantidad de mejores resultados (top-K) que se devuelven")
     parser.add_argument(
         "--model",
         default=DEFAULT_MODEL,
         help=(
-            "Installed Ollama embedding model; defaults to multilingual "
-            f"{DEFAULT_MODEL} and is never downloaded automatically"
+            "Modelo de embeddings de Ollama instalado; por defecto es el multilingüe "
+            f"{DEFAULT_MODEL} y nunca se descarga automáticamente"
         ),
     )
     parser.add_argument("--peek", action="store_true",
-                        help="Print rerank strategy chosen and exit")
+                        help="Imprime la estrategia de reordenamiento elegida y termina")
     parser.add_argument("--allow-remote-ollama", action="store_true",
-                        help="Accept non-localhost OLLAMA_URL (potential data exfil)")
+                        help="Acepta un OLLAMA_URL que no sea localhost (posible exfiltración de datos)")
     args = parser.parse_args(argv)
     if not configure_vault(args.vault):
         return EXIT_USAGE

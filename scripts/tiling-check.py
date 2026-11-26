@@ -773,17 +773,17 @@ def cmd_peek(ollama_url: str, model: str) -> int:
 
 def main(argv: list[str]) -> int:
     p = argparse.ArgumentParser()
-    p.add_argument("--vault", help="Explicit vault root")
+    p.add_argument("--vault", help="Raíz explícita de la bóveda")
     p.add_argument(
         "--report",
         type=Path,
         default=None,
-        help="deprecated and rejected; reports are stdout-only",
+        help="obsoleta y rechazada; los informes solo se escriben en stdout",
     )
     p.add_argument("--rebuild-cache", action="store_true")
     p.add_argument("--peek", action="store_true")
     p.add_argument("--allow-remote-ollama", action="store_true",
-                   help="allow OLLAMA_URL env override pointing outside localhost")
+                   help="permite que la variable de entorno OLLAMA_URL apunte fuera de localhost")
     p.add_argument("--model", default=DEFAULT_MODEL)
     args = p.parse_args(argv)
     if not configure_vault(args.vault):

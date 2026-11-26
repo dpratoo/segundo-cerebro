@@ -332,12 +332,12 @@ def run(top: int, want_json: bool, include_zero: bool, page_filter: str | None) 
 
 def main(argv: list[str]) -> int:
     p = argparse.ArgumentParser()
-    p.add_argument("--vault", help="Explicit vault root")
+    p.add_argument("--vault", help="Raíz explícita de la bóveda")
     p.add_argument("--top", type=int, default=DEFAULT_TOP)
     p.add_argument("--json", action="store_true")
     p.add_argument("--include-score-zero", action="store_true",
-                   help="Include pages whose score is zero or negative in the output")
-    p.add_argument("--page", default=None, help="Score a single page by path or stem")
+                   help="Incluye en la salida las páginas con puntuación cero o negativa")
+    p.add_argument("--page", default=None, help="Puntúa una sola página por su ruta o por su nombre sin extensión")
     args = p.parse_args(argv)
     if not configure_vault(args.vault):
         return EXIT_USAGE

@@ -228,25 +228,25 @@ def chunk_is_current(hit, chunk, page_path, page_hash_cache):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Hybrid retrieval over the vault.")
-    parser.add_argument("--vault", help="Explicit vault root")
-    parser.add_argument("query", help="Natural-language query")
-    parser.add_argument("--top", type=parse_top_k, default=5, help="Final result count (post-rerank)")
+    parser = argparse.ArgumentParser(description="Recuperación híbrida sobre la bóveda.")
+    parser.add_argument("--vault", help="Raíz explícita de la bóveda")
+    parser.add_argument("query", help="Consulta en lenguaje natural")
+    parser.add_argument("--top", type=parse_top_k, default=5, help="Cantidad final de resultados (después del reordenamiento)")
     parser.add_argument("--bm25-top", type=parse_top_k, default=20,
-                        help="Candidate count from BM25 (pre-rerank)")
+                        help="Cantidad de candidatos de BM25 (antes del reordenamiento)")
     parser.add_argument("--no-rerank", action="store_true",
-                        help="Skip the rerank stage; return BM25-only")
+                        help="Omite la etapa de reordenamiento; devuelve solo resultados de BM25")
     parser.add_argument(
         "--model",
         help=(
-            "Installed Ollama embedding model; defaults to multilingual "
-            "nomic-embed-text-v2-moe and is never downloaded automatically"
+            "Modelo de embeddings de Ollama instalado; por defecto es el multilingüe "
+            "nomic-embed-text-v2-moe y nunca se descarga automáticamente"
         ),
     )
     parser.add_argument("--explain", action="store_true",
-                        help="Include per-stage diagnostics in output")
+                        help="Incluye en la salida el diagnóstico de cada etapa")
     parser.add_argument("--allow-remote-ollama", action="store_true",
-                        help="Forwarded to rerank.py")
+                        help="Se reenvía a rerank.py")
     args = parser.parse_args(argv)
     if not configure_vault(args.vault):
         return EXIT_USAGE

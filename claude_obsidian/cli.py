@@ -110,14 +110,14 @@ def _require_approved_operation(
 
 
 def _add_vault_argument(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--vault", help="Explicit user vault root")
+    parser.add_argument("--vault", help="Raíz explícita de la bóveda del usuario")
 
 
 def _add_approval_argument(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--approved-plan-sha256",
         metavar="SHA256",
-        help="Exact canonical hash emitted by the reviewed dry-run",
+        help="Hash canónico exacto que emitió la simulación revisada",
     )
 
 
@@ -1005,19 +1005,19 @@ def build_parser() -> argparse.ArgumentParser:
     subcommands = parser.add_subparsers(dest="command", required=True)
 
     doctor = subcommands.add_parser(
-        "doctor", help="Inspect vault selection and core readiness"
+        "doctor", help="Inspecciona la selección de la bóveda y si el núcleo está listo"
     )
     _add_vault_argument(doctor)
     doctor.set_defaults(handler=command_doctor)
 
     transaction = subcommands.add_parser(
-        "transaction", help="Apply or recover vault transactions"
+        "transaction", help="Aplica o recupera transacciones de la bóveda"
     )
     transaction_commands = transaction.add_subparsers(
         dest="transaction_command", required=True
     )
     apply_command = transaction_commands.add_parser(
-        "apply", help="Apply a versioned transaction bundle"
+        "apply", help="Aplica un paquete de transacción versionado"
     )
     _add_vault_argument(apply_command)
     apply_command.add_argument("bundle", type=Path)
@@ -1027,7 +1027,7 @@ def build_parser() -> argparse.ArgumentParser:
     apply_command.set_defaults(handler=command_transaction_apply)
 
     recover = transaction_commands.add_parser(
-        "recover", help="Roll back interrupted operations"
+        "recover", help="Revierte las operaciones interrumpidas"
     )
     _add_vault_argument(recover)
     recover.add_argument("--timeout", type=float, default=10.0)
@@ -1036,22 +1036,23 @@ def build_parser() -> argparse.ArgumentParser:
         "--force-stale-lock",
         action="store_true",
         help=(
-            "Reap an old lock, bypassing --stale-after only when the recorded "
-            "owner PID is confirmed dead on this host; a live same-host owner, "
-            "or an unresolvable or foreign-host owner, still requires "
-            "--stale-after to elapse. Use only after confirming no writer is "
-            "active"
+            "Elimina un bloqueo antiguo y omite --stale-after solo si se "
+            "confirma en este host que el PID del propietario registrado ya no "
+            "está activo; si el propietario sigue activo en este host, no se "
+            "puede resolver o está en otro host, aun así hay que esperar a que "
+            "transcurra --stale-after. Usa esta opción solo después de confirmar "
+            "que no hay ningún proceso de escritura activo"
         ),
     )
     recover.set_defaults(handler=command_transaction_recover)
     inspect = transaction_commands.add_parser(
-        "inspect", help="Validate a bundle without writing"
+        "inspect", help="Valida un paquete sin escribir nada"
     )
     _add_vault_argument(inspect)
     inspect.add_argument("bundle", type=Path)
     inspect.set_defaults(handler=command_transaction_inspect)
 
-    workflow = subcommands.add_parser('workflow', help='Inspect named workflow completeness or apply its reviewed transaction')
+    workflow = subcommands.add_parser('workflow', help='Inspecciona si un flujo de trabajo con nombre está completo o aplica su transacción revisada')
     workflows = workflow.add_subparsers(dest='workflow_command', required=True)
     for verb, handler in [('inspect', command_workflow_inspect), ('apply', command_workflow_apply)]:
         command = workflows.add_parser(verb)
@@ -1063,7 +1064,7 @@ def build_parser() -> argparse.ArgumentParser:
             _add_approval_argument(command)
         command.set_defaults(handler=handler)
 
-    capacity = subcommands.add_parser('capacity', help='Inspect canonical ledger capacity or preview lossless formatting compaction')
+    capacity = subcommands.add_parser('capacity', help='Inspecciona la capacidad de los registros canónicos o muestra una vista previa de la compactación de formato sin pérdida')
     _add_vault_argument(capacity)
     capacity.set_defaults(handler=command_capacity)
     capacity_commands = capacity.add_subparsers(dest='capacity_command')
@@ -1077,13 +1078,13 @@ def build_parser() -> argparse.ArgumentParser:
     _add_approval_argument(compact)
     compact.set_defaults(handler=command_capacity_compact)
 
-    bench = subcommands.add_parser('bench', help='Measure prebuilt retrieval offline without changing a vault')
+    bench = subcommands.add_parser('bench', help='Mide sin conexión la recuperación preconstruida, sin modificar ninguna bóveda')
     _add_vault_argument(bench)
     bench.add_argument('--queries', type=Path, required=True)
     bench.add_argument('--top', type=int, default=10)
     bench.set_defaults(handler=command_bench)
 
-    hook = subcommands.add_parser("hook", help="Host lifecycle adapter")
+    hook = subcommands.add_parser("hook", help="Adaptador del ciclo de vida del host")
     hook_commands = hook.add_subparsers(dest="hook_command", required=True)
     session_start = hook_commands.add_parser("session-start")
     session_start.set_defaults(handler=command_hook_session_start)
@@ -1091,30 +1092,30 @@ def build_parser() -> argparse.ArgumentParser:
     stop.set_defaults(handler=command_hook_stop)
 
     lint = subcommands.add_parser(
-        "lint", help="Deterministically inspect an Obsidian vault"
+        "lint", help="Inspecciona de forma determinista una bóveda de Obsidian"
     )
     _add_vault_argument(lint)
     lint.add_argument("--format", choices=("json", "markdown"), default="json")
-    lint.add_argument("--as-of", help="ISO YYYY-MM-DD provenance freshness date")
+    lint.add_argument("--as-of", help="Fecha ISO YYYY-MM-DD para evaluar la vigencia de la procedencia")
     lint.add_argument('--frontmatter-policy', choices=('presence', 'generated'), default=None,
-                      help='Generated-page value checks are opt-in; default follows vault lint configuration')
+                      help='Las comprobaciones de valores de páginas generadas se activan solo si las pides; por defecto se usa la configuración de lint de la bóveda')
     lint.add_argument(
         "--exclude",
         action="append",
         default=[],
         metavar="GLOB",
         help=(
-            "Exclude paths matching GLOB (relative to the resolved vault "
-            "root; '*' also matches '/'); repeatable"
+            "Excluye las rutas que coinciden con GLOB (relativas a la raíz "
+            "resuelta de la bóveda; '*' también coincide con '/'); se puede repetir"
         ),
     )
     lint.add_argument(
-        "--strict", action="store_true", help="Exit 1 when findings exist"
+        "--strict", action="store_true", help="Termina con código 1 si hay hallazgos"
     )
     lint.set_defaults(handler=command_lint)
 
     contracts = subcommands.add_parser(
-        "contracts", help="Validate capability and product contracts"
+        "contracts", help="Valida los contratos de capacidades y del producto"
     )
     _add_vault_argument(contracts)
     contracts.add_argument("--verify", action="store_true")
@@ -1123,32 +1124,32 @@ def build_parser() -> argparse.ArgumentParser:
     contracts.set_defaults(handler=command_contracts)
 
     package = subcommands.add_parser(
-        "package", help="Validate distributable package metadata"
+        "package", help="Valida los metadatos del paquete distribuible"
     )
     package_commands = package.add_subparsers(dest="package_command", required=True)
     package_validate = package_commands.add_parser(
-        "validate", help="Validate skills, hooks, and manifest coherence"
+        "validate", help="Valida la coherencia de las skills, los hooks y el manifiesto"
     )
     package_validate.set_defaults(handler=command_package_validate)
 
     release = subcommands.add_parser(
         "release",
-        help="Build or audit a deterministic public artifact without publishing",
+        help="Construye o audita un artefacto público determinista sin publicarlo",
     )
     release_commands = release.add_subparsers(dest="release_command", required=True)
     release_build = release_commands.add_parser(
-        "build", help="Build and self-audit a ZIP"
+        "build", help="Construye un ZIP y audita el resultado"
     )
     release_build.add_argument("--output", required=True)
     release_build.add_argument("--source-date-epoch", type=int)
     release_build.set_defaults(handler=command_release_build)
     release_audit = release_commands.add_parser(
-        "audit", help="Audit a ZIP without extracting it"
+        "audit", help="Audita un ZIP sin extraerlo"
     )
     release_audit.add_argument("artifact")
     release_audit.set_defaults(handler=command_release_audit)
     release_gates = release_commands.add_parser(
-        "gates", help="Plan or execute declared release gates without publishing"
+        "gates", help="Planifica o ejecuta los controles de publicación declarados, sin publicar"
     )
     release_gates.add_argument("--execute", action="store_true")
     release_gates.add_argument("--gate", action="append", default=[])
@@ -1156,27 +1157,27 @@ def build_parser() -> argparse.ArgumentParser:
     release_gates.set_defaults(handler=command_release_gates)
 
     capture = subcommands.add_parser(
-        "capture", help="Plan and run offline-first source capture"
+        "capture", help="Planifica y ejecuta la captura de fuentes, sin conexión por defecto"
     )
     capture_commands = capture.add_subparsers(dest="capture_command", required=True)
     capture_adapters = capture_commands.add_parser(
-        "adapters", help="Show honest adapter maturity"
+        "adapters", help="Muestra con honestidad la madurez de los adaptadores"
     )
     capture_adapters.set_defaults(handler=command_capture_adapters)
     capture_plan = capture_commands.add_parser(
-        "plan", help="Preflight local capture without writes"
+        "plan", help="Verifica de antemano una captura local sin escribir nada"
     )
     _add_vault_argument(capture_plan)
     _add_capture_budget_arguments(capture_plan)
     capture_plan.add_argument("sources", nargs="*")
     capture_plan.set_defaults(handler=command_capture_plan)
     capture_apply = capture_commands.add_parser(
-        "apply", help="Copy local sources into immutable raw storage"
+        "apply", help="Copia fuentes locales al almacenamiento raw inmutable"
     )
     _add_vault_argument(capture_apply)
     _add_capture_budget_arguments(capture_apply)
     capture_apply.add_argument(
-        "--apply", action="store_true", help="Perform copies; default is dry-run"
+        "--apply", action="store_true", help="Realiza las copias; por defecto es una simulación"
     )
     capture_apply.add_argument("--operation-id")
     capture_apply.add_argument("--generated-at")
@@ -1184,7 +1185,7 @@ def build_parser() -> argparse.ArgumentParser:
     capture_apply.add_argument("sources", nargs="*")
     capture_apply.set_defaults(handler=command_capture_apply)
     capture_external = capture_commands.add_parser(
-        "external-plan", help="Create an inert, consent-gated external adapter plan"
+        "external-plan", help="Crea un plan inerte de adaptador externo, sujeto a consentimiento"
     )
     capture_external.add_argument(
         "adapter", choices=("url", "image", "pdf", "youtube", "epub", "ocr")
@@ -1194,7 +1195,7 @@ def build_parser() -> argparse.ArgumentParser:
     capture_external.set_defaults(handler=command_capture_external_plan)
 
     capture_queue = capture_commands.add_parser(
-        "queue", help="Operate the durable capture queue"
+        "queue", help="Opera la cola de captura persistente"
     )
     queue_commands = capture_queue.add_subparsers(dest="queue_command", required=True)
     queue_list = queue_commands.add_parser("list")
@@ -1223,7 +1224,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_capture_queue_arguments(queue_complete)
     queue_complete.add_argument("item_id")
     queue_complete.add_argument("token")
-    queue_complete.add_argument("result", help="JSON object")
+    queue_complete.add_argument("result", help="Objeto JSON")
     queue_complete.set_defaults(handler=command_capture_queue_complete)
     queue_fail = queue_commands.add_parser("fail")
     _add_capture_queue_arguments(queue_fail)
@@ -1245,17 +1246,18 @@ def build_parser() -> argparse.ArgumentParser:
         "--force-stale-lock",
         action="store_true",
         help=(
-            "Reap an old queue lock, bypassing --lock-stale-after only when "
-            "the recorded owner PID is confirmed dead on this host; a live "
-            "same-host owner, or an unresolvable or foreign-host owner, still "
-            "requires --lock-stale-after to elapse. Use only after confirming "
-            "no queue worker is active"
+            "Elimina un bloqueo antiguo de la cola y omite --lock-stale-after "
+            "solo si se confirma en este host que el PID del propietario "
+            "registrado ya no está activo; si el propietario sigue activo en "
+            "este host, no se puede resolver o está en otro host, aun así hay "
+            "que esperar a que transcurra --lock-stale-after. Usa esta opción "
+            "solo después de confirmar que no hay ningún agente de la cola activo"
         ),
     )
     queue_recover.set_defaults(handler=command_capture_queue_recover)
 
     mode = subcommands.add_parser(
-        "mode", help="Read or transactionally configure vault methodology"
+        "mode", help="Lee o configura mediante una transacción la metodología de la bóveda"
     )
     mode_commands = mode.add_subparsers(dest="mode_command", required=True)
     mode_get = mode_commands.add_parser("get")
@@ -1265,7 +1267,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_vault_argument(mode_set)
     mode_set.add_argument("mode", choices=MODE_NAMES)
     mode_set.add_argument(
-        "--apply", action="store_true", help="Apply; default is dry-run"
+        "--apply", action="store_true", help="Aplica; por defecto es una simulación"
     )
     mode_set.add_argument("--operation-id")
     mode_set.add_argument("--generated-at")
@@ -1273,20 +1275,20 @@ def build_parser() -> argparse.ArgumentParser:
     mode_set.set_defaults(handler=command_mode_set)
 
     extension = subcommands.add_parser(
-        "extension", help="Plan optional vault extensions"
+        "extension", help="Planifica extensiones opcionales de la bóveda"
     )
     extension_commands = extension.add_subparsers(
         dest="extension_command", required=True
     )
     dragonscale = extension_commands.add_parser(
-        "dragonscale", help="Create missing DragonScale compatibility state"
+        "dragonscale", help="Crea el estado de compatibilidad de DragonScale que falta"
     )
     _add_vault_argument(dragonscale)
     dragonscale.add_argument(
-        "--check", action="store_true", help="Report whether all extension state exists"
+        "--check", action="store_true", help="Informa si existe todo el estado de la extensión"
     )
     dragonscale.add_argument(
-        "--apply", action="store_true", help="Apply; default is dry-run"
+        "--apply", action="store_true", help="Aplica; por defecto es una simulación"
     )
     dragonscale.add_argument("--operation-id")
     dragonscale.add_argument("--generated-at")
@@ -1294,30 +1296,30 @@ def build_parser() -> argparse.ArgumentParser:
     dragonscale.set_defaults(handler=command_extension_dragonscale)
 
     migrate = subcommands.add_parser(
-        "migrate", help="Plan or apply a backward-compatible vault migration"
+        "migrate", help="Planifica o aplica una migración de la bóveda compatible con versiones anteriores"
     )
     _add_vault_argument(migrate)
     migrate.add_argument(
-        "--apply", action="store_true", help="Apply the plan; default is dry-run"
+        "--apply", action="store_true", help="Aplica el plan; por defecto es una simulación"
     )
     migrate.add_argument("--operation-id")
     migrate.add_argument(
-        "--generated-at", help="Pinned ISO timestamp for reproducible migrations"
+        "--generated-at", help="Marca de tiempo ISO fija para migraciones reproducibles"
     )
     _add_approval_argument(migrate)
     migrate.set_defaults(handler=command_migrate)
 
     init = subcommands.add_parser(
-        "init", help="Plan or initialize a separate user vault"
+        "init", help="Planifica o inicializa una bóveda de usuario separada"
     )
     init.add_argument("path")
     init.add_argument(
-        "--apply", action="store_true", help="Apply the plan; default is dry-run"
+        "--apply", action="store_true", help="Aplica el plan; por defecto es una simulación"
     )
     init.add_argument(
         "--force",
         action="store_true",
-        help="Replace conflicting generated files transactionally",
+        help="Reemplaza mediante una transacción los archivos generados en conflicto",
     )
     init.add_argument("--operation-id")
     init.add_argument("--generated-at")
@@ -1325,16 +1327,16 @@ def build_parser() -> argparse.ArgumentParser:
     init.set_defaults(handler=command_init)
 
     adopt = subcommands.add_parser(
-        "adopt", help="Plan or adopt an existing Obsidian vault"
+        "adopt", help="Planifica o adopta una bóveda de Obsidian existente"
     )
     adopt.add_argument("path")
     adopt.add_argument(
-        "--apply", action="store_true", help="Apply the plan; default is dry-run"
+        "--apply", action="store_true", help="Aplica el plan; por defecto es una simulación"
     )
     adopt.add_argument(
         "--force",
         action="store_true",
-        help="Replace conflicting generated files transactionally",
+        help="Reemplaza mediante una transacción los archivos generados en conflicto",
     )
     adopt.add_argument("--operation-id")
     adopt.add_argument("--generated-at")
@@ -1342,7 +1344,7 @@ def build_parser() -> argparse.ArgumentParser:
     adopt.set_defaults(handler=command_adopt)
 
     checkpoint = subcommands.add_parser(
-        "checkpoint", help="Explicitly commit one completed vault operation"
+        "checkpoint", help="Guarda explícitamente en un commit una operación completada de la bóveda"
     )
     _add_vault_argument(checkpoint)
     checkpoint.add_argument("operation_id")
@@ -1350,7 +1352,7 @@ def build_parser() -> argparse.ArgumentParser:
     checkpoint.add_argument("--include-raw", action="store_true")
     checkpoint.add_argument("--skip-lint", action="store_true")
     checkpoint.add_argument(
-        "--as-of", help="Pin provenance freshness audit date (YYYY-MM-DD)"
+        "--as-of", help="Fija la fecha de la auditoría de vigencia de la procedencia (YYYY-MM-DD)"
     )
     checkpoint.set_defaults(handler=command_checkpoint)
     return parser

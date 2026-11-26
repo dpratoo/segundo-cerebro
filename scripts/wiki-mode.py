@@ -343,28 +343,28 @@ def route_path(mode, content_type, name, cfg):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Methodology-mode router for v1.8 Compound Vault.")
-    parser.add_argument("--vault", help="Explicit vault root (overrides environment and cwd discovery)")
+    parser = argparse.ArgumentParser(description="Enrutador de modos de metodología para la bóveda compuesta de v1.8.")
+    parser.add_argument("--vault", help="Raíz explícita de la bóveda (tiene prioridad sobre el entorno y la detección desde el directorio actual)")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("get", help="Print current mode")
-    sub.add_parser("config", help="Print full config JSON")
+    sub.add_parser("get", help="Imprime el modo actual")
+    sub.add_parser("config", help="Imprime el JSON completo de la configuración")
 
-    sp_route = sub.add_parser("route", help="Print suggested vault path for new content")
+    sp_route = sub.add_parser("route", help="Imprime la ruta sugerida en la bóveda para el contenido nuevo")
     # No argparse `choices` here on purpose: it rejects before route_path runs, so
     # every bad type produced the same usage dump and a valid-but-unroutable type
     # was indistinguishable from a typo. route_path owns the explanation.
     sp_route.add_argument(
         "type",
         metavar="TYPE",
-        help="Page type to file. Routable: " + ", ".join(VALID_TYPES),
+        help="Tipo de página que se va a organizar. Enrutables: " + ", ".join(VALID_TYPES),
     )
-    sp_route.add_argument("name", help="Content name (will be slugified for filenames)")
+    sp_route.add_argument("name", help="Nombre del contenido (se convierte en slug para los nombres de archivo)")
     sp_route.add_argument("--mode", choices=VALID_MODES, default=None,
-                          help="Preview routing under MODE without writing mode.json (default: use current vault mode)")
+                          help="Muestra una vista previa del enrutamiento con MODE sin escribir mode.json (por defecto: usa el modo actual de la bóveda)")
 
-    sub.add_parser("id", help="Mint a Zettelkasten ID (timestamp)")
-    sub.add_parser("templates", help="List per-mode template files")
+    sub.add_parser("id", help="Genera un ID de Zettelkasten (marca de tiempo)")
+    sub.add_parser("templates", help="Lista los archivos de plantilla de cada modo")
 
     # Accept --vault after the subcommand as well as before it. Extract it in a
     # tiny pre-pass, then let the existing subparser validate everything else.

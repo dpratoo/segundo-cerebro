@@ -795,17 +795,17 @@ def stats():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="BM25 inverted index over wiki chunks.")
-    parser.add_argument("--vault", help="Explicit vault root")
+    parser = argparse.ArgumentParser(description="Índice invertido BM25 sobre los fragmentos de la wiki.")
+    parser.add_argument("--vault", help="Raíz explícita de la bóveda")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("build", help="Build the index (full rebuild every time in v1.7).")
+    sub.add_parser("build", help="Construye el índice (reconstrucción completa cada vez en v1.7).")
 
-    sp_query = sub.add_parser("query", help="Query the index.")
-    sp_query.add_argument("text", help="Query text")
-    sp_query.add_argument("--top", type=parse_top_k, default=20, help="Top-K results")
+    sp_query = sub.add_parser("query", help="Consulta el índice.")
+    sp_query.add_argument("text", help="Texto de la consulta")
+    sp_query.add_argument("--top", type=parse_top_k, default=20, help="Cantidad de mejores resultados (top-K)")
 
-    sub.add_parser("stats", help="Print index stats.")
+    sub.add_parser("stats", help="Imprime las estadísticas del índice.")
 
     raw_argv = sys.argv[1:]
     vault_parser = argparse.ArgumentParser(add_help=False)

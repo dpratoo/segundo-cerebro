@@ -1315,7 +1315,7 @@ def _filter_report(report: dict[str, Any], capability_id: str) -> dict[str, Any]
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Validate and inspect claude-obsidian contracts"
+        description="Valida e inspecciona los contratos de claude-obsidian"
     )
     parser.add_argument("--repo-root", type=Path, default=Path.cwd())
     parser.add_argument("--vault-root", type=Path)
