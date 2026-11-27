@@ -1,9 +1,9 @@
-# Changelog
+# Registro de cambios
 
-Notable changes to claude-obsidian are recorded here using
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) categories and
-[Semantic Versioning](https://semver.org/). Git history retains the detailed
-implementation record for older releases.
+Los cambios notables de claude-obsidian se registran aquí con las categorías de
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) y el
+[Versionado Semántico](https://semver.org/). El historial de Git conserva el
+detalle de la implementación de las versiones anteriores.
 
 ## [Unreleased]
 
@@ -15,620 +15,754 @@ implementation record for older releases.
 
 ## [3.0.1] - 2026-10-21
 
-Restores the Claude plugin name `claude-obsidian`, so commands are
-`/claude-obsidian:*` again. Nothing else changes.
+Restaura el nombre del plugin de Claude, `claude-obsidian`, de modo que los
+comandos vuelven a ser `/claude-obsidian:*`. Nada más cambia.
 
-### Upgrading
+### Actualización
 
-From 2.x, this is an ordinary update and your commands never change:
+Desde 2.x, es una actualización normal y tus comandos nunca cambian:
 
 ```bash
 claude plugin marketplace update agricidaniel-claude-obsidian
 claude plugin update claude-obsidian@agricidaniel-claude-obsidian
 ```
 
-If you installed 3.0.0 (`agricidaniel-obsidian`), the marketplace update moves
-your settings back, then install once:
+Si instalaste 3.0.0 (`agricidaniel-obsidian`), la actualización del marketplace
+devuelve tu configuración a su estado anterior; después instala una sola vez:
 
 ```bash
 claude plugin marketplace update agricidaniel-claude-obsidian
 claude plugin install claude-obsidian@agricidaniel-claude-obsidian
 ```
 
-Restart Claude Code after either path. Managed settings that name
-`agricidaniel-obsidian` must change the key by hand.
+Reinicia Claude Code después de cualquiera de las dos rutas. La configuración
+administrada que nombre `agricidaniel-obsidian` debe cambiar la clave a mano.
 
-### Changed
+### Cambiado
 
-- The Claude plugin is `claude-obsidian` again. The marketplace `renames` map
-  now migrates `agricidaniel-obsidian` back to it; the 3.0.0 map in the other
-  direction is removed, since a name cannot be both current and former.
-- `claude plugin validate` reports the name as reserved, and
-  `claude plugin tag` refuses it, though Claude Code installs and loads it.
-  Keeping the published name is an owner-approved exception: `package validate`
-  accepts `claude-obsidian` and still rejects every other reserved name.
+- El plugin de Claude vuelve a ser `claude-obsidian`. El mapa `renames` del
+  marketplace ahora migra `agricidaniel-obsidian` de vuelta a él; el mapa de
+  3.0.0, en sentido contrario, se elimina, porque un nombre no puede ser a la
+  vez actual y anterior.
+- `claude plugin validate` informa que el nombre está reservado y
+  `claude plugin tag` lo rechaza, aunque Claude Code lo instala y lo carga.
+  Conservar el nombre publicado es una excepción aprobada por el propietario:
+  `package validate` acepta `claude-obsidian` y sigue rechazando cualquier otro
+  nombre reservado.
 
 ## [3.0.0] - 2026-10-21
 
-To upgrade, follow 3.0.1 instead: it restores the `claude-obsidian` name that
-this release changed.
+Para actualizar, sigue en su lugar las instrucciones de 3.0.1: restaura el
+nombre `claude-obsidian` que esta versión cambió.
 
-Hardening release: recoverable transactions, deterministic lint and retrieval,
-offline evaluation, explicit provider controls, and a renamed Claude plugin.
-The rename is the breaking change; vaults need no migration.
+Versión de endurecimiento: transacciones recuperables, lint y búsqueda
+deterministas, evaluación sin conexión, controles explícitos de proveedores y un
+plugin de Claude con otro nombre. El cambio de nombre es el cambio incompatible;
+las bóvedas no necesitan migración.
 
-### Upgrading from 2.x
+### Actualización desde 2.x
 
-The Claude plugin is now `agricidaniel-obsidian`, so `/claude-obsidian:*`
-commands become `/agricidaniel-obsidian:*`. No alias is provided. Run:
+El plugin de Claude ahora es `agricidaniel-obsidian`, así que los comandos
+`/claude-obsidian:*` pasan a ser `/agricidaniel-obsidian:*`. No se ofrece ningún
+alias. Ejecuta:
 
 ```bash
 claude plugin marketplace update agricidaniel-claude-obsidian
 claude plugin install agricidaniel-obsidian@agricidaniel-claude-obsidian
 ```
 
-Then restart Claude Code. Until the install runs, the plugin is not installed.
-Managed settings must change the key by hand. Contextual prefixes no longer
-fall back to `claude -p` (see Removed). See the
-[namespace migration](docs/namespace-migration.md) for verification and rollback.
+Después reinicia Claude Code. Hasta que se ejecute la instalación, el plugin no
+está instalado. La configuración administrada debe cambiar la clave a mano. Los
+prefijos contextuales ya no recurren a `claude -p` (consulta Eliminado). Consulta
+la [migración de espacio de nombres](docs/namespace-migration.md) para la
+verificación y la reversión.
 
-### Changed
+### Cambiado
 
-- The Claude plugin is renamed from `claude-obsidian` to
-  `agricidaniel-obsidian`, because Claude Code reserves plugin names starting
-  with `claude-`. The marketplace `renames` map migrates existing installations
-  instead of reporting the plugin as missing; package validation rejects
-  renames chains that do not resolve. The repository, Python package and vault
-  formats keep the claude-obsidian name.
-- Cached contextual prefixes are reused only when they match the current
-  provider settings. Prefixes cached by earlier versions record no settings,
-  so the first run after upgrading regenerates them all; with `--allow-egress`
-  that sends every page to the configured API again.
+- El plugin de Claude pasa de llamarse `claude-obsidian` a
+  `agricidaniel-obsidian`, porque Claude Code reserva los nombres de plugin que
+  empiezan por `claude-`. El mapa `renames` del marketplace migra las
+  instalaciones existentes en lugar de informar que el plugin falta; la
+  validación del paquete rechaza las cadenas de renames que no se resuelven. El
+  repositorio, el paquete de Python y los formatos de bóveda conservan el nombre
+  claude-obsidian.
+- Los prefijos contextuales en caché se reutilizan solo cuando coinciden con la
+  configuración actual del proveedor. Los prefijos guardados en caché por
+  versiones anteriores no registran ninguna configuración, así que la primera
+  ejecución tras actualizar los regenera todos; con `--allow-egress` eso vuelve a
+  enviar cada página a la API configurada.
 
-### Fixed
+### Corregido
 
-- Contextual chunking and BM25 indexing read pages whose names use decomposed
-  Unicode (macOS, or a vault synced from it) or, on POSIX, a backslash. One
-  such page used to stop chunking for the whole vault.
-- `wiki-mode` routes strip `#`, `^`, `[` and `]` from title-preserving
-  filenames, which Obsidian cannot link to. Generic source and question routes
-  keep the title, and reuse a slugged page filed by an earlier version instead
-  of suggesting a duplicate.
-- Lint code spans stop at paragraph boundaries, so a stray backtick no longer
-  hides later links and headings. Link, heading, wikilink, math and code-span
-  scanners are linear on large and adversarial pages. Indented lazy
-  continuation, images inside link labels, quoted and callout fences, lazy
-  Setext candidates, Obsidian-stripped heading links, literal wikilink targets
-  and hidden leaf targets follow Obsidian/CommonMark behavior. A directly
-  linted `wiki/` resolves parent files only when the parent is a vault.
-- Tiling stops sending page text after the first provider failure. Ollama
-  replies are parsed strictly, so duplicate keys cannot hide remote markers;
-  malformed HTTP replies fall back instead of raising. Provider requests have
-  one wall-clock deadline, an unrelated installed cloud model no longer blocks
-  local mode, and an Ollama outage keeps valid local prefixes and the BM25 index.
-- A transaction whose not-yet-applied target is deleted or edited externally
-  rolls back with the original conflict instead of leaving a journal that
-  blocks later operations. Deeply nested or wrongly typed runtime state and
-  bundles return controlled errors, replay rejects a `prepared` journal, and
-  regular-file reads open non-blocking so FIFOs are refused rather than hang.
-- Hook fast paths emit UTF-8 on legacy console encodings. Workflow checks
-  accept the seeded log layout, cap `hot.md` at the session-context limit,
-  require new catalogs to be reachable and ingest to record a source and a real
-  ledger change, and report reused operation IDs as `OPERATION_ID_REUSED`.
-  Doctor reports symlinked or non-directory `wiki/` and runtime state as unsafe.
-- Capacity compaction rewrites only near- or over-capacity ledgers and refuses
-  unfittable input before parsing; migrations write compact canonical ledgers.
-  Claim-anchor validation no longer relies on `assert`.
-- Recovery honors a journaled in-flight marker, so a failed or interrupted
-  rollback never undoes or reports a write that did not begin. HTTPS provider
-  handshakes share the request deadline, and local reserved plugin-name checks
-  follow the host's separator rules.
-- Verification runs on every pull request, including PRs stacked on another
-  PR's branch. Dependabot proposes cooled-down, SHA-pinned GitHub Actions
-  updates, and CodeQL scans the Python core and workflows.
-- The Bases Duration disagreement cites only the recorded evidence (the 1.9.3
-  changelog and the pinned upstream skill), with its local fallback hashes
-  re-pinned. `scripts/evaluate-prompts.py` is executable like its siblings.
-- A timed-out Obsidian CLI probe falls back to the filesystem on hosts without
-  `os.killpg`, and lint names the error code and capacity recovery when a
-  provenance ledger exceeds its limit.
-- The heading scan no longer crashes on a hash followed by inline code or on
-  inline code containing Unicode line separators. Setext headings after
-  non-paragraph container lines, lazy quote continuation, tab-indented hashes
-  and lazy `=` lines inside code spans follow CommonMark. Workflow inspection
-  parses each catalog once, and its guides state that a new MOC must be linked
-  from a catalog declared in `workflow.catalogs`.
-- Evaluator examples use physical temporary directories. macOS-compatible test
-  fixtures retain their explicit symlink and invalid-input checks under aliased
-  temporary paths without weakening production confinement.
-- Developer test cleanup no longer exposes a target that erases transaction
-  recovery journals. Doctor rejects unsafe metadata paths and checks both write
-  and search access without changing the selected vault.
-- Direct wiki-root lint resolves sibling attachments within the containing
-  vault while preserving report scope. Confined metadata reads reject file and
-  ancestor swaps before reading outside bytes. BM25 treats malformed UTF-8 as stale.
-- Semantic providers share a cloud-disabled local-model proof, exact model
-  selection and digest-bound cache identity. Tiling reports incomplete work
-  with exit 12 and preserves its previous cache after embedding failures,
-  including fresh vector dimension disagreements.
-- Provenance grouping uses identity lookups, and repeated claims share bounded
-  page verification and anchor parsing within each validation call.
-- Canvas permissions require explicit consent for destructive board edits.
-  Defuddle documentation describes extraction planning and local capture.
-  The historical benchmark test, whose helpers were never distributed, is removed.
-- SessionStart also matches forked sessions on current Claude Code hosts while
-  retaining explicit context consent and read-only hook behavior.
-- Workflow catalog navigation ignores YAML comments and accepts supported
-  active property wikilinks through the shared frontmatter parser.
-- Retrieval skips corrupt chunk records while retaining healthy hits and counts
-  each rejected record. Strict page decoding prevents invalid UTF-8 from
-  matching a prior replacement character. JSON conversion-limit failures use
-  controlled cache, threshold and candidate errors or documented fallback.
-- Interrupted replacement recovery preserves externally deleted targets as
-  conflicts. Completed workflow replay rejects malformed receipts and write
-  shapes with controlled errors before mutation.
-- Lint resolves quoted aliases with commas and comments, balanced inline-link
-  labels and heading destinations, and comment-only empty sections. Malformed
-  bracket runs are scanned without repeated suffix searches.
-- Prefixing rejects malformed UTF-8 before provider or cache work. Local model
-  endpoints use numeric loopback rather than ambient localhost resolution.
-- Embedding and reranking disable ambient proxies and redirects, bound response
-  reads, and validate query, candidate and threshold inputs before provider or
-  cache work. Malformed UTF-8 caches and thresholds follow controlled errors.
-- The offline Save fixture enforces an explicit bounded source-word title
-  contract and exact note bodies. Canvas guidance uses the supported catalog
-  and distinguishes node edits from unsupported board file deletion or rename;
-  retrieval describes only supported providers.
-- Workflow catalogs and selected notes reject hidden paths. Completed replay
-  can verify committed content after disposable drafts are removed, without
-  relaxing bundle, approval or result-drift checks. Batch logs require real
-  calendar dates.
-- Completed transaction replay requires its retained journal and expanded
-  bundle, with matching result identity, write coverage and content hashes.
-- Lint recognizes protected-region-aware Setext headings in fragment resolution,
-  heading hierarchies and empty-section checks. Styled labels preserve visible
-  inline code; raw HTML blocks cannot manufacture Markdown heading matches.
-- Optional provider generation has bounded request work and a failure circuit
-  breaker. Unchanged chunk reuse validates the current record schema and
-  content invariants before skipping regeneration.
-- Namespace migration documents scope-aware disable, install, verification,
-  rollback and optional cleanup, including the legacy reinstall limitation.
-- Shared Markdown protection ignores comments, code and escaped syntax in
-  lint and workflow navigation. Valid angled and titled destinations resolve
-  consistently, and selected note updates cannot bypass catalog navigation.
-- Provider output is validated and serialized before publication. Malformed
-  Unicode falls back safely without discarding an unchanged ready index.
-- Starter and sample catalogs connect their structural pages. Query Quick has
-  an explicit evidence-based exit and read budget; Save can draft a missing
-  title for the existing review step.
-- Lint splits encoded Markdown paths before decoding, reports unscanned flat
-  vault content, distinguishes hidden source targets, and understands supported
-  heading paths, property links, PDF options and named Base embeds. Explicit
-  generated-page checks validate values without imposing a schema on adoption.
-- Canonical ledger writes respect the same 16 MiB envelope as their readers.
-  Capacity diagnostics and reviewed formatting compaction preserve existing
-  source identities and recoverable backups.
-- Canvas catalogs use `_index.md`; legacy journals remain recoverable. Generic
-  source/question routes preserve title case and spaces.
-- Default-off SessionStart exits before importing the CLI. CLI preference now
-  requires selected-vault identity and exact read-capability probes.
-- Defuddle guidance no longer treats an unchecked external executable or local
-  HTML input as enforcement of approved network destinations.
-- Provider prefixes bind cache reuse to the model and generation profile.
-  Haiku 5.5 uses an explicit bounded adaptive-thinking profile, with an optional
-  legacy model and safe refusal/truncation fallback.
+- La fragmentación contextual y la indexación BM25 leen páginas cuyos nombres
+  usan Unicode descompuesto (macOS, o una bóveda sincronizada desde allí) o, en
+  POSIX, una barra invertida. Una sola página así detenía la fragmentación de
+  toda la bóveda.
+- Las rutas de `wiki-mode` quitan `#`, `^`, `[` y `]` de los nombres de archivo
+  que conservan el título, ya que Obsidian no puede enlazarlos. Las rutas
+  genéricas de fuentes y preguntas conservan el título y reutilizan una página
+  con slug organizada por una versión anterior en lugar de sugerir un duplicado.
+- Los fragmentos de código en línea del lint terminan en los límites de párrafo,
+  de modo que una comilla invertida suelta ya no oculta enlaces y encabezados
+  posteriores. Los analizadores de enlaces, encabezados, wikilinks, matemáticas y
+  fragmentos de código en línea son lineales en páginas grandes y adversarias. La
+  continuación diferida con sangría, las imágenes dentro de etiquetas de enlace,
+  los cercados dentro de citas y destacados, los candidatos Setext diferidos, los
+  enlaces a encabezados con los signos que Obsidian elimina, los destinos
+  literales de wikilinks y los destinos de hoja ocultos siguen el comportamiento
+  de Obsidian y CommonMark. Un `wiki/` analizado directamente resuelve archivos
+  del directorio padre solo cuando el padre es una bóveda.
+- El teselado deja de enviar texto de páginas tras el primer fallo del proveedor.
+  Las respuestas de Ollama se analizan de forma estricta, así que las claves
+  duplicadas no pueden ocultar marcadores remotos; las respuestas HTTP mal
+  formadas recurren a la alternativa en lugar de lanzar un error. Las solicitudes
+  al proveedor tienen un único plazo de reloj, un modelo en la nube instalado que
+  no guarda relación ya no bloquea el modo local, y una caída de Ollama conserva
+  los prefijos locales válidos y el índice BM25.
+- Una transacción cuyo destino, aún no aplicado, se elimina o se edita
+  externamente se revierte con el conflicto original en lugar de dejar un diario
+  que bloquea operaciones posteriores. El estado de ejecución y los paquetes muy
+  anidados o con tipos incorrectos devuelven errores controlados, la
+  reproducción rechaza un diario `prepared` y las lecturas de archivos regulares
+  se abren sin bloqueo, de modo que las FIFO se rechazan en lugar de quedarse
+  colgadas.
+- Las rutas rápidas de los hooks emiten UTF-8 en codificaciones de consola
+  heredadas. Las comprobaciones de flujo de trabajo aceptan el diseño de bitácora
+  sembrado, acotan `hot.md` al límite de contexto de sesión, exigen que los
+  catálogos nuevos sean alcanzables y que la ingesta registre una fuente y un
+  cambio real en el registro, e informan los ID de operación reutilizados como
+  `OPERATION_ID_REUSED`. Doctor informa que un `wiki/` o un estado de ejecución
+  que sean enlaces simbólicos o no sean directorios no son seguros.
+- La compactación por capacidad reescribe solo los registros que están cerca o
+  por encima de su capacidad y rechaza la entrada que no cabe antes de
+  analizarla; las migraciones escriben registros canónicos compactos. La
+  validación de anclas de afirmaciones ya no depende de `assert`.
+- La recuperación respeta un marcador de operación en curso registrado en el
+  diario, de modo que una reversión fallida o interrumpida nunca deshace ni
+  informa una escritura que no comenzó. Los protocolos de enlace HTTPS con
+  proveedores comparten el plazo de la solicitud, y las comprobaciones locales de
+  nombres de plugin reservados siguen las reglas de separadores del host.
+- La verificación se ejecuta en cada pull request, incluidos los PR apilados
+  sobre la rama de otro PR. Dependabot propone actualizaciones de GitHub Actions
+  con período de espera y fijadas por SHA, y CodeQL analiza el núcleo de Python y
+  los flujos de trabajo.
+- El desacuerdo sobre Duration en Bases cita solo la evidencia registrada (el
+  registro de cambios de 1.9.3 y la skill fijada de upstream), con los hashes de sus
+  alternativas locales fijados de nuevo. `scripts/evaluate-prompts.py` es
+  ejecutable, igual que sus archivos hermanos.
+- Una sonda de la CLI de Obsidian que agota su tiempo recurre al sistema de
+  archivos en hosts sin `os.killpg`, y el lint nombra el código de error y la
+  recuperación de capacidad cuando un registro de procedencia supera su límite.
+- El análisis de encabezados ya no falla con una almohadilla seguida de código en
+  línea ni con código en línea que contiene separadores de línea Unicode. Los
+  encabezados Setext tras líneas de contenedor que no son párrafos, la
+  continuación diferida de citas, las almohadillas con sangría de tabulación y
+  las líneas `=` diferidas dentro de fragmentos de código en línea siguen
+  CommonMark. La inspección de flujos de trabajo analiza cada catálogo una sola
+  vez, y sus guías indican que un MOC nuevo debe enlazarse desde un catálogo
+  declarado en `workflow.catalogs`.
+- Los ejemplos del evaluador usan directorios temporales físicos. Los fixtures de
+  pruebas compatibles con macOS conservan sus comprobaciones explícitas de
+  enlaces simbólicos y de entradas no válidas bajo rutas temporales con alias,
+  sin debilitar el confinamiento de producción.
+- La limpieza de pruebas para desarrolladores ya no expone un objetivo que borre
+  los diarios de recuperación de transacciones. Doctor rechaza rutas de metadatos
+  no seguras y comprueba tanto el acceso de escritura como el de búsqueda sin
+  modificar la bóveda seleccionada.
+- El lint directo de la raíz de la wiki resuelve adjuntos hermanos dentro de la
+  bóveda contenedora y conserva el alcance del informe. Las lecturas confinadas
+  de metadatos rechazan los intercambios de archivos y de ancestros antes de leer
+  bytes externos. BM25 trata el UTF-8 mal formado como obsoleto.
+- Los proveedores semánticos comparten una prueba de modelo local con la nube
+  deshabilitada, una selección exacta de modelo y una identidad de caché ligada
+  al digest. El teselado informa el trabajo incompleto con el código de salida 12
+  y conserva su caché anterior tras fallos de embeddings, incluidas las
+  discrepancias de dimensión de vectores nuevos.
+- La agrupación de procedencia usa búsquedas por identidad, y las afirmaciones
+  repetidas comparten una verificación de páginas y un análisis de anclas
+  acotados dentro de cada llamada de validación.
+- Los permisos de Canvas exigen consentimiento explícito para las ediciones
+  destructivas del tablero. La documentación de Defuddle describe la
+  planificación de la extracción y la captura local. Se elimina la prueba
+  histórica de benchmark, cuyos auxiliares nunca se distribuyeron.
+- SessionStart también coincide con las sesiones bifurcadas en los hosts actuales
+  de Claude Code, y conserva el consentimiento explícito de contexto y el
+  comportamiento de hook de solo lectura.
+- La navegación de catálogos de flujos de trabajo ignora los comentarios YAML y
+  acepta wikilinks admitidos en propiedades activas mediante el analizador de
+  frontmatter compartido.
+- La búsqueda omite los registros de fragmentos dañados, conserva los resultados
+  sanos y cuenta cada registro rechazado. La decodificación estricta de páginas
+  impide que un UTF-8 no válido coincida con un carácter de reemplazo previo. Los
+  fallos por límite de conversión de JSON usan errores controlados de caché,
+  umbral y candidatos, o la alternativa documentada.
+- La recuperación de un reemplazo interrumpido conserva como conflictos los
+  destinos eliminados externamente. La reproducción de un flujo de trabajo
+  completado rechaza comprobantes y formas de escritura mal formados con errores
+  controlados antes de la modificación.
+- El lint resuelve alias entrecomillados con comas y comentarios, etiquetas de
+  enlaces en línea y destinos de encabezados con delimitadores balanceados, y
+  secciones vacías que solo contienen comentarios. Las secuencias de corchetes
+  mal formadas se analizan sin búsquedas repetidas de sufijos.
+- La generación de prefijos rechaza el UTF-8 mal formado antes de cualquier
+  trabajo con el proveedor o la caché. Los endpoints de modelos locales usan
+  loopback numérico en lugar de la resolución ambiental de localhost.
+- Los embeddings y el reordenamiento deshabilitan los proxies ambientales y las
+  redirecciones, acotan las lecturas de respuestas y validan las entradas de
+  consulta, candidatos y umbral antes de cualquier trabajo con el proveedor o la
+  caché. Las cachés y umbrales con UTF-8 mal formado siguen errores controlados.
+- El fixture de Save sin conexión impone un contrato explícito y acotado de
+  título a partir de palabras de la fuente y cuerpos de nota exactos. La guía de
+  Canvas usa el catálogo admitido y distingue las ediciones de nodos de la
+  eliminación o el cambio de nombre de archivos de tablero, que no se admiten; la
+  búsqueda describe solo los proveedores admitidos.
+- Los catálogos de flujos de trabajo y las notas seleccionadas rechazan las rutas
+  ocultas. La reproducción completada puede verificar el contenido confirmado
+  después de eliminar los borradores desechables, sin relajar las comprobaciones
+  de paquete, aprobación ni deriva del resultado. Las bitácoras de lotes exigen
+  fechas de calendario reales.
+- La reproducción de una transacción completada requiere su diario conservado y
+  su paquete expandido, con identidad de resultado, cobertura de escritura y
+  hashes de contenido coincidentes.
+- El lint reconoce los encabezados Setext que respetan las regiones protegidas
+  en la resolución de fragmentos, las jerarquías de encabezados y las
+  comprobaciones de secciones vacías. Las etiquetas con estilo conservan el
+  código en línea visible; los bloques HTML sin procesar no pueden fabricar
+  coincidencias de encabezados Markdown.
+- La generación opcional con proveedores tiene un trabajo de solicitudes acotado
+  y un cortacircuitos ante fallos. La reutilización de fragmentos sin cambios
+  valida el esquema vigente de los registros y los invariantes de contenido antes
+  de omitir la regeneración.
+- La migración de espacio de nombres documenta la deshabilitación, la
+  instalación, la verificación, la reversión y la limpieza opcional según el
+  alcance, incluida la limitación de la reinstalación heredada.
+- La protección compartida de Markdown ignora comentarios, código y sintaxis
+  escapada en el lint y en la navegación de flujos de trabajo. Los destinos
+  válidos entre ángulos y con título se resuelven de forma coherente, y las
+  actualizaciones de notas seleccionadas no pueden eludir la navegación de
+  catálogos.
+- La salida del proveedor se valida y se serializa antes de publicarse. El
+  Unicode mal formado recurre a la alternativa de forma segura sin descartar un
+  índice listo que no ha cambiado.
+- Los catálogos de inicio y de ejemplo conectan sus páginas estructurales. Query
+  Quick tiene una salida explícita basada en evidencia y un presupuesto de
+  lectura; Save puede redactar un título faltante para el paso de revisión
+  existente.
+- El lint divide las rutas Markdown codificadas antes de decodificarlas, informa
+  del contenido plano de la bóveda que no se analizó, distingue los destinos de
+  origen ocultos y entiende las rutas de encabezado admitidas, los enlaces de
+  propiedades, las opciones de PDF y las incrustaciones de Base con nombre. Las
+  comprobaciones explícitas de páginas generadas validan valores sin imponer un
+  esquema en la adopción.
+- Las escrituras de registros canónicos respetan el mismo límite de 16 MiB que
+  sus lectores. Los diagnósticos de capacidad y la compactación de formato
+  revisada conservan las identidades de fuente existentes y las copias de
+  seguridad recuperables.
+- Los catálogos de Canvas usan `_index.md`; los diarios heredados siguen siendo
+  recuperables. Las rutas genéricas de fuentes y preguntas conservan las
+  mayúsculas y los espacios del título.
+- SessionStart, desactivado por defecto, termina antes de importar la CLI. La
+  preferencia por la CLI ahora exige la identidad de la bóveda seleccionada y
+  sondas exactas de capacidad de lectura.
+- La guía de Defuddle ya no trata un ejecutable externo sin verificar ni una
+  entrada HTML local como un mecanismo que hace cumplir los destinos de red
+  aprobados.
+- Los prefijos de proveedores ligan la reutilización de la caché al modelo y al
+  perfil de generación. Haiku 5.5 usa un perfil explícito y acotado de
+  pensamiento adaptativo, con un modelo heredado opcional y una alternativa
+  segura ante rechazos o truncamientos.
 
-### Added
+### Añadido
 
-- Offline Query/Save prompt evaluation with instruction hashes, explicit
-  response contracts and negative controls. It makes no provider requests and
-  keeps controlled prompt reasoning separate from operational skill acceptance.
-- Separate named workflow inspection/application for Save and Ingest, with
-  hash-bound catalog policy and explicit structural completeness results.
-- Static Canvas product-policy validation and honestly bounded Base text checks.
-- Offline labeled retrieval evaluation with recall, MRR, explicit denominators,
-  retained misses and an original multilingual fixture.
-- Explicit installed-model Ollama prefixes, with bounded proxy-free requests,
-  redirect refusal and cloud-disabled local-model preflight.
-- Pinned upstream reconciliation, native conformance procedures, canonical
-  methodology roles, glossary, consolidation and coordination recipes.
-- A required host compatibility release gate.
+- Evaluación de prompts de Query y Save sin conexión, con hashes de
+  instrucciones, contratos de respuesta explícitos y controles negativos. No hace
+  solicitudes a proveedores y mantiene el razonamiento controlado de los prompts
+  separado de la aceptación operativa de las skills.
+- Inspección y aplicación de flujos de trabajo con nombre y por separado para
+  Save e Ingest, con una política de catálogos ligada a hashes y resultados
+  explícitos de completitud estructural.
+- Validación estática de la política de producto de Canvas y comprobaciones de
+  texto de Base acotadas con honestidad.
+- Evaluación de búsqueda con etiquetas y sin conexión, con recall, MRR,
+  denominadores explícitos, fallos retenidos y un fixture multilingüe original.
+- Prefijos explícitos de Ollama con modelo instalado, con solicitudes acotadas
+  sin proxy, rechazo de redirecciones y verificación previa de modelo local con
+  la nube deshabilitada.
+- Conciliación fijada con upstream, procedimientos de conformidad nativa, roles
+  canónicos de metodología, glosario y recetas de consolidación y coordinación.
+- Un control de publicación obligatorio de compatibilidad con los hosts.
 
-### Removed
+### Eliminado
 
-- Ambient `claude -p` contextual prefix generation. Without an explicitly
-  configured API or local Ollama provider, prefixes remain synthetic; a
-  subscription CLI can no longer load unrelated tools or host context.
+- Generación ambiental de prefijos contextuales con `claude -p`. Sin una API
+  configurada explícitamente ni un proveedor local de Ollama, los prefijos siguen
+  siendo sintéticos; una CLI de suscripción ya no puede cargar herramientas
+  ajenas ni contexto del host.
 
-### Thanks
+### Agradecimientos
 
-Pull requests from Ychris12138 (#194), Marcos64s (#199), hphsu (#195),
-vinsocci (#63) and miraclemanza (#46), and issue reports from RoelKluin (#200),
-threnard (#193), szrenwei (#191), ppuri2 (#168), cosmos75 (#141) and simonc
-(#25) shaped this release. [ATTRIBUTION.md](ATTRIBUTION.md) lists what each
-one contributed.
+Pull requests de Ychris12138 (#194), Marcos64s (#199), hphsu (#195),
+vinsocci (#63) y miraclemanza (#46), e informes de issues de RoelKluin (#200),
+threnard (#193), szrenwei (#191), ppuri2 (#168), cosmos75 (#141) y simonc
+(#25) dieron forma a esta versión. [ATTRIBUTION.md](ATTRIBUTION.md) enumera lo
+que aportó cada uno.
 
 ## [2.2.0] - 2026-09-10
 
-Backlog triage: lint scoping, lock recovery, host validation, the `bin/`
-to `scripts/` move for claude.ai plugin distribution, a single page-type
-vocabulary, gitignore-aware link resolution, and a ZCode host adapter.
+Depuración de pendientes: alcance del lint, recuperación de bloqueos, validación
+de hosts, el traslado de `bin/` a `scripts/` para la distribución de plugins en
+claude.ai, un único vocabulario de tipos de página, resolución de enlaces que
+respeta gitignore y un adaptador de host para ZCode.
 
-### Added
+### Añadido
 
-- `docs/windows-wsl.md`: a "Claude Code hooks and python3 on Windows" section
-  and a platform-support-matrix row documenting that hooks require an
-  interpreter reachable as `python3` on `PATH`, with native Windows setup
-  notes for the python.org installer and the Microsoft Store alias stub.
-- `hooks/README.md` and `README.md`: a stated minimum Claude Code
-  requirement (a current release; the exec-form `args` command hook and the
-  `compact` `SessionStart` matcher need it), linking to the Claude Code hooks
-  contract.
-- A repeatable `lint --exclude GLOB` CLI flag and a matching
-  `lint_vault(..., exclude=...)` engine parameter scope specific paths (for
-  example a `wiki/scratchpad/` folder) out of page, link-resolution, orphan,
-  frontmatter, empty-section, and stale-index scanning. The same glob list
-  may be set vault-side via an `exclude` (or `exclude_globs` /
-  `excluded_paths`) array in `.vault-meta/lint.json`, `lint-allowlist.json`,
-  or `wiki-lint.json`; CLI and vault-config patterns are combined. The
-  report's new `summary.excluded_paths` count reports how many walked files
-  were dropped.
-- `claude_obsidian/page_schema.py` declares the page-type vocabulary once,
-  separating every valid `type` value from the subset the methodology router can
-  file. `wiki-mode.py` derives its accepted types from it instead of
-  keeping a fifth hand-maintained copy.
-- `question` is routable in all four modes, with a `questions_folder` generic
-  setting that defaults to `wiki/questions/`. Note the asymmetry: only `generic`
-  routes it through a configurable folder key; `para` places questions under
-  `resources_folder + "questions/"`, matching how that mode treats its siblings.
-- `wiki-mode.py route` now exits `6` for a valid-but-unroutable page type and
-  keeps `4` for an unknown one. The two are different problems with different
-  fixes, so a script branching on `$?` can tell them apart — not only a human
-  reading stderr.
+- `docs/windows-wsl.md`: una sección "Hooks de Claude Code y python3 en Windows"
+  y una fila en la matriz de compatibilidad de plataformas que documentan que los
+  hooks requieren un intérprete accesible como `python3` en `PATH`, con notas de
+  configuración nativa de Windows para el instalador de python.org y el alias
+  sustituto de Microsoft Store.
+- `hooks/README.md` y `README.md`: un requisito mínimo declarado de Claude Code
+  (una versión actual; el hook de comando en forma exec con `args` y el matcher
+  `compact` de `SessionStart` la necesitan), con un enlace al contrato de hooks
+  de Claude Code.
+- Un flag de CLI repetible `lint --exclude GLOB` y un parámetro equivalente del
+  motor `lint_vault(..., exclude=...)` excluyen rutas específicas (por ejemplo,
+  una carpeta `wiki/scratchpad/`) del análisis de páginas, de la resolución de
+  enlaces, de páginas huérfanas, de frontmatter, de secciones vacías y de
+  entradas de índice obsoletas. La misma lista de globs puede definirse del lado
+  de la bóveda mediante un arreglo `exclude` (o `exclude_globs` /
+  `excluded_paths`) en `.vault-meta/lint.json`, `lint-allowlist.json` o
+  `wiki-lint.json`; los patrones de la CLI y los de la configuración de la
+  bóveda se combinan. El nuevo recuento `summary.excluded_paths` del informe
+  indica cuántos archivos recorridos se descartaron.
+- `claude_obsidian/page_schema.py` declara el vocabulario de tipos de página una
+  sola vez y separa cada valor válido de `type` del subconjunto que el
+  enrutador de metodología puede organizar. `wiki-mode.py` deriva de él los tipos
+  que acepta, en lugar de mantener una quinta copia a mano.
+- `question` se puede enrutar en los cuatro modos, con un ajuste genérico
+  `questions_folder` cuyo valor por defecto es `wiki/questions/`. Ten en cuenta
+  la asimetría: solo `generic` lo enruta mediante una clave de carpeta
+  configurable; `para` coloca las preguntas bajo
+  `resources_folder + "questions/"`, igual que ese modo trata a sus hermanos.
+- `wiki-mode.py route` ahora termina con `6` para un tipo de página válido pero
+  no enrutable y mantiene `4` para uno desconocido. Son problemas distintos con
+  soluciones distintas, de modo que un script que bifurca según `$?` puede
+  distinguirlos, y no solo una persona que lee stderr.
 
-### Changed
+### Cambiado
 
-- `ATTRIBUTION.md` now credits the contributor designs behind the reranker task
-  prefixes (PR #77, maartengoet) and the BM25 fallback order fix (PR #62,
-  vinsocci) that v2.0.0 adopted.
-- The five setup shell scripts (`setup-dragonscale.sh`, `setup-mode.sh`,
-  `setup-multi-agent.sh`, `setup-retrieve.sh`, `setup-vault.sh`) moved from
-  the top-level `bin/` directory to `scripts/`. claude.ai rejects any plugin
-  that ships a top-level `bin/` directory (it is reserved for the plugin's
-  Bash `PATH`); this repository never relied on that PATH behavior, so the
-  only change is the invocation path, for example `bash bin/setup-mode.sh`
-  becomes `bash scripts/setup-mode.sh`. Update any local scripts, aliases, or
-  CI that reference the old `bin/` paths. `RELEASE_MANIFEST.json` and
-  `SHA256SUMS` are refreshed at release time.
-- ZCode host adapter (`--host zcode`) for portable, user-level skill discovery
-  into `~/.zcode/skills/`, with a `ZCODE.md` instruction pointer.
+- `ATTRIBUTION.md` ahora reconoce los diseños de los colaboradores detrás de los
+  prefijos de tarea del reordenador (PR #77, maartengoet) y de la corrección del
+  orden de la alternativa BM25 (PR #62, vinsocci) que adoptó la v2.0.0.
+- Los cinco scripts de shell de configuración (`setup-dragonscale.sh`,
+  `setup-mode.sh`, `setup-multi-agent.sh`, `setup-retrieve.sh`, `setup-vault.sh`)
+  pasaron del directorio `bin/` de nivel superior a `scripts/`. claude.ai rechaza
+  cualquier plugin que incluya un directorio `bin/` de nivel superior (está
+  reservado para el `PATH` de Bash del plugin); este repositorio nunca dependió
+  de ese comportamiento de PATH, así que el único cambio es la ruta de
+  invocación; por ejemplo, `bash bin/setup-mode.sh` pasa a ser
+  `bash scripts/setup-mode.sh`. Actualiza los scripts locales, alias o CI que
+  hagan referencia a las rutas antiguas de `bin/`. `RELEASE_MANIFEST.json` y
+  `SHA256SUMS` se actualizan al momento de la publicación.
+- Adaptador de host de ZCode (`--host zcode`) para el descubrimiento portátil de
+  skills a nivel de usuario en `~/.zcode/skills/`, con un puntero de
+  instrucciones `ZCODE.md`.
 
-### Fixed
+### Corregido
 
-- `wiki-mode.py route` rejected `question`, `comparison`, `overview`, `meta`, and
-  `fold` — five of the nine page types WIKI.md documents — and did so through a
-  bare exit with no message, so a typo and a valid-but-unroutable type were
-  indistinguishable. Rejections now explain which case applies.
-- The frontmatter reference no longer restates a shorter type list that omitted
-  `session` and `fold`, and the save skill no longer names `synthesis`/`decision`
-  types that no other source declares.
-- The scaffolded vault's `.obsidian/app.json` now pins Obsidian's "New link
-  format" setting to `absolute`. It was previously left unset, defaulting to
-  Obsidian's own "shortest path when possible" — links created through
-  Obsidian's UI under that default resolve fine inside Obsidian but are
-  unresolvable (or, once a second file shares a basename, silently wrong) to
-  every other link-touching part of the product, which all resolve wikilinks
-  by exact vault-relative path with no fuzzy resolution: resync scripts, the
-  terminology linker, and lint's dead/ambiguous-link detection.
-- The repository root `.gitignore` now ignores `.mcp.json`, matching the vault
-  template and the install guide, which treat a project-scope MCP config as a
-  potential credential carrier. Suggested by PR #44.
-- `stop_status` now reads transaction journals up to the package's existing
-  8 MiB runtime JSON bound, so large valid journals are not misreported as
-  unreadable. Unsafe or unreadable journals now require manual inspection, and
-  recovery advice is scoped to journals with a recognized recoverable state.
-- `checkpoint` now honors Git's false values for `core.filemode`. Git ignores
-  working-tree executable-bit differences in that mode, so checkpoint keeps
-  strict content verification while skipping executable-mode comparison.
-- Anthropic contextual-prefix responses now have a 256 KiB read cap in addition
-  to the existing timeout, preventing an oversized response from consuming
-  unbounded memory. Response-body read failures, invalid UTF-8, excessive JSON
-  nesting, and malformed response shapes fail closed.
-- `tests/test_contextual_prefix.py` and `tests/test_wiki_mode.py` no longer
-  crash on native Windows before their assertions finish running. Both print
-  `→` in test labels; Windows' default `cp1252` console encoding raised
-  `UnicodeEncodeError` on the first such print. Both files now reconfigure
-  stdout to UTF-8 on startup, guarded so a captured/redirected runner without
-  a `reconfigure`-capable stdout still runs.
-- `capture.py`'s public-host validator now rejects hex-dotted, octal-dotted,
-  and short-form loopback spellings (`0x7f.0.0.1`, `0177.0.0.1`, `127.1`,
-  `0x7f.0x0.0x0.0x1`) that `ipaddress.ip_address()` does not parse and that
-  previously fell through to only a single-label check. Mirrors the existing
-  numeric-label rejection in the source-ledger URL canonicalizer.
-- Twelve `SKILL.md` files that link into `skills/wiki/references/` now state
-  that a `../wiki/references/` link resolves relative to the skill's own
-  directory under `$PRODUCT_ROOT`, never the selected vault's `wiki/`
-  directory. Package validation now flags any such link missing that anchor
-  sentence.
-- Lint no longer walks dot-prefixed directories (`.raw/` ingest archives,
-  `.claude/` agent worktrees, Obsidian's own `.trash/`, and similar) by
-  default, matching Obsidian's own indexer. Previously a duplicated or
-  archived page under a dot-prefixed folder became a real link-resolution
-  candidate, turning a single healthy `[[Wikilink]]` into a spurious
-  `ambiguous_targets` (and, on index pages, `stale_index_entries`) finding.
-- `--force-stale-lock` can now reap a mutation lock or capture queue lock
-  younger than `--stale-after` when the recorded owner PID is confirmed dead
-  on the same host. It still never reaps a live same-host owner before
-  `--stale-after` elapses and still keeps the age gate for a foreign-host or
-  unresolvable owner. Both `recover` help texts now describe this precisely.
-- Reading transaction runtime files now tolerates an external mtime-only
-  touch (for example a sync client refreshing metadata) by re-reading once
-  and accepting the content only if the bytes are identical to the first
-  read. Any size, inode, device, or mode change, and any content change
-  during the read, still fails closed with `CORRUPT_RUNTIME_STATE`.
-- Lint link resolution no longer reports a wikilink as ambiguous when the
-  extra candidates are gitignored files (for example a compiled binary whose
-  name shadows a page, such as `bin/env8oy` next to `wiki/projects/env8oy.md`).
-  A new pure-Python `.gitignore` evaluator (`claude_obsidian/gitignore.py`)
-  reads only `.gitignore` files inside the vault root — never
-  `.git/info/exclude`, global excludes, or a `git` subprocess — keeping
-  reports deterministic and process-free. Gitignored files remain valid link
-  targets when they are the only candidate, so no new dead links are
-  introduced; ambiguity among only-gitignored candidates is still reported.
-  This unblocks `checkpoint` runs that previously failed `LINT_FAILED`
-  whenever a build artifact existed.
+- `wiki-mode.py route` rechazaba `question`, `comparison`, `overview`, `meta` y
+  `fold` (cinco de los nueve tipos de página que documenta WIKI.md) y lo hacía
+  con una salida simple sin mensaje, de modo que un error tipográfico y un tipo
+  válido pero no enrutable eran indistinguibles. Ahora los rechazos explican qué
+  caso aplica.
+- La referencia de frontmatter ya no repite una lista de tipos más corta que
+  omitía `session` y `fold`, y la skill save ya no nombra los tipos
+  `synthesis`/`decision` que ninguna otra fuente declara.
+- El `.obsidian/app.json` de la bóveda con estructura inicial ahora fija el ajuste
+  "Nuevo formato de enlace" de Obsidian en `absolute`. Antes se dejaba sin
+  definir, con lo que se aplicaba el valor propio de Obsidian, "Ruta más corta
+  cuando sea posible". Los enlaces creados desde la interfaz de Obsidian con ese
+  valor se resuelven bien dentro de Obsidian, pero no se pueden resolver (o,
+  cuando un segundo archivo comparte nombre base, se resuelven mal en silencio)
+  en el resto de las partes del producto que tocan enlaces, y todas resuelven los
+  wikilinks por ruta exacta relativa a la bóveda, sin resolución aproximada: los
+  scripts de resincronización, el enlazador de terminología y la detección de
+  enlaces rotos o ambiguos del lint.
+- El `.gitignore` de la raíz del repositorio ahora ignora `.mcp.json`, en
+  coherencia con la plantilla de bóveda y la guía de instalación, que tratan una
+  configuración MCP de alcance de proyecto como un posible portador de
+  credenciales. Sugerido por el PR #44.
+- `stop_status` ahora lee diarios de transacciones hasta el límite de JSON de
+  ejecución de 8 MiB que ya tiene el paquete, de modo que los diarios válidos
+  grandes no se informan por error como ilegibles. Los diarios no seguros o
+  ilegibles ahora requieren inspección manual, y el consejo de recuperación se
+  limita a los diarios con un estado recuperable reconocido.
+- `checkpoint` ahora respeta los valores falsos de Git para `core.filemode`. Git
+  ignora las diferencias del bit ejecutable del árbol de trabajo en ese modo, así
+  que el punto de control mantiene la verificación estricta del contenido y omite la
+  comparación del modo ejecutable.
+- Las respuestas de prefijos contextuales de Anthropic ahora tienen un tope de
+  lectura de 256 KiB además del tiempo de espera existente, lo que impide que una
+  respuesta demasiado grande consuma memoria sin límite. Los fallos de lectura
+  del cuerpo de la respuesta, el UTF-8 no válido, el anidamiento excesivo de JSON
+  y las formas de respuesta mal formadas fallan en modo cerrado.
+- `tests/test_contextual_prefix.py` y `tests/test_wiki_mode.py` ya no fallan en
+  Windows nativo antes de terminar de ejecutar sus aserciones. Ambos imprimen `→`
+  en las etiquetas de las pruebas; la codificación de consola predeterminada de
+  Windows, `cp1252`, lanzaba `UnicodeEncodeError` en la primera impresión de ese
+  tipo. Ahora ambos archivos reconfiguran stdout a UTF-8 al iniciar, con una
+  protección para que un ejecutor con salida capturada o redirigida y sin un
+  stdout capaz de `reconfigure` siga funcionando.
+- El validador de hosts públicos de `capture.py` ahora rechaza las grafías de
+  loopback en hexadecimal con puntos, octal con puntos y forma corta
+  (`0x7f.0.0.1`, `0177.0.0.1`, `127.1`, `0x7f.0x0.0x0.0x1`) que
+  `ipaddress.ip_address()` no analiza y que antes solo recibían una comprobación
+  de etiqueta única. Replica el rechazo existente de etiquetas numéricas en el
+  canonicalizador de URL del registro de fuentes.
+- Doce archivos `SKILL.md` que enlazan a `skills/wiki/references/` ahora indican
+  que un enlace `../wiki/references/` se resuelve respecto del directorio propio
+  de la skill dentro de `$PRODUCT_ROOT`, nunca respecto del directorio `wiki/` de
+  la bóveda seleccionada. La validación del paquete ahora señala cualquier enlace
+  de este tipo al que le falte esa oración ancla.
+- Por defecto, el lint ya no recorre los directorios con prefijo de punto (los
+  archivos de ingesta `.raw/`, los worktrees de agentes `.claude/`, la `.trash/`
+  propia de Obsidian y similares), igual que el indexador de Obsidian. Antes, una
+  página duplicada o archivada bajo una carpeta con prefijo de punto se volvía un
+  candidato real para la resolución de enlaces, y convertía un único
+  `[[Wikilink]]` sano en un hallazgo falso de `ambiguous_targets` (y, en páginas
+  de índice, de `stale_index_entries`).
+- `--force-stale-lock` ahora puede retirar un bloqueo de modificación o un
+  bloqueo de la cola de captura más reciente que `--stale-after` cuando se
+  confirma que el PID del propietario registrado ya no existe en el mismo host.
+  Sigue sin retirar nunca el bloqueo de un propietario activo del mismo host antes
+  de que transcurra `--stale-after` y sigue manteniendo el control de antigüedad
+  para un propietario de otro host o que no se pueda resolver. Los dos textos de
+  ayuda de `recover` ahora lo describen con precisión.
+- La lectura de los archivos de ejecución de las transacciones ahora tolera un
+  cambio externo que solo toca mtime (por ejemplo, un cliente de sincronización
+  que actualiza metadatos): vuelve a leer una vez y acepta el contenido solo si
+  los bytes son idénticos a los de la primera lectura. Cualquier cambio de
+  tamaño, inodo, dispositivo o modo, y cualquier cambio de contenido durante la
+  lectura, sigue fallando en modo cerrado con `CORRUPT_RUNTIME_STATE`.
+- La resolución de enlaces del lint ya no informa que un wikilink es ambiguo
+  cuando los candidatos adicionales son archivos ignorados por gitignore (por
+  ejemplo, un binario compilado cuyo nombre coincide con una página, como
+  `bin/env8oy` junto a `wiki/projects/env8oy.md`). Un nuevo evaluador de
+  `.gitignore` en Python puro (`claude_obsidian/gitignore.py`) lee solo los
+  archivos `.gitignore` dentro de la raíz de la bóveda (nunca
+  `.git/info/exclude`, las exclusiones globales ni un subproceso de `git`), de
+  modo que los informes siguen siendo deterministas y sin procesos. Los archivos
+  ignorados por gitignore siguen siendo destinos de enlace válidos cuando son el
+  único candidato, así que no se introducen nuevos enlaces rotos; la ambigüedad
+  entre candidatos que solo están ignorados por gitignore sigue informándose.
+  Esto desbloquea las ejecuciones de `checkpoint` que antes fallaban con
+  `LINT_FAILED` siempre que existía un artefacto de compilación.
 
 ## [2.1.1] - 2026-08-26
 
-Legacy migration safety and clearer Windows and WSL support guidance.
+Seguridad en la migración heredada y una guía de compatibilidad con Windows y WSL
+más clara.
 
-### Added
+### Añadido
 
-- `docs/windows-wsl.md`: platform support matrix and WSL troubleshooting for
-  native Windows users, covering Microsoft's diagnostic flow for unconfirmed
-  `wsl --status` hangs, approval-hash environment binding,
-  and filesystem identity requirements. Linked from the README, install
-  guide, compound vault guide, and the wiki skill's transaction reference.
+- `docs/windows-wsl.md`: matriz de compatibilidad de plataformas y solución de
+  problemas de WSL para usuarios de Windows nativo, que cubre el flujo de
+  diagnóstico de Microsoft para bloqueos no confirmados de `wsl --status`, la
+  vinculación del hash de aprobación al entorno y los requisitos de identidad del
+  sistema de archivos. Se enlaza desde el README, la guía de instalación, la guía
+  de la bóveda compuesta y la referencia de transacciones de la skill wiki.
 
-### Changed
+### Cambiado
 
-- The `UNSUPPORTED_PLATFORM` refusal message now points to
-  `docs/windows-wsl.md` for users whose WSL setup is itself misbehaving.
-- Windows and WSL troubleshooting now routes unconfirmed hangs through
-  Microsoft's diagnostic flow without asserting an unsupported cause.
+- El mensaje de rechazo `UNSUPPORTED_PLATFORM` ahora remite a
+  `docs/windows-wsl.md` para los usuarios cuya configuración de WSL falla por sí
+  misma.
+- La solución de problemas de Windows y WSL ahora encamina los bloqueos no
+  confirmados por el flujo de diagnóstico de Microsoft sin afirmar una causa no
+  respaldada.
 
-### Fixed
+### Corregido
 
-- Legacy migration and adoption no longer fail when a manifest source key is a
-  valid batch label rather than a file. Unresolved labels are preserved as
-  unreviewed manual sources without inventing payload mappings or hashes.
-  Apply now rejects a reviewed migration if a legacy locator's file state
-  changes or becomes unsafe before the transaction writes.
-- Migration and adoption keep read-only source observations separate from the
-  1,024-write recovery limit, preserving valid legacy manifests with larger
-  source sets.
-- Git-backed release and checkpoint fixtures now ignore machine-wide hooks and
-  commit-signing settings, keeping the hermetic suite offline and deterministic.
+- La migración y la adopción heredadas ya no fallan cuando una clave de fuente del
+  manifiesto es una etiqueta de lote válida y no un archivo. Las etiquetas sin
+  resolver se conservan como fuentes manuales sin revisar, sin inventar
+  asignaciones de contenido ni hashes. Aplicar ahora rechaza una migración
+  revisada si el estado del archivo de un localizador heredado cambia o deja de
+  ser seguro antes de que la transacción escriba.
+- La migración y la adopción mantienen las observaciones de fuentes de solo
+  lectura separadas del límite de recuperación de 1,024 escrituras, y conservan
+  los manifiestos heredados válidos con conjuntos de fuentes más grandes.
+- Los fixtures de publicación y de punto de control respaldados por Git ahora ignoran
+  los hooks de todo el equipo y la configuración de firma de commits, de modo que
+  el conjunto de pruebas hermético se mantiene sin conexión y determinista.
 
 ## [2.1.0] - 2026-07-31
 
-Native Windows compatibility.
+Compatibilidad con Windows nativo.
 
-### Fixed
+### Corregido
 
-- Native Windows no longer crashes with `AttributeError: os.O_DIRECTORY` on
-  every vault command. Read-only inspection and dry-runs (`transaction
-  inspect`, `migrate`/`init`/`adopt`/`capture` previews) now work natively
-  with real equivalent safety checks: path-based casefold-alias auditing,
-  lstat-based vault identity, and symlink/junction rejection.
-- File reads in the transaction core now force binary mode (`O_BINARY`), so
-  CRLF content is hashed byte-exactly on Windows instead of producing false
-  `CONTENT_HASH_MISMATCH`/`EXPECTED_HASH_MISMATCH` failures.
-- CLI output is always UTF-8, fixing `UnicodeEncodeError` crashes when
-  redirecting output containing non-ASCII titles on Windows (cp1252 consoles).
-- Retrieval no longer returns zero results for vaults with CRLF line endings:
-  the chunker, index, and retriever now hash page bodies byte-identically
-  (previously `read_text` newline normalization made every chunk look stale).
-- Under a held mutation lock, a vault whose on-disk name differs only by case
-  from the spelling used on the command line is no longer misreported as its
-  own portable alias on case-insensitive filesystems (APFS; the lock layer
-  never runs on native Windows); the descriptor-pinned vault object is
-  recognized as itself. Inspect-time auditing keeps the stricter shipped
-  behavior, since an absent init root on a case-insensitive volume cannot
-  distinguish itself from an alien sibling.
+- Windows nativo ya no falla con `AttributeError: os.O_DIRECTORY` en cada comando
+  de la bóveda. La inspección de solo lectura y las simulaciones
+  (`transaction inspect`, vistas previas de `migrate`/`init`/`adopt`/`capture`)
+  ahora funcionan de forma nativa, con comprobaciones de seguridad equivalentes
+  reales: auditoría de alias por plegado de mayúsculas basada en rutas,
+  identidad de la bóveda basada en lstat y rechazo de enlaces simbólicos y de
+  uniones (junctions).
+- Las lecturas de archivos en el núcleo de transacciones ahora fuerzan el modo
+  binario (`O_BINARY`), de modo que el contenido con CRLF se calcula en hash byte
+  a byte en Windows en lugar de producir falsos fallos
+  `CONTENT_HASH_MISMATCH`/`EXPECTED_HASH_MISMATCH`.
+- La salida de la CLI es siempre UTF-8, lo que corrige los fallos
+  `UnicodeEncodeError` al redirigir una salida con títulos no ASCII en Windows
+  (consolas cp1252).
+- La búsqueda ya no devuelve cero resultados para bóvedas con finales de línea
+  CRLF: el fragmentador, el índice y el buscador ahora calculan el hash de los
+  cuerpos de página de forma idéntica byte a byte (antes, la normalización de
+  saltos de línea de `read_text` hacía que cada fragmento pareciera obsoleto).
+- Con un bloqueo de modificación activo, una bóveda cuyo nombre en disco difiere
+  solo en mayúsculas y minúsculas de la grafía usada en la línea de comandos ya
+  no se informa por error como su propio alias portátil en sistemas de archivos
+  que no distinguen mayúsculas de minúsculas (APFS; la capa de bloqueo nunca se
+  ejecuta en Windows nativo); el objeto de bóveda fijado por descriptor se
+  reconoce como sí mismo. La auditoría en el momento de la inspección conserva el
+  comportamiento más estricto ya publicado, porque una raíz de init ausente en un
+  volumen que no distingue mayúsculas de minúsculas no puede distinguirse de un
+  hermano ajeno.
 
-### Changed
+### Cambiado
 
-- Vault mutation on hosts without directory-descriptor confinement (native
-  Windows) is refused before any side effect with a new
-  `UNSUPPORTED_PLATFORM` validation error (exit 2, previously a generic
-  `LOCK_FAILED` exit 1 or a traceback), and `init --apply` no longer creates
-  an abandoned empty vault directory on refused platforms.
-- New transaction write destinations are validated against
-  portable-filesystem rules on every platform: Windows-reserved device names
-  (`CON`, `NUL`, ...), `:<>|?*"` characters, and trailing dots/spaces are
-  rejected with `UNPORTABLE_WRITE_PATH` so an approved plan means the same
-  thing everywhere. Reads, retrieval indexing, and journal recovery of
-  pre-existing files with such names are intentionally unaffected.
-- Degraded-mode path walks now reject Windows directory junctions and mount
-  points in addition to symlinks.
-- File permission bits feeding plan hashes are normalized to `0o644` on
-  Windows, keeping inspect output deterministic.
-- Added a `.gitattributes` that disables line-ending translation so checkouts
-  hash identically on every platform.
-- CI gained a `windows-smoke` job exercising the portable Python surface and
-  the new Windows compatibility suite on `windows-latest`.
-- Replaced the animated README hero with the selected static PNG cover while
-  preserving the warm orbital style.
+- La modificación de la bóveda en hosts sin confinamiento por descriptor de
+  directorio (Windows nativo) se rechaza antes de cualquier efecto secundario con
+  un nuevo error de validación `UNSUPPORTED_PLATFORM` (salida 2, antes un
+  `LOCK_FAILED` genérico con salida 1 o un traceback), y `init --apply` ya no crea
+  un directorio de bóveda vacío abandonado en las plataformas rechazadas.
+- Los nuevos destinos de escritura de las transacciones se validan en todas las
+  plataformas con las reglas de sistemas de archivos portátiles: los nombres de
+  dispositivo reservados de Windows (`CON`, `NUL`, ...), los caracteres `:<>|?*"`
+  y los puntos o espacios finales se rechazan con `UNPORTABLE_WRITE_PATH`, de
+  modo que un plan aprobado signifique lo mismo en todas partes. Las lecturas, la
+  indexación de la búsqueda y la recuperación del diario de archivos preexistentes
+  con esos nombres no se ven afectadas de forma intencional.
+- Los recorridos de rutas en modo degradado ahora rechazan las uniones de
+  directorio y los puntos de montaje de Windows, además de los enlaces simbólicos.
+- Los bits de permisos de archivo que alimentan los hashes de los planes se
+  normalizan a `0o644` en Windows, lo que mantiene determinista la salida de
+  inspect.
+- Se añadió un `.gitattributes` que desactiva la traducción de finales de línea
+  para que las copias de trabajo tengan el mismo hash en todas las plataformas.
+- CI incorporó un trabajo `windows-smoke` que ejercita la superficie portátil de
+  Python y el nuevo conjunto de compatibilidad con Windows en `windows-latest`.
+- Se reemplazó la imagen principal animada del README por la portada PNG estática
+  seleccionada, conservando el estilo orbital cálido.
 
 ## [2.0.0] - 2026-07-30
 
-Reliability and evidence refoundation.
+Refundación de la confiabilidad y la evidencia.
 
-### Added
+### Añadido
 
-- Standard-library `claude_obsidian` core with fail-closed vault selection,
-  recoverable operation transactions, crash recovery, exact changed-path
-  manifests, and explicit Git checkpoints.
-- Deterministic Obsidian linting, product and capability contracts, portable
-  package validation, source and claim ledgers, and additive legacy migration.
-- Dry-run-first `init`, `adopt`, methodology configuration, source capture,
-  extension setup, and public artifact build and audit commands.
-- Offline-first content-addressed capture and durable queues. Image, PDF, and
-  EPUB support is metadata-only unless a separately configured adapter is
-  explicitly approved.
-- Reproducible clean-Git ZIP builder with manifests, checksums, deterministic
-  executable modes, and defenses for secrets, private paths, live-vault state,
-  symlinks, traversal, collisions, unreviewed binaries, and hostile archives.
-- Artifact-only marketplace generation: development source keeps a reviewed
-  catalog template under `config/`; release build injects it only into the
-  distribution-clean root and verifies that the promoted tree can rebuild.
-- Deterministic templates and sample vault, Linux and macOS CI, root-isolation
-  tests, concurrency and failure-injection coverage, and automatic test
-  discovery.
-- Adversarial regression coverage for symlink and parent-swap escapes, stale
-  approvals, signed credential URLs, provenance violations, staged Git state,
-  checkpoint interruption, and transaction finalization windows.
+- Núcleo `claude_obsidian` de biblioteca estándar con selección de bóveda que
+  falla en modo cerrado, transacciones de operación recuperables, recuperación
+  tras fallos, manifiestos exactos de rutas modificadas y puntos de control
+  explícitos de Git.
+- Lint determinista de Obsidian, contratos de producto y de capacidades,
+  validación portátil de paquetes, registros de fuentes y de afirmaciones, y
+  migración heredada aditiva.
+- Comandos `init`, `adopt`, configuración de metodología, captura de fuentes,
+  configuración de extensiones y construcción y auditoría de artefactos públicos,
+  todos con simulación primero.
+- Captura direccionable por contenido, sin conexión por defecto, y colas
+  duraderas. La compatibilidad con imágenes, PDF y EPUB es solo de metadatos, a
+  menos que se apruebe explícitamente un adaptador configurado por separado.
+- Constructor reproducible de ZIP desde Git limpio, con manifiestos, sumas de
+  verificación, modos ejecutables deterministas y defensas contra secretos, rutas
+  privadas, estado de bóvedas en uso, enlaces simbólicos, recorrido de rutas,
+  colisiones, binarios sin revisar y archivos hostiles.
+- Generación del marketplace solo en el artefacto: el código fuente de desarrollo
+  conserva una plantilla de catálogo revisada en `config/`; la construcción de la
+  publicación la inyecta únicamente en la raíz limpia de distribución y verifica
+  que el árbol promovido pueda reconstruirse.
+- Plantillas y bóveda de ejemplo deterministas, CI en Linux y macOS, pruebas de
+  aislamiento de raíces, cobertura de concurrencia y de inyección de fallos, y
+  descubrimiento automático de pruebas.
+- Cobertura de regresión adversaria para escapes mediante enlaces simbólicos e
+  intercambio de directorios padre, aprobaciones obsoletas, URL de credenciales
+  firmadas, violaciones de procedencia, estado en el área de preparación de Git,
+  interrupción de puntos de control y ventanas de finalización de transacciones.
 
-### Changed
+### Cambiado
 
-- Rebuilt the README around the product promise, compounding loop, real vault
-  examples, concise onboarding, trust architecture, and honest capability
-  boundaries.
-- Adopted the warm orbital cover system, added the selected metadata-stripped
-  static PNG cover, preserved the Obsidian screenshots, and aligned the
-  self-contained SVG architecture diagrams to the new style.
-- All 15 skills now use canonical two-field Agent Skills frontmatter and one
-  host-neutral operation contract.
-- Parallel ingestion and research workers are draft-only. One orchestrator
-  inspects and applies the complete knowledge operation.
-- Query and lint are read-only. Persistence and repairs are separate reviewed
-  operations.
-- Claude hooks are bounded SessionStart and Stop adapters. Stop reports recovery
-  state; SessionStart context injection requires the explicit
-  `CLAUDE_OBSIDIAN_SESSION_CONTEXT=1` opt-in. Neither mutates knowledge or Git.
-- Setup and installation helpers default to previews, use selected user vaults,
-  avoid plugin-cache state, and preserve existing configuration.
-- Portable installation creates directly discoverable per-skill links at each
-  host's current skill root, and executable skills resolve product helpers by
-  absolute installed paths rather than the user-vault working directory.
-- Retrieval now removes stale chunks, invalidates derived indexes, deduplicates
-  before top-K, confines paths, uses task-specific Nomic prefixes, and restores
-  the complete BM25 result when reranking cannot be trusted. Query size and
-  result counts are bounded; invalid limits and oversized queries fail with
-  nonzero, actionable usage errors.
-- CJK retrieval now normalizes Unicode input and indexes bounded character
-  n-grams so Japanese, Chinese, Korean, Bopomofo, and mixed-width queries can
-  overlap longer documents; legacy derived indexes fail closed with rebuild
-  guidance.
-- Optional semantic reranking defaults to the multilingual Nomic v2 MoE model,
-  uses Ollama's current single-input embed API, supports explicit model
-  selection with exact tag semantics, and retains deterministic BM25 order when
-  the selected local model is unavailable.
-- Public release scanning rejects recognizable personal email addresses while
-  retaining only reserved example domains and GitHub-generated noreply
-  identities for fixtures and provenance; SSH clone locators and numeric
-  package-version specifiers are not misclassified as email addresses.
-- Product source, user vaults, deterministic templates, and public artifacts
-  are explicit separate roles.
-- Distributable setup references now follow the same transaction, privacy,
-  plugin-review, TLS, and evidence boundaries as the skills.
-- Dry-run/apply workflows are bound to exact canonical, vault-specific plan
-  hashes. Transaction targets use no-follow vault-relative writes and unlinks,
-  reserve product/runtime namespaces, and enforce declared workflow scopes;
-  provenance contracts are enforced during inspect, apply, lint, and checkpoint.
-- Explicit checkpoints now construct and verify Git objects through a temporary
-  index, update refs by compare-and-swap, and recover from a durable pending
-  record without consuming unrelated staged or intent-to-add state. Content and
-  executable modes must both match the transaction result.
-- Capability readiness now distinguishes configured workflows from genuine
-  behavioral verification; schema/self-checks cannot promote a capability.
-- Provenance identities now collapse RFC-equivalent IPv6, IDN, Unicode/IRI,
-  default-port, dot-segment, and percent-encoding URL spellings before source
-  independence is counted; malformed/non-scalar forms fail closed.
-- Zettelkasten routing now combines its UTC microsecond prefix with a UUIDv4
-  nonce, preventing rapid or concurrent preview collisions without allocator
-  writes. Legacy format metadata is normalized through reviewed mode changes,
-  overlong UTF-8 components are hash-suffixed within the 255-byte portability
-  floor, and existing timestamp-only filenames remain valid.
+- Se reconstruyó el README en torno a la promesa del producto, el ciclo de
+  acumulación, ejemplos reales de bóvedas, una incorporación concisa, la
+  arquitectura de confianza y límites honestos de capacidad.
+- Se adoptó el sistema de portadas orbitales cálidas, se añadió la portada PNG
+  estática seleccionada sin metadatos, se conservaron las capturas de pantalla de
+  Obsidian y se alinearon al nuevo estilo los diagramas de arquitectura SVG
+  autónomos.
+- Las 15 skills ahora usan el frontmatter canónico de Agent Skills de dos campos
+  y un único contrato de operación neutral respecto del host.
+- Los agentes de ingesta e investigación en paralelo solo producen borradores. Un
+  único orquestador inspecciona y aplica la operación de conocimiento completa.
+- La consulta y el lint son de solo lectura. La persistencia y las reparaciones
+  son operaciones revisadas por separado.
+- Los hooks de Claude son adaptadores acotados de SessionStart y Stop. Stop
+  informa del estado de recuperación; la inyección de contexto de SessionStart
+  requiere la activación explícita `CLAUDE_OBSIDIAN_SESSION_CONTEXT=1`. Ninguno
+  modifica el conocimiento ni Git.
+- Los auxiliares de configuración e instalación funcionan por defecto como vistas
+  previas, usan las bóvedas de usuario seleccionadas, evitan el estado de la caché
+  de plugins y conservan la configuración existente.
+- La instalación portátil crea enlaces por skill directamente detectables en la
+  raíz de skills vigente de cada host, y las skills ejecutables resuelven los
+  auxiliares del producto mediante rutas absolutas de instalación y no mediante
+  el directorio de trabajo de la bóveda del usuario.
+- La búsqueda ahora elimina fragmentos obsoletos, invalida los índices derivados,
+  deduplica antes del top-K, confina las rutas, usa prefijos de Nomic específicos
+  de cada tarea y restaura el resultado completo de BM25 cuando no se puede
+  confiar en el reordenamiento. El tamaño de la consulta y el número de
+  resultados están acotados; los límites no válidos y las consultas demasiado
+  grandes fallan con errores de uso con código distinto de cero y con
+  indicaciones accionables.
+- La búsqueda CJK ahora normaliza la entrada Unicode e indexa n-gramas de
+  caracteres acotados para que las consultas en japonés, chino, coreano,
+  bopomofo y de ancho mixto puedan coincidir con documentos más largos; los
+  índices derivados heredados fallan en modo cerrado con indicaciones para
+  reconstruirlos.
+- El reordenamiento semántico opcional usa por defecto el modelo multilingüe
+  Nomic v2 MoE, emplea la API de embeddings de entrada única vigente de Ollama,
+  admite la selección explícita de modelo con semántica exacta de etiquetas y
+  conserva el orden determinista de BM25 cuando el modelo local seleccionado no
+  está disponible.
+- El análisis de publicaciones públicas rechaza las direcciones de correo
+  personales reconocibles y solo conserva dominios de ejemplo reservados e
+  identidades noreply generadas por GitHub para fixtures y procedencia; los
+  localizadores de clonación por SSH y los especificadores numéricos de versión
+  de paquetes no se clasifican por error como direcciones de correo.
+- El código fuente del producto, las bóvedas de usuario, las plantillas
+  deterministas y los artefactos públicos son roles separados y explícitos.
+- Las referencias de configuración distribuibles ahora siguen los mismos límites
+  de transacción, privacidad, revisión de plugins, TLS y evidencia que las skills.
+- Los flujos de simulación y aplicación están ligados a hashes de plan canónicos
+  y exactos, específicos de cada bóveda. Los destinos de las transacciones usan
+  escrituras y eliminaciones relativas a la bóveda sin seguir enlaces simbólicos,
+  reservan los espacios de nombres del producto y de ejecución, y hacen cumplir
+  los alcances de flujo de trabajo declarados; los contratos de procedencia se
+  hacen cumplir durante inspect, apply, lint y checkpoint.
+- Los puntos de control explícitos ahora construyen y verifican objetos de Git
+  mediante un índice temporal, actualizan las referencias por comparar e
+  intercambiar (compare-and-swap) y se recuperan a partir de un registro pendiente
+  duradero sin consumir estado ajeno en el área de preparación ni marcado con
+  intent-to-add. El contenido y los modos ejecutables deben coincidir ambos con el
+  resultado de la transacción.
+- La preparación de las capacidades ahora distingue los flujos de trabajo
+  configurados de la verificación conductual genuina; las comprobaciones de
+  esquema y las autocomprobaciones no pueden promover una capacidad.
+- Las identidades de procedencia ahora unifican las grafías de URL equivalentes
+  según RFC (IPv6, IDN, Unicode/IRI, puerto por defecto, segmentos de punto y
+  codificación porcentual) antes de contar la independencia de las fuentes; las
+  formas mal formadas o no escalares fallan en modo cerrado.
+- El enrutamiento de Zettelkasten ahora combina su prefijo UTC en microsegundos
+  con un nonce UUIDv4, lo que evita colisiones entre vistas previas rápidas o
+  concurrentes sin escrituras de asignador. Los metadatos de formato heredados se
+  normalizan mediante cambios de modo revisados, los componentes UTF-8 demasiado
+  largos reciben un sufijo de hash dentro del mínimo de portabilidad de 255 bytes
+  y los nombres de archivo existentes que solo llevan marca de tiempo siguen
+  siendo válidos.
 
-### Removed
+### Eliminado
 
-- Duplicate command mirrors and generic PostToolUse or PostCompact behavior.
-- Direct shared writes, automatic Git commits, and per-file locks from the
-  supported mutation path.
-- Unsupported comparative, performance, and capability claims from current
-  product documentation.
-- Root contributor-vault Obsidian snippets from the public artifact; the
-  project-owned deterministic template snippet remains.
+- Los espejos duplicados de comandos y el comportamiento genérico de PostToolUse
+  o PostCompact.
+- Las escrituras compartidas directas, los commits automáticos de Git y los
+  bloqueos por archivo de la ruta de modificación admitida.
+- Las afirmaciones comparativas, de rendimiento y de capacidad sin respaldo, que
+  se quitan de la documentación vigente del producto.
+- Los fragmentos de CSS de Obsidian de la bóveda de contribuidores de la raíz,
+  que ya no se incluyen en el artefacto público; se mantiene el fragmento de
+  plantilla determinista propiedad del proyecto.
 
-### Compatibility
+### Compatibilidad
 
-- Existing vaults remain readable. Migration is additive, idempotent, and
-  preserves the legacy raw manifest byte-for-byte.
-- `scripts/wiki-lock.sh` remains a deprecated v1 compatibility helper only.
-- Product tools never publish, push, tag, or mutate public collaboration state
-  without owner approval.
+- Las bóvedas existentes siguen siendo legibles. La migración es aditiva,
+  idempotente y conserva el manifiesto raw heredado byte a byte.
+- `scripts/wiki-lock.sh` sigue siendo únicamente un auxiliar de compatibilidad
+  obsoleto de la v1.
+- Las herramientas del producto nunca publican, hacen push, etiquetan ni modifican
+  el estado público de colaboración sin la aprobación del propietario.
 
 ## [1.9.2] - 2026-05-27
 
-- Added bounded local prompt-cache statistics to explicitly approved
-  contextual-prefix API calls.
-- Hardened explicit path handling and expanded hermetic contextual-prefix tests.
+- Se añadieron estadísticas locales acotadas de la caché de prompts a las
+  llamadas a la API de prefijos contextuales aprobadas explícitamente.
+- Se endureció el manejo de rutas explícitas y se ampliaron las pruebas herméticas
+  de prefijos contextuales.
 
 ## [1.9.1] - 2026-05-18
 
-- Hardened legacy lock path confinement, transport probes, cache warnings, and
-  remote Ollama consent.
-- Added operator-facing single-tenant threat-model documentation.
+- Se endurecieron el confinamiento de rutas de bloqueo heredadas, las sondas de
+  transporte, las advertencias de caché y el consentimiento para Ollama remoto.
+- Se añadió documentación del modelo de amenazas de un solo inquilino orientada a
+  operadores.
 
 ## [1.9.0] - 2026-05-18
 
-- Added the 10-stage OBSERVE, OBSERVE, LISTEN, THINK, CONNECT, CONNECT, FEEL,
-  ACCEPT, CREATE, GROW reasoning skill.
-- Added repository contribution, security, issue, pull-request, and CI
-  foundations.
+- Se añadió la skill de razonamiento de 10 etapas OBSERVAR, OBSERVAR, ESCUCHAR,
+  PENSAR, CONECTAR, CONECTAR, SENTIR, ACEPTAR, CREAR, CRECER.
+- Se añadieron las bases del repositorio para contribuciones, seguridad, issues,
+  pull requests y CI.
 
 ## [1.8.2] - 2026-05-18
 
-- Preserved manual transport overrides and hardened mode routing, input
-  sanitization, and local vault selection.
-- Expanded verifier and retrieval tests.
+- Se conservaron las sustituciones manuales de transporte y se endurecieron el
+  enrutamiento de modos, la sanitización de entradas y la selección local de
+  bóveda.
+- Se ampliaron las pruebas del verificador y de la búsqueda.
 
 ## [1.8.0] - 2026-05-17
 
-- Added optional Generic, LYT, PARA, and Zettelkasten methodology modes.
-- Added deterministic path routing and non-destructive mode configuration.
+- Se añadieron modos de metodología opcionales: Generic, LYT, PARA y Zettelkasten.
+- Se añadieron el enrutamiento determinista de rutas y la configuración no
+  destructiva de modos.
 
 ## [1.7.2] - 2026-05-17
 
-- Added Unicode-aware BM25 tokenization and retrieval failure hardening.
-- Improved cache locking, progress reporting, and invalid-input diagnostics.
+- Se añadieron la tokenización BM25 con soporte de Unicode y el endurecimiento
+  ante fallos de la búsqueda.
+- Se mejoraron el bloqueo de la caché, el informe de progreso y los diagnósticos
+  de entradas no válidas.
 
 ## [1.7.1] - 2026-05-17
 
-- Made contextual-prefix egress explicit and added a read-only verifier role.
-- Hardened transport JSON handling and legacy retrieval failure recovery.
+- Se hizo explícita la salida de red de los prefijos contextuales y se añadió un
+  rol de verificador de solo lectura.
+- Se endurecieron el manejo de JSON del transporte y la recuperación ante fallos
+  de la búsqueda heredada.
 
 ## [1.7.0] - 2026-05-17
 
-- Added optional contextual retrieval, BM25, local reranking, transport
-  detection, and a legacy multi-writer compatibility layer.
-- Added the `wiki-cli` and `wiki-retrieve` skills.
+- Se añadieron búsqueda contextual opcional, BM25, reordenamiento local,
+  detección de transporte y una capa de compatibilidad heredada para varios
+  escritores.
+- Se añadieron las skills `wiki-cli` y `wiki-retrieve`.
 
 ## [1.6.0] - 2026-04-24
 
-- Added opt-in boundary-first autoresearch and its deterministic graph scorer.
+- Se añadieron la skill autoresearch, de activación voluntaria y que empieza por
+  los límites, y su evaluador determinista de grafos.
 
 ## [1.5.1] - 2026-04-24
 
-- Hardened vault path confinement and aligned DragonScale rollout metadata.
+- Se endureció el confinamiento de rutas de la bóveda y se alinearon los
+  metadatos de despliegue de DragonScale.
 
 ## [1.5.0] - 2026-04-24
 
-- Added opt-in fold, deterministic-address, and semantic-tiling prototypes.
-- Added the initial test harness and extension setup helpers.
+- Se añadieron prototipos de consolidación, dirección determinista y teselado
+  semántico de activación voluntaria.
+- Se añadieron el arnés de pruebas inicial y los auxiliares de configuración de
+  extensiones.
 
 ## [1.4.3] - prior
 
-- Earlier project history remains available in Git.
+- El historial anterior del proyecto sigue disponible en Git.
