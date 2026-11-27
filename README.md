@@ -1,103 +1,103 @@
 <!--
-  claude-obsidian: a free, open-source AI second brain for Obsidian and Claude Code, by Agrici Daniel.
-  Drop in sources and Claude reads, links and files them into a connected knowledge graph of plain Markdown you own.
-  Personal knowledge management (PKM), AI note-taking and a local-first wiki, based on Andrej Karpathy's LLM Wiki pattern.
-  15 skills and 3 agents. Works in Claude Code, Codex, OpenCode, Gemini, ZCode, Cursor and Windsurf. MIT licensed.
+  claude-obsidian: un segundo cerebro con IA, gratuito y de código abierto, para Obsidian y Claude Code, creado por Agrici Daniel.
+  Agrega fuentes y Claude las lee, las enlaza y las organiza en un grafo de conocimiento conectado de Markdown simple que es tuyo.
+  Gestión del conocimiento personal (PKM), toma de notas con IA y una wiki local por defecto, basada en el patrón LLM Wiki de Andrej Karpathy.
+  15 skills y 3 agentes. Funciona en Claude Code, Codex, OpenCode, Gemini, ZCode, Cursor y Windsurf. Licencia MIT.
 -->
 
-<img src="assets/readme/hero.svg" width="1200" height="420" alt="claude-obsidian, an AI second brain for Obsidian: files from inbox/, a pasted note and approved web research become linked notes in one safe transaction, a constellation of knowledge grows, and an answer is saved as a new note." />
+<img src="assets/readme/hero.svg" width="1200" height="420" alt="claude-obsidian, un segundo cerebro con IA para Obsidian: los archivos de inbox/, una nota pegada y la investigación web aprobada se convierten en notas enlazadas en una transacción segura, crece una constelación de conocimiento y una respuesta se guarda como nota nueva." />
 
 <h1 align="center">claude-obsidian</h1>
 
 <p align="center">
-  <b>Your AI second brain for <a href="https://obsidian.md">Obsidian</a>, built for <a href="https://claude.com/product/claude-code">Claude Code</a>.</b><br />
-  Drop in sources. Get a connected wiki that grows every time you use it.
+  <b>Tu segundo cerebro con IA para <a href="https://obsidian.md">Obsidian</a>, creado para <a href="https://claude.com/product/claude-code">Claude Code</a>.</b><br />
+  Agrega fuentes. Obtén una wiki conectada que crece cada vez que la usas.
 </p>
 
 <p align="center"><sub>Traducción al español de <a href="https://github.com/AgriciDaniel/claude-obsidian">claude-obsidian</a>, creado por <a href="https://github.com/AgriciDaniel">Agrici Daniel</a>. Licencia MIT.</sub></p>
 
 <p align="center">
-  <a href="#install">Install</a> ·
-  <a href="#see-the-vault">See the vault</a> ·
-  <a href="#15-skills-one-system">Skills</a> ·
-  <a href="#meet-the-crew">Agents</a> ·
-  <a href="#nothing-gets-lost">Safety</a> ·
-  <a href="#shape-the-vault-to-the-way-you-think">Modes</a> ·
-  <a href="#faq">FAQ</a>
+  <a href="#instalación">Instalación</a> ·
+  <a href="#ver-la-bóveda">Ver la bóveda</a> ·
+  <a href="#15-skills-un-solo-sistema">Skills</a> ·
+  <a href="#conoce-al-equipo">Agentes</a> ·
+  <a href="#nada-se-pierde">Seguridad</a> ·
+  <a href="#da-forma-a-la-bóveda-según-cómo-piensas">Modos</a> ·
+  <a href="#preguntas-frecuentes">Preguntas frecuentes</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/dpratoo/segundo-cerebro/actions/workflows/test.yml"><img src="https://github.com/dpratoo/segundo-cerebro/actions/workflows/test.yml/badge.svg" alt="Tests" /></a>
-  <a href="https://code.claude.com/docs/en/plugins"><img src="https://img.shields.io/badge/Claude%20Code-plugin-7c3aed" alt="Claude Code plugin" /></a>
-  <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent%20Skills-compatible-2563eb" alt="Agent Skills compatible" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
+  <a href="https://github.com/dpratoo/segundo-cerebro/actions/workflows/test.yml"><img src="https://github.com/dpratoo/segundo-cerebro/actions/workflows/test.yml/badge.svg" alt="Pruebas" /></a>
+  <a href="https://code.claude.com/docs/en/plugins"><img src="https://img.shields.io/badge/Claude%20Code-plugin-7c3aed" alt="Plugin de Claude Code" /></a>
+  <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent%20Skills-compatible-2563eb" alt="Compatible con Agent Skills" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Licencia: MIT" /></a>
   <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/release-v3.0.1-d97745" alt="Versión 3.0.1" /></a>
-  <a href="https://github.com/dpratoo/segundo-cerebro/stargazers"><img src="https://img.shields.io/github/stars/dpratoo/segundo-cerebro?style=flat" alt="GitHub stars" /></a>
-  <a href="https://www.skool.com/ai-marketing-hub-pro"><img src="https://img.shields.io/badge/AI%20Marketing%20Hub-Pro%20community-purple" alt="AI Marketing Hub Pro community" /></a>
+  <a href="https://github.com/dpratoo/segundo-cerebro/stargazers"><img src="https://img.shields.io/github/stars/dpratoo/segundo-cerebro?style=flat" alt="Estrellas en GitHub" /></a>
+  <a href="https://www.skool.com/ai-marketing-hub-pro"><img src="https://img.shields.io/badge/AI%20Marketing%20Hub-Pro%20community-purple" alt="Comunidad AI Marketing Hub Pro" /></a>
 </p>
 
-**claude-obsidian turns the things you read into a knowledge base that keeps getting more useful.** Drop a paper, an article, a transcript or your own notes into the vault, and Claude reads them, writes linked notes with sources, and files everything into one connected knowledge graph you can explore in Obsidian.
+**claude-obsidian convierte lo que lees en una base de conocimiento que cada vez es más útil.** Deja un estudio, un artículo, una transcripción o tus propias notas en la bóveda, y Claude los lee, escribe notas enlazadas con sus fuentes y lo organiza todo en un único grafo de conocimiento conectado que puedes explorar en Obsidian.
 
-- **Capture.** Put sources in `inbox/`. The originals are kept, untouched, so every summary can point back to where it came from.
-- **Connect.** Claude writes linked pages, indexes and maps of content, so new ideas join the graph instead of piling up.
-- **Ask.** Get answers from what your vault already knows, with citations, without changing a single file.
-- **Save.** Keep the answers worth keeping as notes, one at a time, when you ask.
-- **Check.** A health check finds dead links, orphan pages and gaps before they spread.
+- **Captura.** Pon las fuentes en `inbox/`. Los originales se conservan intactos, para que cada resumen pueda remitir a su origen.
+- **Conecta.** Claude escribe páginas enlazadas, índices y mapas de contenido, de modo que las ideas nuevas se suman al grafo en lugar de amontonarse.
+- **Pregunta.** Obtén respuestas a partir de lo que tu bóveda ya sabe, con citas y sin cambiar un solo archivo.
+- **Guarda.** Conserva como notas las respuestas que valen la pena, una por una, cuando lo pidas.
+- **Revisa.** Una revisión de salud encuentra enlaces rotos, páginas huérfanas y vacíos antes de que se propaguen.
 
-Everything stays as plain Markdown files on your computer. No cloud database, no lock-in, no telemetry. Apart from the AI tool you chat with, nothing leaves your machine unless you say so.
+Todo queda como archivos Markdown simples en tu computadora. Sin base de datos en la nube, sin dependencia de un proveedor, sin telemetría. Aparte de la herramienta de IA con la que conversas, nada sale de tu equipo a menos que tú lo indiques.
 
-## See the vault
+## Ver la bóveda
 
-The result is a normal Obsidian vault that stays useful with or without an AI: browse it in Graph view, or lay it out as a map in Obsidian Canvas.
+El resultado es una bóveda de Obsidian normal que sigue siendo útil con o sin IA: explórala en la Vista gráfica o distribúyela como un mapa en Canvas de Obsidian.
 
 <p align="center">
-  <img src="assets/screenshots/graph-view.png" alt="A claude-obsidian vault in Obsidian Graph view: linked notes grouped into clusters" width="49%" />
-  <img src="assets/screenshots/wiki-map-view.png" alt="A claude-obsidian knowledge map in Obsidian Canvas, with hub pages, indexes and linked ideas" width="49%" />
+  <img src="assets/screenshots/graph-view.png" alt="Una bóveda de claude-obsidian en la Vista gráfica de Obsidian: notas enlazadas agrupadas en conjuntos" width="49%" />
+  <img src="assets/screenshots/wiki-map-view.png" alt="Un mapa de conocimiento de claude-obsidian en Canvas de Obsidian, con páginas centrales, índices e ideas enlazadas" width="49%" />
 </p>
 
-<p align="center"><sub>Linked notes in Graph view · A knowledge map in Obsidian Canvas</sub></p>
+<p align="center"><sub>Notas enlazadas en la Vista gráfica · Un mapa de conocimiento en Canvas de Obsidian</sub></p>
 
-## Install
+## Instalación
 
-<img src="assets/readme/install.svg" width="1200" height="420" alt="Installing claude-obsidian: a terminal adds the marketplace and installs the plugin, an inventory fills with all 15 skills and the 3 agents march in. /claude-obsidian:wiki previews the new vault first and creates it only after you approve. PRESS START." />
+<img src="assets/readme/install.svg" width="1200" height="420" alt="Instalación de claude-obsidian: una terminal agrega el marketplace e instala el plugin, un inventario se llena con las 15 skills y los 3 agentes entran marchando. /claude-obsidian:wiki muestra primero una vista previa de la bóveda nueva y la crea solo después de que la apruebes. PRESS START." />
 
-You need [Claude Code](https://claude.com/product/claude-code), Python 3.11 or newer and, for the visual side, [Obsidian](https://obsidian.md). Install the plugin with two commands:
+Necesitas [Claude Code](https://claude.com/product/claude-code), Python 3.11 o superior y, para la parte visual, [Obsidian](https://obsidian.md). Instala el plugin con dos comandos:
 
 ```bash
 claude plugin marketplace add dpratoo/segundo-cerebro
 claude plugin install claude-obsidian@segundo-cerebro
 ```
 
-Then open the folder you want as your vault and start Claude Code there:
+Después abre la carpeta que quieres usar como bóveda e inicia Claude Code ahí:
 
 ```bash
-claude                                   # start Claude Code in your vault folder
+claude                                   # inicia Claude Code en la carpeta de tu bóveda
 
-/claude-obsidian:wiki                    # set up the vault (shows you a preview first)
-/claude-obsidian:wiki-ingest             # turn what is in inbox/ into linked notes
-/claude-obsidian:wiki-query              # ask a question, answered from your notes
-/claude-obsidian:save                    # keep a good answer as a note
-/claude-obsidian:wiki-lint               # health check: dead links, orphans, gaps
+/claude-obsidian:wiki                    # configura la bóveda (antes te muestra una vista previa)
+/claude-obsidian:wiki-ingest             # convierte lo que hay en inbox/ en notas enlazadas
+/claude-obsidian:wiki-query              # haz una pregunta, respondida con tus notas
+/claude-obsidian:save                    # guarda una buena respuesta como nota
+/claude-obsidian:wiki-lint               # revisión de salud: enlaces rotos, huérfanas, vacíos
 ```
 
-Open the same folder in Obsidian with **Open folder as vault** to browse your notes as they grow.
+Abre la misma carpeta en Obsidian con **Abrir una carpeta como bóveda** para explorar tus notas a medida que crecen.
 
-Already have an Obsidian vault? `/claude-obsidian:wiki` can adopt it without moving your notes. The [installation guide](docs/install-guide.md#adopt-an-existing-vault) walks through it.
+¿Ya tienes una bóveda de Obsidian? `/claude-obsidian:wiki` puede adoptarla sin mover tus notas. La [guía de instalación](docs/install-guide.md#adoptar-una-bóveda-existente) te explica cómo hacerlo.
 
 <details>
-<summary><b>Other AI tools: Codex, OpenCode, Gemini, ZCode, Cursor and Windsurf</b></summary>
+<summary><b>Otras herramientas de IA: Codex, OpenCode, Gemini, ZCode, Cursor y Windsurf</b></summary>
 <br />
 
-claude-obsidian is a set of [Agent Skills](https://agentskills.io), so it also runs in other hosts. From a copy of this repo, preview the setup, then apply it:
+claude-obsidian es un conjunto de [Agent Skills](https://agentskills.io), así que también funciona en otros hosts. Desde una copia de este repositorio, revisa primero la vista previa de la configuración y luego aplícala:
 
 ```bash
 git clone https://github.com/dpratoo/segundo-cerebro.git
 cd segundo-cerebro
-bash scripts/setup-multi-agent.sh --host codex            # preview, writes nothing
-bash scripts/setup-multi-agent.sh --host codex --apply    # link the skills
+bash scripts/setup-multi-agent.sh --host codex            # vista previa, no escribe nada
+bash scripts/setup-multi-agent.sh --host codex --apply    # enlaza las skills
 ```
 
-Use `--host opencode`, `--host gemini` or `--host zcode` the same way. Cursor and Windsurf need a workspace: `--host cursor --host windsurf --workspace <folder> --apply`. Every host is covered in the [installation guide](docs/install-guide.md).
+Usa `--host opencode`, `--host gemini` o `--host zcode` de la misma manera. Cursor y Windsurf necesitan un espacio de trabajo: `--host cursor --host windsurf --workspace <folder> --apply`. Todos los hosts se explican en la [guía de instalación](docs/install-guide.md).
 
 </details>
 
@@ -105,7 +105,7 @@ Use `--host opencode`, `--host gemini` or `--host zcode` the same way. Cursor an
 <summary><b>Windows</b></summary>
 <br />
 
-On Windows, use WSL for anything that writes to the vault. Native Windows can inspect and preview, and stops with a clear error instead of writing. The [Windows and WSL guide](docs/windows-wsl.md) has the details.
+En Windows, usa WSL para todo lo que escriba en la bóveda. Windows nativo puede inspeccionar y mostrar vistas previas, y se detiene con un error claro en lugar de escribir. La [guía de Windows y WSL](docs/windows-wsl.md) tiene los detalles.
 
 </details>
 
@@ -131,263 +131,263 @@ Después reinicia Claude Code. La [guía de instalación](docs/install-guide.md)
 
 </details>
 
-## 15 skills, one system
+## 15 skills, un solo sistema
 
-<img src="assets/readme/skills.svg" width="1200" height="420" alt="The 15 claude-obsidian skills as planets orbiting the vault crystal: 5 core workflows, 7 extensions and 3 reference skills. The crew visits each one by saucer while the skill log ticks to 15 of 15." />
+<img src="assets/readme/skills.svg" width="1200" height="420" alt="Las 15 skills de claude-obsidian como planetas que orbitan el cristal de la bóveda: 5 flujos principales, 7 extensiones y 3 skills de referencia. El equipo visita cada una en un platillo volador mientras la bitácora de skills avanza hasta 15 de 15." />
 
-Talk to it in plain words, or call any skill by name with `/claude-obsidian:<skill>`. Open a group to see what is inside.
+Háblale con palabras sencillas, o llama a cualquier skill por su nombre con `/claude-obsidian:<skill>`. Abre un grupo para ver qué contiene.
 
 <details open>
-<summary><b>Build and use the wiki</b> (5)</summary>
+<summary><b>Crear y usar la wiki</b> (5)</summary>
 <br />
 
-| Skill | What it does |
+| Skill | Qué hace |
 |---|---|
-| `wiki` | Sets up a new vault or adopts yours, checks it is ready and routes your request |
-| `wiki-ingest` | Turns captured sources into linked pages with their sources recorded |
-| `wiki-query` | Answers from what is already in the vault, read-only |
-| `save` | Keeps one answer or insight as a note, only when you ask |
-| `wiki-lint` | Finds dead links, orphan pages, missing metadata and empty sections |
+| `wiki` | Configura una bóveda nueva o adopta la tuya, comprueba que esté lista y encamina tu solicitud |
+| `wiki-ingest` | Convierte las fuentes capturadas en páginas enlazadas con sus fuentes registradas |
+| `wiki-query` | Responde con lo que ya está en la bóveda, en solo lectura |
+| `save` | Guarda una respuesta o idea como nota, solo cuando lo pides |
+| `wiki-lint` | Encuentra enlaces rotos, páginas huérfanas, metadatos faltantes y secciones vacías |
 
 </details>
 
 <details>
-<summary><b>Extend the workflow</b> (7)</summary>
+<summary><b>Ampliar el flujo de trabajo</b> (7)</summary>
 <br />
 
-| Skill | What it does |
+| Skill | Qué hace |
 |---|---|
-| `autoresearch` | Bounded web research, only with your consent, merged after review |
-| `canvas` | Creates and updates Obsidian Canvas boards |
-| `defuddle` | Plans a clean Markdown capture of a web page; the cleaner itself is an optional external tool |
-| `wiki-fold` | Rolls up the operation log into short, traceable summaries |
-| `wiki-mode` | Sets how new notes are filed: Generic, LYT, PARA or Zettelkasten |
-| `wiki-retrieve` | Local BM25 search with optional reranking |
-| `wiki-cli` | Reads and searches through the official Obsidian command line |
+| `autoresearch` | Investigación web acotada, solo con tu consentimiento, integrada tras una revisión |
+| `canvas` | Crea y actualiza tableros de Canvas de Obsidian |
+| `defuddle` | Planifica una captura limpia en Markdown de una página web; el limpiador en sí es una herramienta externa opcional |
+| `wiki-fold` | Consolida la bitácora de operaciones en resúmenes breves y rastreables |
+| `wiki-mode` | Define cómo se organizan las notas nuevas: Genérico, LYT, PARA o Zettelkasten |
+| `wiki-retrieve` | Búsqueda local BM25 con reordenamiento opcional |
+| `wiki-cli` | Lee y busca mediante la línea de comandos oficial de Obsidian |
 
 </details>
 
 <details>
-<summary><b>Reference</b> (3)</summary>
+<summary><b>Referencia</b> (3)</summary>
 <br />
 
-| Skill | What it does |
+| Skill | Qué hace |
 |---|---|
-| `obsidian-markdown` | Correct Obsidian Markdown: links, embeds, callouts and properties |
-| `obsidian-bases` | Native .base tables, cards, filters and formulas |
-| `think` | A structured review loop for hard decisions |
+| `obsidian-markdown` | Markdown de Obsidian correcto: enlaces, incrustaciones, destacados y propiedades |
+| `obsidian-bases` | Tablas, tarjetas, filtros y fórmulas nativos en archivos .base |
+| `think` | Un ciclo de revisión estructurado para decisiones difíciles |
 
 </details>
 
-## Meet the crew
+## Conoce al equipo
 
-<img src="assets/readme/crew.svg" width="1200" height="420" alt="Meet the crew: the three read-only agents on a turntable. wiki-ingest reads one source and drafts pages, wiki-lint runs the vault health check, and the verifier tests a proposed change. Only the transaction core writes to the vault." />
+<img src="assets/readme/crew.svg" width="1200" height="420" alt="Conoce al equipo: los tres agentes de solo lectura sobre una plataforma giratoria. wiki-ingest lee una fuente y redacta páginas, wiki-lint ejecuta la revisión de salud de la bóveda y el verifier prueba un cambio propuesto. Solo el núcleo de transacciones escribe en la bóveda." />
 
-Behind the skills, three agents do the heavy reading and checking. All three are **read-only**: they hand back drafts and reports, and only one place, the transaction core, ever writes to your vault.
+Detrás de las skills, tres agentes se encargan de la lectura y la verificación más pesadas. Los tres son de **solo lectura**: devuelven borradores e informes, y solo un lugar, el núcleo de transacciones, escribe en tu bóveda.
 
-| Agent | What it does |
+| Agente | Qué hace |
 |---|---|
-| `wiki-ingest` | Reads one captured source and hands back page drafts, with the hash it expects each target to have |
-| `wiki-lint` | Runs the vault linter, double checks surprising findings and returns a health report |
-| `verifier` | Runs safe tests on a proposed change or release and ranks what it finds |
+| `wiki-ingest` | Lee una fuente capturada y devuelve borradores de páginas, con el hash que espera que tenga cada destino |
+| `wiki-lint` | Ejecuta el linter de la bóveda, vuelve a comprobar los hallazgos sorprendentes y devuelve un informe de salud |
+| `verifier` | Ejecuta pruebas seguras sobre un cambio o una publicación propuestos y ordena por prioridad lo que encuentra |
 
-**Built for:**
+**Pensado para:**
 
-- **Researchers and students** who read a lot and want every note to point back to its source.
-- **Writers and creators** who want ideas from videos, articles and books to connect instead of getting lost in folders.
-- **Builders and teams** who keep project knowledge in Markdown and want an AI that can search it, cite it and keep it tidy.
+- **Investigadores y estudiantes** que leen mucho y quieren que cada nota remita a su fuente.
+- **Escritores y creadores** que quieren que las ideas de videos, artículos y libros se conecten en lugar de perderse en carpetas.
+- **Equipos y personas que construyen productos** y guardan el conocimiento de sus proyectos en Markdown, y quieren una IA que pueda buscarlo, citarlo y mantenerlo ordenado.
 
-## Nothing gets lost
+## Nada se pierde
 
-<img src="assets/readme/safety.svg" width="1200" height="420" alt="Nothing gets lost: Claude records a hash of each note, plans one change and applies it as one transaction. When the power cuts out mid write, the journal rewinds the vault. When you edit a note during planning, a conflict stops the write instead of overwriting your edit." />
+<img src="assets/readme/safety.svg" width="1200" height="420" alt="Nada se pierde: Claude registra un hash de cada nota, planifica un cambio y lo aplica como una transacción. Cuando se corta la luz a mitad de una escritura, el diario revierte la bóveda. Cuando editas una nota durante la planificación, un conflicto detiene la escritura en lugar de sobrescribir tu edición." />
 
-Your notes matter, so every change to the vault works like a careful save:
+Tus notas importan, así que cada cambio en la bóveda funciona como un guardado cuidadoso:
 
-1. **Read first.** Claude reads every note it will touch and records a fingerprint (a SHA-256 hash) of each one.
-2. **One plan, one apply.** Helpers can work in parallel, but they only hand back drafts. Claude merges them into one plan, checks it, and applies it as a single transaction.
-3. **Undo if anything breaks.** A journal keeps backups during the write. If the power cuts out halfway, `transaction recover` rolls the unfinished change back from the journal.
-4. **Your edits win.** If you change a note in Obsidian while Claude is planning, the fingerprint no longer matches and the write stops with a conflict instead of overwriting you.
+1. **Lee primero.** Claude lee cada nota que va a tocar y registra una huella (un hash SHA-256) de cada una.
+2. **Un plan, una aplicación.** Los ayudantes pueden trabajar en paralelo, pero solo devuelven borradores. Claude los combina en un solo plan, lo revisa y lo aplica como una única transacción.
+3. **Se deshace si algo falla.** Un diario conserva copias de respaldo durante la escritura. Si se corta la luz a la mitad, `transaction recover` revierte el cambio sin terminar a partir del diario.
+4. **Tus ediciones tienen prioridad.** Si cambias una nota en Obsidian mientras Claude planifica, la huella ya no coincide y la escritura se detiene con un conflicto en lugar de sobrescribir tus cambios.
 
-Web research, Git checkpoints and anything that sends data off your machine are separate steps that ask you first.
+La investigación web, los puntos de control de Git y cualquier cosa que envíe datos fuera de tu equipo son pasos aparte que te preguntan antes.
 
 <details>
-<summary><b>For the curious: how the vault is chosen and protected</b></summary>
+<summary><b>Para los curiosos: cómo se elige y se protege la bóveda</b></summary>
 <br />
 
-The plugin never treats its own folder or cache as your vault. A vault is picked explicitly: through `CLAUDE_OBSIDIAN_VAULT`, the nearest `.claude-obsidian.json`, or one clear initialized parent folder. If it is not sure, it exits without writing.
+El plugin nunca trata su propia carpeta ni su caché como tu bóveda. La bóveda se elige de forma explícita: mediante `CLAUDE_OBSIDIAN_VAULT`, el `.claude-obsidian.json` más cercano o una única carpeta superior inicializada y clara. Si no está seguro, termina sin escribir.
 
-The lock coordinates local writers that cooperate with it. Other devices and external editors do not share it, so keep backups, especially when you sync Canvas or Base files. Read the [transaction contract](skills/wiki/references/operation-transactions.md), the [provenance contract](skills/wiki/references/provenance.md) and the [Compound Vault guide](docs/compound-vault-guide.md) for the full detail.
+El bloqueo coordina a los escritores locales que cooperan con él. Otros dispositivos y editores externos no lo comparten, así que conserva copias de respaldo, sobre todo cuando sincronizas archivos de Canvas o de Bases. Lee el [contrato de transacciones](skills/wiki/references/operation-transactions.md), el [contrato de procedencia](skills/wiki/references/provenance.md) y la [guía de la bóveda compuesta](docs/compound-vault-guide.md) para ver todos los detalles.
 
 </details>
 
-## Shape the vault to the way you think
+## Da forma a la bóveda según cómo piensas
 
-<img src="assets/readme/modes.svg" width="1200" height="420" alt="Four ways to file notes: the same new note lands where Generic, LYT, PARA or Zettelkasten would put it, while existing notes never move." />
+<img src="assets/readme/modes.svg" width="1200" height="420" alt="Cuatro formas de organizar notas: la misma nota nueva queda donde la pondría Genérico, LYT, PARA o Zettelkasten, mientras que las notas existentes nunca se mueven." />
 
-`wiki-mode` sets how new notes are filed, the way you already like to work. Switching modes changes where new notes go and never moves your old ones.
+`wiki-mode` define cómo se organizan las notas nuevas, según tu forma habitual de trabajar. Cambiar de modo modifica dónde van las notas nuevas y nunca mueve las anteriores.
 
-| Mode | How notes are filed |
+| Modo | Cómo se organizan las notas |
 |---|---|
-| **Generic** (default) | Sources, concepts, entities and sessions |
-| **LYT** | Maps of Content and linked atomic notes |
-| **PARA** | Projects, Areas, Resources and Archives |
-| **Zettelkasten** | Stable IDs, atomic notes and dense links |
+| **Genérico** (por defecto) | Fuentes, conceptos, entidades y sesiones |
+| **LYT** | Mapas de contenido y notas atómicas enlazadas |
+| **PARA** | Proyectos, Áreas, Recursos y Archivos |
+| **Zettelkasten** | ID estables, notas atómicas y enlaces densos |
 
-More in the [methodology modes guide](docs/methodology-modes-guide.md).
+Más en la [guía de modos de metodología](docs/methodology-modes-guide.md).
 
-## How it works
+## Cómo funciona
 
-1. **Capture.** Sources go into `inbox/`. claude-obsidian keeps an untouched copy of each one, named by its content, before anything is summarized.
-2. **Ground.** Each important claim in a note is linked to the source that supports it. Weak or conflicting evidence stays visible instead of being smoothed over.
-3. **Compound.** Ask, research, search and lint use what the vault already knows, so every session starts from your notes instead of from zero.
+1. **Captura.** Las fuentes van a `inbox/`. claude-obsidian conserva una copia intacta de cada una, nombrada según su contenido, antes de resumir nada.
+2. **Fundamenta.** Cada afirmación importante de una nota se enlaza con la fuente que la respalda. La evidencia débil o contradictoria sigue visible en lugar de suavizarse.
+3. **Acumula.** Preguntar, investigar, buscar y el lint usan lo que la bóveda ya sabe, de modo que cada sesión parte de tus notas y no de cero.
 
-The idea follows [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): let the AI maintain a wiki you can read, instead of a black box you cannot.
+La idea sigue el [patrón LLM Wiki de Andrej Karpathy](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): deja que la IA mantenga una wiki que puedes leer, en lugar de una caja negra que no puedes leer.
 
 <details>
-<summary><b>What it can and cannot read today</b></summary>
+<summary><b>Qué puede leer y qué no hoy</b></summary>
 <br />
 
-| Input or feature | Support today |
+| Entrada o función | Compatibilidad actual |
 |---|---|
-| Local files | Captured and kept as content-addressed copies |
-| Images | Metadata, hash, size and dimensions when available |
-| PDF and EPUB | Metadata, hash and size; no built-in text extraction yet |
-| Web pages and YouTube | Prepared as a plan you approve; fetching needs a separate runner that enforces it |
-| OCR | Needs an external tool you configure |
-| Search (BM25) | Local and deterministic |
-| Reranking or remote models | Optional, and only with your explicit consent |
-| Obsidian CLI | Optional for reading and search |
+| Archivos locales | Se capturan y se conservan como copias direccionadas por contenido |
+| Imágenes | Metadatos, hash, tamaño y dimensiones cuando están disponibles |
+| PDF y EPUB | Metadatos, hash y tamaño; todavía sin extracción de texto integrada |
+| Páginas web y YouTube | Se preparan como un plan que tú apruebas; obtenerlas requiere un ejecutor aparte que lo haga cumplir |
+| OCR | Requiere una herramienta externa que tú configures |
+| Búsqueda (BM25) | Local y determinista |
+| Reordenamiento o modelos remotos | Opcional, y solo con tu consentimiento explícito |
+| Obsidian CLI | Opcional para lectura y búsqueda |
 
 </details>
 
 <details>
-<summary><b>Command line reference</b></summary>
+<summary><b>Referencia de la línea de comandos</b></summary>
 <br />
 
-From a clone of this repo, the same core is available as a portable command line: `python3 scripts/claude-obsidian.py`. Commands that change files show a plan first and only apply with the plan's hash.
+Desde un clon de este repositorio, el mismo núcleo está disponible como línea de comandos portátil: `python3 scripts/claude-obsidian.py`. Los comandos que cambian archivos muestran primero un plan y solo se aplican con el hash del plan.
 
-| Command | What it does |
+| Comando | Qué hace |
 |---|---|
-| `doctor --vault PATH` | Shows which vault is selected and whether it is ready |
-| `init PATH` | Plans, then creates, a new vault |
-| `adopt PATH` | Plans, then adopts, an existing Obsidian vault |
-| `lint --vault PATH` | Runs the health check |
-| `capture plan` / `capture apply` | Checks, then keeps, copies of local sources |
-| `transaction recover --vault PATH` | Restores the vault after an interrupted write |
-| `bench --queries FILE --vault PATH` | Measures search quality on your own questions |
+| `doctor --vault PATH` | Muestra qué bóveda está seleccionada y si está lista |
+| `init PATH` | Planifica y luego crea una bóveda nueva |
+| `adopt PATH` | Planifica y luego adopta una bóveda de Obsidian existente |
+| `lint --vault PATH` | Ejecuta la revisión de salud |
+| `capture plan` / `capture apply` | Comprueba y luego conserva copias de las fuentes locales |
+| `transaction recover --vault PATH` | Restaura la bóveda tras una escritura interrumpida |
+| `bench --queries FILE --vault PATH` | Mide la calidad de la búsqueda con tus propias preguntas |
 
-Run `python3 scripts/claude-obsidian.py --help`, or add `--help` to any command, to see every option.
-
-</details>
-
-## FAQ
-
-<details>
-<summary><b>What is claude-obsidian?</b></summary>
-<br />
-
-A free, open-source AI second brain for Obsidian: a personal knowledge management (PKM) and AI note-taking system that builds a knowledge graph of plain Markdown. It is a Claude Code plugin (and a set of Agent Skills for other AI tools) that turns your sources into linked, cited notes, answers questions from them, and keeps the vault healthy over time.
+Ejecuta `python3 scripts/claude-obsidian.py --help`, o agrega `--help` a cualquier comando, para ver todas las opciones.
 
 </details>
 
+## Preguntas frecuentes
+
 <details>
-<summary><b>Is it free?</b></summary>
+<summary><b>¿Qué es claude-obsidian?</b></summary>
 <br />
 
-Yes. It is MIT licensed with no subscription and no tracking. You use it with your own Claude Code plan, or with another AI tool you already have.
+Un segundo cerebro con IA, gratuito y de código abierto, para Obsidian: un sistema de gestión del conocimiento personal (PKM) y de toma de notas con IA que construye un grafo de conocimiento en Markdown simple. Es un plugin de Claude Code (y un conjunto de Agent Skills para otras herramientas de IA) que convierte tus fuentes en notas enlazadas y citadas, responde preguntas a partir de ellas y mantiene la bóveda sana con el tiempo.
 
 </details>
 
 <details>
-<summary><b>Do I need Obsidian?</b></summary>
+<summary><b>¿Es gratis?</b></summary>
 <br />
 
-No, but it is the nicest way to see the result. The vault is plain Markdown, so any editor works. Obsidian adds Graph view, Canvas maps and Bases tables on top.
+Sí. Tiene licencia MIT, sin suscripción y sin rastreo. Lo usas con tu propio plan de Claude Code, o con otra herramienta de IA que ya tengas.
 
 </details>
 
 <details>
-<summary><b>Is this an Obsidian community plugin?</b></summary>
+<summary><b>¿Necesito Obsidian?</b></summary>
 <br />
 
-No. You don't install it from Obsidian's community plugin list. It is a Claude Code plugin (and a set of Agent Skills for other AI tools) that works on your vault folder. Obsidian opens the result as a normal vault, and no Obsidian plugin is required.
+No, pero es la mejor forma de ver el resultado. La bóveda es Markdown simple, así que sirve cualquier editor. Obsidian añade encima la Vista gráfica, los mapas de Canvas y las tablas de Bases.
 
 </details>
 
 <details>
-<summary><b>Does my data leave my computer?</b></summary>
+<summary><b>¿Es un complemento comunitario de Obsidian?</b></summary>
 <br />
 
-Your vault stays on your computer as ordinary files. When you work with it in Claude Code, the notes Claude reads are sent to Claude, Anthropic's model, the same as anything else you open in Claude Code. Web research and remote models are off until you allow them for a task.
+No. No lo instalas desde la lista de complementos comunitarios de Obsidian. Es un plugin de Claude Code (y un conjunto de Agent Skills para otras herramientas de IA) que trabaja sobre la carpeta de tu bóveda. Obsidian abre el resultado como una bóveda normal, y no se necesita ningún complemento de Obsidian.
 
 </details>
 
 <details>
-<summary><b>Will it mess up my existing notes?</b></summary>
+<summary><b>¿Mis datos salen de mi computadora?</b></summary>
 <br />
 
-It is built not to. Adopting a vault does not move your notes, every change is shown as a plan before it is applied, and an interrupted write can be rolled back. If you edit a note while Claude is working on it, the write stops instead of overwriting you. Keep normal backups anyway.
+Tu bóveda se queda en tu computadora como archivos normales. Cuando trabajas con ella en Claude Code, las notas que Claude lee se envían a Claude, el modelo de Anthropic, igual que cualquier otra cosa que abras en Claude Code. La investigación web y los modelos remotos están desactivados hasta que los permitas para una tarea.
 
 </details>
 
 <details>
-<summary><b>How is it different from a chat that saves notes?</b></summary>
+<summary><b>¿Desordenará mis notas existentes?</b></summary>
 <br />
 
-Most AI note tools save text and stop. claude-obsidian keeps the original sources, links every claim back to them, connects new notes to old ones, and checks the vault for broken links and gaps. The knowledge compounds instead of piling up.
+Está diseñado para no hacerlo. Adoptar una bóveda no mueve tus notas, cada cambio se muestra como un plan antes de aplicarse y una escritura interrumpida se puede revertir. Si editas una nota mientras Claude trabaja en ella, la escritura se detiene en lugar de sobrescribir tus cambios. De todos modos, mantén copias de respaldo normales.
 
 </details>
 
 <details>
-<summary><b>Does it work with Codex, Gemini or Cursor?</b></summary>
+<summary><b>¿En qué se diferencia de un chat que guarda notas?</b></summary>
 <br />
 
-Yes. The skills follow the open Agent Skills format. Claude Code gets the full plugin; Codex, OpenCode, Gemini, ZCode, Cursor and Windsurf link the same skills with one setup script. See [Install](#install).
+La mayoría de las herramientas de notas con IA guardan texto y se quedan ahí. claude-obsidian conserva las fuentes originales, enlaza cada afirmación con ellas, conecta las notas nuevas con las anteriores y revisa la bóveda en busca de enlaces rotos y vacíos. El conocimiento se acumula en lugar de amontonarse.
 
 </details>
 
 <details>
-<summary><b>Good to know: requirements, limits and uninstall</b></summary>
+<summary><b>¿Funciona con Codex, Gemini o Cursor?</b></summary>
 <br />
 
-**Requirements.** Python 3.11 or newer, a current Claude Code release for the plugin (or another Agent Skills host), Obsidian for the visual side, and Bash for the setup scripts. Git is only needed for development or checkpoints.
-
-**Limits.** It is not an automatic transcript recorder, a cloud sync service or a fact checker, and it does not replace backups. PDFs and web pages need extra tools for full text.
-
-**Uninstall.** Removing the plugin never removes your vault. Your notes, sources and Obsidian settings stay yours: `claude plugin uninstall claude-obsidian@segundo-cerebro`.
+Sí. Las skills siguen el formato abierto Agent Skills. Claude Code recibe el plugin completo; Codex, OpenCode, Gemini, ZCode, Cursor y Windsurf enlazan las mismas skills con un solo script de configuración. Consulta [Instalación](#instalación).
 
 </details>
 
-## License and contributing
+<details>
+<summary><b>Conviene saber: requisitos, límites y desinstalación</b></summary>
+<br />
 
-MIT License, see [LICENSE](LICENSE). The design follows [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and uses [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) as the reference for Obsidian Markdown, Bases and Canvas syntax. See [ATTRIBUTION.md](ATTRIBUTION.md) and [CITATION.cff](CITATION.cff).
+**Requisitos.** Python 3.11 o superior, una versión actual de Claude Code para el plugin (u otro host de Agent Skills), Obsidian para la parte visual y Bash para los scripts de configuración. Git solo se necesita para el desarrollo o los puntos de control.
 
-Contributions are welcome: read [CONTRIBUTING.md](CONTRIBUTING.md) first and run `make test` before you open a pull request. Report security problems as described in [SECURITY.md](SECURITY.md), and read [PRIVACY.md](PRIVACY.md) for what stays on your machine. Release notes live in the [changelog](CHANGELOG.md), and the [code of conduct](CODE_OF_CONDUCT.md) applies everywhere. AI coding agents working on this repo start at [AGENTS.md](AGENTS.md).
+**Límites.** No es un grabador automático de transcripciones, un servicio de sincronización en la nube ni un verificador de datos, y no reemplaza las copias de respaldo. Los PDF y las páginas web necesitan herramientas adicionales para obtener el texto completo.
 
-**Thank you** to everyone who has helped. Pull requests: [@Ychris12138](https://github.com/Ychris12138), [@Marcos64s](https://github.com/Marcos64s), [@hphsu](https://github.com/hphsu), [@vinsocci](https://github.com/vinsocci), [@miraclemanza](https://github.com/miraclemanza), [@maartengoet](https://github.com/maartengoet), [@Lion-1209](https://github.com/Lion-1209), [@HectorBernstorff](https://github.com/HectorBernstorff), [@Packetslave](https://github.com/Packetslave), [@CooperSheroy](https://github.com/CooperSheroy), [@yotamleo](https://github.com/yotamleo), [@ketpatil77](https://github.com/ketpatil77), [@tilusnet](https://github.com/tilusnet), [@GPezzuti](https://github.com/GPezzuti), [@STiFLeR7](https://github.com/STiFLeR7). Issue reports: [@RoelKluin](https://github.com/RoelKluin), [@threnard](https://github.com/threnard), [@szrenwei](https://github.com/szrenwei), [@ppuri2](https://github.com/ppuri2), [@cosmos75](https://github.com/cosmos75), [@simonc](https://github.com/simonc).
+**Desinstalación.** Quitar el plugin nunca elimina tu bóveda. Tus notas, fuentes y ajustes de Obsidian siguen siendo tuyos: `claude plugin uninstall claude-obsidian@segundo-cerebro`.
 
-## Star history
+</details>
 
-If claude-obsidian helps you, a star helps other people find it.
+## Licencia y contribuciones
+
+Licencia MIT, consulta [LICENSE](LICENSE). El diseño sigue el [patrón LLM Wiki de Andrej Karpathy](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) y usa [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) como referencia para la sintaxis de Markdown, Bases y Canvas de Obsidian. Consulta [ATTRIBUTION.md](ATTRIBUTION.md) y [CITATION.cff](CITATION.cff).
+
+Las contribuciones son bienvenidas: lee primero [CONTRIBUTING.md](CONTRIBUTING.md) y ejecuta `make test` antes de abrir un pull request. Reporta los problemas de seguridad como se describe en [SECURITY.md](SECURITY.md) y lee [PRIVACY.md](PRIVACY.md) para saber qué se queda en tu equipo. Las notas de cada versión están en el [registro de cambios](CHANGELOG.md) y el [código de conducta](CODE_OF_CONDUCT.md) se aplica en todas partes. Los agentes de IA que programan en este repositorio empiezan en [AGENTS.md](AGENTS.md).
+
+**Gracias** a todas las personas que han ayudado. Pull requests: [@Ychris12138](https://github.com/Ychris12138), [@Marcos64s](https://github.com/Marcos64s), [@hphsu](https://github.com/hphsu), [@vinsocci](https://github.com/vinsocci), [@miraclemanza](https://github.com/miraclemanza), [@maartengoet](https://github.com/maartengoet), [@Lion-1209](https://github.com/Lion-1209), [@HectorBernstorff](https://github.com/HectorBernstorff), [@Packetslave](https://github.com/Packetslave), [@CooperSheroy](https://github.com/CooperSheroy), [@yotamleo](https://github.com/yotamleo), [@ketpatil77](https://github.com/ketpatil77), [@tilusnet](https://github.com/tilusnet), [@GPezzuti](https://github.com/GPezzuti), [@STiFLeR7](https://github.com/STiFLeR7). Reportes de problemas (issues): [@RoelKluin](https://github.com/RoelKluin), [@threnard](https://github.com/threnard), [@szrenwei](https://github.com/szrenwei), [@ppuri2](https://github.com/ppuri2), [@cosmos75](https://github.com/cosmos75), [@simonc](https://github.com/simonc).
+
+## Historial de estrellas del proyecto original
+
+Si claude-obsidian te resulta útil, una estrella ayuda a que otras personas lo encuentren. Este gráfico muestra las estrellas del proyecto original en inglés, no las de esta traducción.
 
 <p align="center">
   <a href="https://www.star-history.com/#agricidaniel/claude-obsidian&Date">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=agricidaniel/claude-obsidian&type=Date&theme=dark" />
       <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=agricidaniel/claude-obsidian&type=Date" />
-      <img src="https://api.star-history.com/svg?repos=agricidaniel/claude-obsidian&type=Date" alt="Star history chart for claude-obsidian: GitHub stars over time" width="720" />
+      <img src="https://api.star-history.com/svg?repos=agricidaniel/claude-obsidian&type=Date" alt="Gráfico del historial de estrellas de claude-obsidian: estrellas de GitHub a lo largo del tiempo" width="720" />
     </picture>
   </a>
 </p>
 
-## Author
+## Autor
 
-Built by **[Agrici Daniel](https://agricidaniel.com/about)**, AI Workflow Architect, with help from the [AI Marketing Hub Pro](https://www.skool.com/ai-marketing-hub-pro) community.
+Creado por **[Agrici Daniel](https://agricidaniel.com/about)**, arquitecto de flujos de trabajo con IA, con la ayuda de la comunidad [AI Marketing Hub Pro](https://www.skool.com/ai-marketing-hub-pro).
 
-<img src="assets/readme/credits.svg" width="1200" height="420" alt="Thanks for playing: the three bots dance around the crystal while the credits for AgriciDaniel and the community contributors crawl into the stars, then CONTINUE? asks you to star the repo." />
+<img src="assets/readme/credits.svg" width="1200" height="420" alt="Gracias por jugar: los tres bots bailan alrededor del cristal mientras los créditos de AgriciDaniel y de los colaboradores de la comunidad se pierden entre las estrellas, y luego CONTINUE? te pide que le des una estrella al repositorio." />
 
 <p align="center">
-  <a href="https://www.youtube.com/@AgriciDaniel"><img src="assets/readme/btn-youtube.svg" width="137" height="44" alt="Claude Code tutorials and demos on YouTube" /></a>
-  <a href="https://www.skool.com/ai-marketing-hub"><img src="assets/readme/btn-hub.svg" width="210" height="44" alt="AI Marketing Hub, the free community on Skool" /></a>
+  <a href="https://www.youtube.com/@AgriciDaniel"><img src="assets/readme/btn-youtube.svg" width="137" height="44" alt="Tutoriales y demostraciones de Claude Code en YouTube" /></a>
+  <a href="https://www.skool.com/ai-marketing-hub"><img src="assets/readme/btn-hub.svg" width="210" height="44" alt="AI Marketing Hub, la comunidad gratuita en Skool" /></a>
   <a href="https://www.skool.com/ai-marketing-hub-pro"><img src="assets/readme/btn-pro.svg" width="155" height="44" alt="AI Marketing Hub Pro" /></a>
 </p>

@@ -1,100 +1,107 @@
-# Windows and WSL guide
+# Guía de Windows y WSL
 
-claude-obsidian supports native Windows as a read-only platform and WSL as the
-full-capability platform. This guide covers what works where, why the boundary
-exists, and how to unstick WSL when it misbehaves.
+claude-obsidian admite Windows nativo como plataforma de solo lectura y WSL como
+la plataforma con todas las capacidades. Esta guía explica qué funciona en cada
+una, por qué existe ese límite y cómo destrabar WSL cuando falla.
 
-## Platform support
+## Plataformas compatibles
 
-| Capability | WSL / Linux / macOS | Native Windows (incl. Git Bash) |
+| Capacidad | WSL / Linux / macOS | Windows nativo (incl. Git Bash) |
 |---|---|---|
-| Inspection, dry-run previews, retrieval | Yes | Yes |
-| Vault writes (`transaction apply`, `init`, `adopt`, `migrate`, `capture apply`, `mode set`) | Yes | No: refused with `UNSUPPORTED_PLATFORM` |
-| Capture queue commands (including read-only `capture queue list`) | Yes | No: currently refused; tracked in [#151](https://github.com/AgriciDaniel/claude-obsidian/issues/151) |
-| Git checkpoints (`checkpoint`) | Linux and macOS only | No |
-| Bash setup scripts and shell test suites | Yes | No (POSIX-only) |
-| Claude Code hooks (`SessionStart`, `Stop`) | Yes (works out of the box) | Partial: requires `python3` on `PATH`; see [below](#claude-code-hooks-and-python3-on-windows) |
+| Inspección, vistas previas de simulación, búsqueda | Sí | Sí |
+| Escrituras en la bóveda (`transaction apply`, `init`, `adopt`, `migrate`, `capture apply`, `mode set`) | Sí | No: se rechazan con `UNSUPPORTED_PLATFORM` |
+| Comandos de la cola de captura (incluido `capture queue list`, de solo lectura) | Sí | No: por ahora se rechazan; seguimiento en el [#151 del proyecto original](https://github.com/AgriciDaniel/claude-obsidian/issues/151) |
+| Puntos de control de Git (`checkpoint`) | Solo Linux y macOS | No |
+| Scripts de configuración en Bash y suites de pruebas de shell | Sí | No (solo POSIX) |
+| Hooks de Claude Code (`SessionStart`, `Stop`) | Sí (funcionan sin configuración adicional) | Parcial: requiere `python3` en `PATH`; consulta [más abajo](#hooks-de-claude-code-y-python3-en-windows) |
 
-Vaults must live on a filesystem with stable file identity: NTFS is fine, but
-FAT/exFAT volumes (typical USB sticks) and some network shares are refused with
-`UNSAFE_VAULT_IDENTITY`: move the vault to NTFS or work inside WSL.
+Las bóvedas deben estar en un sistema de archivos con identidad de archivo
+estable: NTFS sirve, pero los volúmenes FAT/exFAT (típicos de las memorias USB)
+y algunos recursos de red compartidos se rechazan con `UNSAFE_VAULT_IDENTITY`:
+mueve la bóveda a NTFS o trabaja dentro de WSL.
 
-## Claude Code hooks and python3 on Windows
+## Hooks de Claude Code y python3 en Windows
 
-`hooks/hooks.json` spawns each hook using the [Claude Code exec-form command
-hook](https://code.claude.com/docs/en/hooks): `"command": "python3"` with an
-`args` array. Claude Code resolves `python3` as an executable on `PATH` and
-spawns it directly; there is no shell, so no `.bat` shim, alias function, or
-shell profile is consulted.
+`hooks/hooks.json` lanza cada hook con el [hook de comando en forma ejecutable
+de Claude Code](https://code.claude.com/docs/en/hooks): `"command": "python3"`
+con un arreglo `args`. Claude Code resuelve `python3` como un ejecutable en
+`PATH` y lo lanza directamente; no hay shell, así que no se consulta ningún
+intermediario (shim) `.bat`, función de alias ni perfil del shell.
 
-WSL and most Linux and macOS Python installs provide a `python3` on `PATH` by
-default, so hooks work there without extra setup. Native Windows commonly does
-not:
+WSL y la mayoría de las instalaciones de Python en Linux y macOS proporcionan un
+`python3` en `PATH` por defecto, así que los hooks funcionan ahí sin
+configuración adicional. En Windows nativo, lo habitual es que no:
 
-- python.org installer: installs `python.exe`, not `python3.exe`. Either add
-  a `python3.exe` shim earlier on `PATH` than the interpreter, install a
-  distribution that provides `python3.exe`, or run Claude Code from WSL so
-  hooks resolve the WSL `python3`.
-- Microsoft Store Python: the `python3` app execution alias can be a stub
-  that opens the Store instead of running Python. Disable the `python3` app
-  execution alias in Windows Settings, then install Python from python.org
-  or WSL and confirm the real interpreter is on `PATH`.
+- Instalador de python.org: instala `python.exe`, no `python3.exe`. Agrega un
+  intermediario (shim) `python3.exe` antes del intérprete en `PATH`, instala una
+  distribución que incluya `python3.exe` o ejecuta Claude Code desde WSL para que
+  los hooks resuelvan el `python3` de WSL.
+- Python de Microsoft Store: el alias de ejecución de aplicación `python3` puede
+  ser un sustituto que abre la Store en lugar de ejecutar Python. Desactiva el
+  alias de ejecución de aplicación `python3` en la Configuración de Windows, luego
+  instala Python desde python.org o WSL y confirma que el intérprete real esté en
+  `PATH`.
 
-When `python3` cannot be resolved, Claude Code fails to spawn the hook
-process, so claude-obsidian's own code never runs and cannot emit a
-diagnostic. SessionStart context and Stop recovery warnings are both silently
-absent in that case; the rest of claude-obsidian (skills and the CLI) is
-unaffected, since only the optional hook path depends on `python3`.
+Cuando no se puede resolver `python3`, Claude Code no logra lanzar el proceso del
+hook, así que el código propio de claude-obsidian nunca se ejecuta y no puede
+emitir un diagnóstico. En ese caso faltan en silencio tanto el contexto de
+SessionStart como las advertencias de recuperación de Stop; el resto de
+claude-obsidian (las skills y la CLI) no se ve afectado, porque solo la ruta
+opcional de los hooks depende de `python3`.
 
-## Why writes require WSL
+## Por qué las escrituras requieren WSL
 
-Mutation safety is bound to POSIX directory descriptors: the vault root and
-every runtime directory stay pinned for the whole write, so a concurrently
-swapped symlink or replaced folder fails closed instead of redirecting the
-write (see the [compound vault guide](compound-vault-guide.md)). Native Windows
-cannot provide those primitives, so writes are refused up front rather than
-silently running with weaker guarantees.
+La seguridad de las modificaciones se basa en descriptores de directorio POSIX:
+la raíz de la bóveda y cada directorio de ejecución permanecen fijados durante
+toda la escritura, de modo que un enlace simbólico intercambiado o una carpeta
+reemplazada de forma concurrente falla en modo cerrado en lugar de redirigir la
+escritura (consulta la [guía de la bóveda compuesta](compound-vault-guide.md)).
+Windows nativo no puede ofrecer esas primitivas, así que las escrituras se
+rechazan de entrada en lugar de ejecutarse en silencio con garantías más débiles.
 
-A degraded native-Windows write mode (default-off, behind an explicit
-reduced-guarantees flag) is under consideration in
-[#151](https://github.com/AgriciDaniel/claude-obsidian/issues/151). If WSL is a
-blocker for you, that issue is the place to weigh in.
+Se está considerando un modo degradado de escritura en Windows nativo (apagado
+por defecto, detrás de una opción explícita de garantías reducidas) en el
+[#151 del proyecto original](https://github.com/AgriciDaniel/claude-obsidian/issues/151).
+Si WSL es un obstáculo para ti, ese issue es el lugar para opinar.
 
-## WSL troubleshooting
+## Solución de problemas de WSL
 
-WSL being "installed" does not always mean WSL is working. Symptoms and checks,
-roughly in the order worth trying:
+Que WSL esté "instalado" no siempre significa que funcione. Síntomas y
+comprobaciones, aproximadamente en el orden en que conviene probarlos:
 
-| Symptom | Check |
+| Síntoma | Qué revisar |
 |---|---|
-| `wsl --install` completed but `wsl --status` or `wsl -l -v` hangs indefinitely | This field-reported hang has no confirmed cause. Follow Microsoft's WSL hang diagnosis and reporting flow below. |
-| `wsl` reports a kernel or version error | Run `wsl --update`, then `wsl --shutdown`, then retry. |
-| WSL worked before and stopped after an update or software change | Do not assume a cause. Update Windows and WSL, then follow Microsoft's WSL troubleshooting flow. |
-| Approval hash from a native dry-run fails inside WSL with `PLAN_CHANGED` | By design: the approval hash binds the reviewing environment's filesystem identity. Run the dry-run review inside WSL when the apply will happen there; a natively produced `approved_plan_sha256` cannot be replayed from WSL. |
-| Writes fail with `UNSAFE_VAULT_IDENTITY` mentioning stable file identity | The vault sits on FAT/exFAT or an unsupported network share. Move it to NTFS, or keep it inside the WSL filesystem. |
+| `wsl --install` terminó, pero `wsl --status` o `wsl -l -v` se cuelgan indefinidamente | Este cuelgue, reportado en uso real, no tiene una causa confirmada. Sigue el flujo de diagnóstico y reporte de cuelgues de WSL de Microsoft que aparece abajo. |
+| `wsl` informa un error de kernel o de versión | Ejecuta `wsl --update`, luego `wsl --shutdown` y vuelve a intentarlo. |
+| WSL funcionaba antes y dejó de hacerlo tras una actualización o un cambio de software | No supongas una causa. Actualiza Windows y WSL, y luego sigue el flujo de solución de problemas de WSL de Microsoft. |
+| El hash de aprobación de una simulación nativa falla dentro de WSL con `PLAN_CHANGED` | Es intencional: el hash de aprobación vincula la identidad del sistema de archivos del entorno que revisa. Haz la revisión de la simulación dentro de WSL cuando el plan se vaya a aplicar ahí; un `approved_plan_sha256` generado de forma nativa no se puede reutilizar desde WSL. |
+| Las escrituras fallan con `UNSAFE_VAULT_IDENTITY` y mencionan la identidad de archivo estable | La bóveda está en FAT/exFAT o en un recurso de red compartido no admitido. Muévela a NTFS o mantenla dentro del sistema de archivos de WSL. |
 
-WSL troubleshooting checklist:
+Lista de comprobación para solucionar problemas de WSL:
 
-1. Start with Microsoft's official
-   [WSL troubleshooting guide](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting).
-2. Confirm virtualization is enabled in BIOS/UEFI and that both "Virtual
-   Machine Platform" and "Windows Subsystem for Linux" are enabled. Reboot
-   after enabling either feature.
-3. Run `wsl --update` from an elevated prompt, then `wsl --shutdown`, and retry
-   `wsl --status`.
-4. Confirm the hypervisor launch setting is enabled. If a third-party
-   hypervisor is installed, use a current version that supports Hyper-V or
-   temporarily turn it off while diagnosing the conflict.
-5. If WSL still hangs, follow Microsoft's
-   [WSL hang data-collection steps](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting-guide#wsl-hangs)
-   and file the resulting report with the WSL project. Do not attribute the
-   hang to a specific cause without supporting diagnostics.
+1. Empieza con la
+   [guía oficial de solución de problemas de WSL](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting)
+   de Microsoft.
+2. Confirma que la virtualización esté habilitada en BIOS/UEFI y que estén
+   habilitadas tanto "Plataforma de máquina virtual" como "Subsistema de Windows
+   para Linux". Reinicia después de habilitar cualquiera de las dos funciones.
+3. Ejecuta `wsl --update` desde un símbolo del sistema con privilegios elevados,
+   luego `wsl --shutdown`, y vuelve a intentar `wsl --status`.
+4. Confirma que la configuración de inicio del hipervisor esté habilitada. Si hay
+   un hipervisor de terceros instalado, usa una versión actual que sea
+   compatible con Hyper-V o desactívalo temporalmente mientras diagnosticas el
+   conflicto.
+5. Si WSL sigue colgándose, sigue los
+   [pasos de Microsoft para recopilar datos de cuelgues de WSL](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting-guide#wsl-hangs)
+   y presenta el reporte resultante al proyecto WSL. No atribuyas el cuelgue a
+   una causa específica sin diagnósticos que lo respalden.
 
-## Working across the boundary
+## Trabajar entre Windows y WSL
 
-The supported native-Windows workflow is: inspect and review natively, mutate
-inside WSL. Because approval hashes bind to the environment that produced
-them, do the reviewed dry-run in the same environment that will run the apply.
-Keeping the vault inside the WSL filesystem (rather than on a mounted Windows
-drive) avoids both the identity caveats above and cross-boundary performance
-overhead.
+El flujo de trabajo admitido en Windows nativo es: inspeccionar y revisar de
+forma nativa, modificar dentro de WSL. Como los hashes de aprobación se vinculan
+al entorno que los produjo, haz la simulación revisada en el mismo entorno en el
+que se aplicará el plan. Mantener la bóveda dentro del sistema de archivos de WSL
+(en lugar de en una unidad de Windows montada) evita tanto las salvedades de
+identidad mencionadas arriba como la sobrecarga de rendimiento al cruzar el
+límite entre ambos entornos.

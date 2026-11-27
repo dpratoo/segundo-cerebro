@@ -1,99 +1,104 @@
-# Claude plugin namespace
+# Espacio de nombres del plugin de Claude
 
 > **Nota:** esta guía describe la migración de la versión 3.0.0 a la 3.0.1 del
 > proyecto original (marketplace `agricidaniel-claude-obsidian`). Si instalaste
 > desde `segundo-cerebro`, no tienes que hacer nada.
 
-The Claude plugin identity is `claude-obsidian`, so its commands are
-`/claude-obsidian:*`. The repository, portable Python core, vault configuration
-and transaction schemas use the same name. User vaults never need a rename or
-content migration for a plugin identity change.
+La identidad del plugin de Claude es `claude-obsidian`, así que sus comandos son
+`/claude-obsidian:*`. El repositorio, el núcleo portátil de Python, la
+configuración de la bóveda y los esquemas de transacciones usan el mismo nombre.
+Las bóvedas de usuario nunca necesitan un cambio de nombre ni una migración de
+contenido por un cambio en la identidad del plugin.
 
-Version 3.0.0 alone shipped the plugin as `agricidaniel-obsidian`. Version 3.0.1
-restores `claude-obsidian`, the name users have invoked since the first release.
+Solo la versión 3.0.0 distribuyó el plugin como `agricidaniel-obsidian`. La
+versión 3.0.1 restaura `claude-obsidian`, el nombre que los usuarios han invocado
+desde la primera publicación.
 
-`claude plugin validate` reports a plugin name starting with `claude-` as an
-error, because the name reads as one of Anthropic's own plugins, and
-`claude plugin init` and `claude plugin tag` refuse it. Claude Code still
-installs and loads such a plugin. The owner kept the published name, so the
-host validator's reserved-name error is an approved exception; the project's
-own `package validate` accepts `claude-obsidian` and still rejects every other
-reserved name. Anthropic's plugin directory would not list the plugin under
-this name. See the
-[current manifest reference](https://code.claude.com/docs/en/plugins-reference#name).
+`claude plugin validate` informa como error un nombre de plugin que empieza por
+`claude-`, porque el nombre parece el de un plugin propio de Anthropic, y
+`claude plugin init` y `claude plugin tag` lo rechazan. Claude Code igualmente
+instala y carga un plugin así. El propietario conservó el nombre publicado, así
+que el error de nombre reservado del validador del host es una excepción
+aprobada; el `package validate` del propio proyecto acepta `claude-obsidian` y
+sigue rechazando cualquier otro nombre reservado. El directorio de plugins de
+Anthropic no incluiría el plugin con este nombre. Consulta la
+[referencia actual del manifiesto](https://code.claude.com/docs/en/plugins-reference#name).
 
-## Try it from a checkout
+## Probarlo desde una copia de trabajo
 
-Load a local checkout without changing the installed plugin:
+Carga una copia de trabajo local sin cambiar el plugin instalado:
 
 ```bash
 claude --plugin-dir /absolute/path/to/claude-obsidian
 ```
 
-Invoke `/claude-obsidian:wiki`, `/claude-obsidian:save`, or the other skills
-under the same prefix. If the same name is installed from the marketplace,
-disable that copy for the session so the checkout is the one that loads.
+Invoca `/claude-obsidian:wiki`, `/claude-obsidian:save` u otras skills con el
+mismo prefijo. Si el mismo nombre está instalado desde el marketplace, desactiva
+esa copia durante la sesión para que se cargue la copia de trabajo.
 
-## Published upgrade
+## Actualización publicada
 
-The marketplace channel is `agricidaniel-claude-obsidian`. Its plugin entry is
-`claude-obsidian`, matching the manifest, and the marketplace carries a
-top-level `renames` map from `agricidaniel-obsidian` to `claude-obsidian`, as
-the [documented rename mechanism](https://code.claude.com/docs/en/plugins/host-marketplace#rename-or-remove-a-plugin)
-describes.
+El canal del marketplace es `agricidaniel-claude-obsidian`. Su entrada de plugin
+es `claude-obsidian`, en coincidencia con el manifiesto, y el marketplace incluye
+un mapa `renames` de nivel superior de `agricidaniel-obsidian` a
+`claude-obsidian`, como describe el
+[mecanismo de cambio de nombre documentado](https://code.claude.com/docs/en/plugins/host-marketplace#rename-or-remove-a-plugin).
 
-**From 2.x.** The plugin name never changed for you, so this is an ordinary
-update:
+**Desde 2.x.** El nombre del plugin nunca cambió para ti, así que es una
+actualización normal:
 
 ```bash
 claude plugin marketplace update agricidaniel-claude-obsidian
 claude plugin update claude-obsidian@agricidaniel-claude-obsidian
 ```
 
-Restart Claude Code. Commands stay `/claude-obsidian:*`.
+Reinicia Claude Code. Los comandos siguen siendo `/claude-obsidian:*`.
 
-**From 3.0.0.** Update the marketplace copy:
+**Desde 3.0.0.** Actualiza la copia del marketplace:
 
 ```bash
 claude plugin marketplace update agricidaniel-claude-obsidian
 ```
 
-Claude Code rewrites the `agricidaniel-obsidian@agricidaniel-claude-obsidian`
-key in `enabledPlugins` and `pluginConfigs` back to `claude-obsidian` in the
-user, project and local scopes, then uninstalls the 3.0.0 plugin. Install the
-restored name once and restart:
+Claude Code reescribe de vuelta a `claude-obsidian` la clave
+`agricidaniel-obsidian@agricidaniel-claude-obsidian` en `enabledPlugins` y
+`pluginConfigs`, en los ámbitos de usuario, proyecto y local, y luego desinstala
+el plugin 3.0.0. Instala una vez el nombre restaurado y reinicia:
 
 ```bash
 claude plugin install claude-obsidian@agricidaniel-claude-obsidian
 ```
 
-Managed settings cannot be rewritten by Claude Code. An administrator who
-enabled `agricidaniel-obsidian@agricidaniel-claude-obsidian` there must change
-the key back to `claude-obsidian@agricidaniel-claude-obsidian`.
+Claude Code no puede reescribir la configuración administrada. Un administrador
+que haya habilitado ahí `agricidaniel-obsidian@agricidaniel-claude-obsidian` debe
+volver a cambiar la clave a `claude-obsidian@agricidaniel-claude-obsidian`.
 
-The 3.0.0 map from `claude-obsidian` to `agricidaniel-obsidian` is removed,
-because a name cannot be both current and former. `package validate` rejects a
-renames chain that does not end in a listed plugin or `null`, and the test
-suite requires the 3.0.0 identity to keep migrating to the current one.
+Se elimina el mapa de 3.0.0 de `claude-obsidian` a `agricidaniel-obsidian`,
+porque un nombre no puede ser a la vez el actual y el anterior. `package validate`
+rechaza una cadena de cambios de nombre que no termine en un plugin listado o en
+`null`, y la suite de pruebas exige que la identidad de 3.0.0 siga migrando a la
+actual.
 
-### Verify
+### Verificar
 
-After the update or install, check that the expected version and source are
-installed and enabled, and that no entry reports an error:
+Después de la actualización o la instalación, comprueba que la versión y la
+fuente esperadas estén instaladas y habilitadas, y que ninguna entrada informe un
+error:
 
 ```bash
 claude plugin list --json
 ```
 
-In a disposable vault, confirm the namespace exposes `wiki`, `save`,
-`wiki-ingest`, and `wiki-query` once; confirm explicit vault selection, a
-reviewed Save/Ingest operation and a Query that leaves the vault unchanged. An
-installed-plugin listing or metadata validator alone does not establish skill
-loading or successful operation.
+En una bóveda desechable, confirma que el espacio de nombres expone `wiki`,
+`save`, `wiki-ingest` y `wiki-query` una sola vez; confirma la selección
+explícita de la bóveda, una operación revisada de guardado o ingesta y una
+consulta que deje la bóveda sin cambios. Un listado de plugins instalados o un
+validador de metadatos por sí solos no establecen que las skills se carguen ni
+que la operación tenga éxito.
 
-### Roll back
+### Revertir
 
-To return to the last 2.x release, replace the channel with one pinned to it:
+Para volver a la última versión 2.x, reemplaza el canal por uno fijado a ella:
 
 ```bash
 claude plugin marketplace remove agricidaniel-claude-obsidian
@@ -102,34 +107,36 @@ claude plugin install claude-obsidian@agricidaniel-claude-obsidian
 claude plugin list --json
 ```
 
-Removing a marketplace also removes the plugins installed from it, so
-reinstall from the pinned channel as shown. To move forward again, remove the
-pinned channel, add `AgriciDaniel/claude-obsidian` without a ref, and install
-`claude-obsidian@agricidaniel-claude-obsidian`. Vault files require no
-rollback for an adapter-only change.
+Quitar un marketplace también quita los plugins instalados desde él, así que
+reinstala desde el canal fijado como se muestra. Para avanzar de nuevo, quita el
+canal fijado, agrega `AgriciDaniel/claude-obsidian` sin una ref e instala
+`claude-obsidian@agricidaniel-claude-obsidian`. Los archivos de la bóveda no
+requieren reversión para un cambio que solo afecta al adaptador.
 
-## Evidence and limits
+## Evidencia y límites
 
-With Claude Code 2.1.306 on 2026-10-21, an isolated `CLAUDE_CONFIG_DIR` and a
-git marketplace served over local smart HTTP that moved between the v2.2.0,
-3.0.0 and 3.0.1 trees:
+Con Claude Code 2.1.306 el 2026-10-21, un `CLAUDE_CONFIG_DIR` aislado y un
+marketplace git servido por smart HTTP local que se movió entre los árboles
+v2.2.0, 3.0.0 y 3.0.1:
 
-- From 2.2.0, `marketplace update` then `plugin update` moved
-  `claude-obsidian` from 2.2.0 to 3.0.1 with the enabled key unchanged.
-- From 3.0.0, `marketplace update` rewrote the enabled key to
-  `claude-obsidian@agricidaniel-claude-obsidian` and uninstalled
-  `agricidaniel-obsidian`; one `plugin install` then installed 3.0.1, enabled.
-- In a session loaded with `--plugin-dir`, all 15 skills and 3 agents were
-  listed under `claude-obsidian:`.
-- `claude plugin validate` reported one error, the reserved name, for the
-  plugin and the marketplace.
+- Desde 2.2.0, `marketplace update` y luego `plugin update` llevaron
+  `claude-obsidian` de 2.2.0 a 3.0.1 con la clave habilitada sin cambios.
+- Desde 3.0.0, `marketplace update` reescribió la clave habilitada a
+  `claude-obsidian@agricidaniel-claude-obsidian` y desinstaló
+  `agricidaniel-obsidian`; un solo `plugin install` instaló entonces 3.0.1,
+  habilitado.
+- En una sesión cargada con `--plugin-dir`, las 15 skills y los 3 agentes
+  aparecieron listados bajo `claude-obsidian:`.
+- `claude plugin validate` informó un error, el nombre reservado, para el plugin
+  y para el marketplace.
 
-Earlier 3.0.0 runs with Claude Code 2.1.302 and 2.1.304 established that a
-marketplace without a `renames` entry leaves existing installs reporting
-`Plugin not found in marketplace`, and that the pinned `v2.2.0` rollback
-reinstalls files identical to the tag.
+Ejecuciones anteriores de 3.0.0 con Claude Code 2.1.302 y 2.1.304 establecieron
+que un marketplace sin una entrada `renames` deja a las instalaciones existentes
+informando `Plugin not found in marketplace`, y que la reversión fijada a `v2.2.0`
+reinstala archivos idénticos a la etiqueta.
 
-The GitHub-hosted 3.0.1 channel, project and local scopes, managed settings and
-Windows were not exercised. Check the target host's help before use. Local
-source changes do not authorize installation, commits, publishing, or account
-changes. See the [installation and uninstall guide](install-guide.md).
+El canal 3.0.1 alojado en GitHub, los ámbitos de proyecto y local, la
+configuración administrada y Windows no se probaron. Revisa la ayuda del host de
+destino antes de usarlo. Los cambios locales en el código fuente no autorizan la
+instalación, los commits, la publicación ni cambios en la cuenta. Consulta la
+[guía de instalación y desinstalación](install-guide.md).
