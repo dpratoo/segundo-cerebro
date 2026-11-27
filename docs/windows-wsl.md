@@ -12,7 +12,7 @@ una, por qué existe ese límite y cómo destrabar WSL cuando falla.
 | Escrituras en la bóveda (`transaction apply`, `init`, `adopt`, `migrate`, `capture apply`, `mode set`) | Sí | No: se rechazan con `UNSUPPORTED_PLATFORM` |
 | Comandos de la cola de captura (incluido `capture queue list`, de solo lectura) | Sí | No: por ahora se rechazan; seguimiento en el [#151 del proyecto original](https://github.com/AgriciDaniel/claude-obsidian/issues/151) |
 | Puntos de control de Git (`checkpoint`) | Solo Linux y macOS | No |
-| Scripts de configuración en Bash y suites de pruebas de shell | Sí | No (solo POSIX) |
+| Scripts de configuración en Bash y conjuntos de pruebas de shell | Sí | No (solo POSIX) |
 | Hooks de Claude Code (`SessionStart`, `Stop`) | Sí (funcionan sin configuración adicional) | Parcial: requiere `python3` en `PATH`; consulta [más abajo](#hooks-de-claude-code-y-python3-en-windows) |
 
 Las bóvedas deben estar en un sistema de archivos con identidad de archivo
@@ -54,7 +54,7 @@ opcional de los hooks depende de `python3`.
 La seguridad de las modificaciones se basa en descriptores de directorio POSIX:
 la raíz de la bóveda y cada directorio de ejecución permanecen fijados durante
 toda la escritura, de modo que un enlace simbólico intercambiado o una carpeta
-reemplazada de forma concurrente falla en modo cerrado en lugar de redirigir la
+reemplazada de forma concurrente falla de forma cerrada en lugar de redirigir la
 escritura (consulta la [guía de la bóveda compuesta](compound-vault-guide.md)).
 Windows nativo no puede ofrecer esas primitivas, así que las escrituras se
 rechazan de entrada en lugar de ejecutarse en silencio con garantías más débiles.
@@ -71,7 +71,7 @@ comprobaciones, aproximadamente en el orden en que conviene probarlos:
 
 | Síntoma | Qué revisar |
 |---|---|
-| `wsl --install` terminó, pero `wsl --status` o `wsl -l -v` se cuelgan indefinidamente | Este cuelgue, reportado en uso real, no tiene una causa confirmada. Sigue el flujo de diagnóstico y reporte de cuelgues de WSL de Microsoft que aparece abajo. |
+| `wsl --install` terminó, pero `wsl --status` o `wsl -l -v` se cuelgan indefinidamente | Este cuelgue, informado en uso real, no tiene una causa confirmada. Sigue el flujo de diagnóstico e informe de cuelgues de WSL de Microsoft que aparece abajo. |
 | `wsl` informa un error de kernel o de versión | Ejecuta `wsl --update`, luego `wsl --shutdown` y vuelve a intentarlo. |
 | WSL funcionaba antes y dejó de hacerlo tras una actualización o un cambio de software | No supongas una causa. Actualiza Windows y WSL, y luego sigue el flujo de solución de problemas de WSL de Microsoft. |
 | El hash de aprobación de una simulación nativa falla dentro de WSL con `PLAN_CHANGED` | Es intencional: el hash de aprobación vincula la identidad del sistema de archivos del entorno que revisa. Haz la revisión de la simulación dentro de WSL cuando el plan se vaya a aplicar ahí; un `approved_plan_sha256` generado de forma nativa no se puede reutilizar desde WSL. |
@@ -93,7 +93,7 @@ Lista de comprobación para solucionar problemas de WSL:
    conflicto.
 5. Si WSL sigue colgándose, sigue los
    [pasos de Microsoft para recopilar datos de cuelgues de WSL](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting-guide#wsl-hangs)
-   y presenta el reporte resultante al proyecto WSL. No atribuyas el cuelgue a
+   y presenta el informe resultante al proyecto WSL. No atribuyas el cuelgue a
    una causa específica sin diagnósticos que lo respalden.
 
 ## Trabajar entre Windows y WSL

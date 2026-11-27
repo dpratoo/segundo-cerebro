@@ -74,10 +74,10 @@ que haya habilitado ahí `agricidaniel-obsidian@agricidaniel-claude-obsidian` de
 volver a cambiar la clave a `claude-obsidian@agricidaniel-claude-obsidian`.
 
 Se elimina el mapa de 3.0.0 de `claude-obsidian` a `agricidaniel-obsidian`,
-porque un nombre no puede ser a la vez el actual y el anterior. `package validate`
-rechaza una cadena de cambios de nombre que no termine en un plugin listado o en
-`null`, y la suite de pruebas exige que la identidad de 3.0.0 siga migrando a la
-actual.
+porque un nombre no puede ser a la vez el actual y el anterior.
+`package validate` rechaza una cadena de cambios de nombre que no termine en un
+plugin listado o en `null`, y el conjunto de pruebas exige que la identidad de
+3.0.0 siga migrando a la actual.
 
 ### Verificar
 

@@ -204,7 +204,7 @@ Detrás de las skills, tres agentes se encargan de la lectura y la verificación
 Tus notas importan, así que cada cambio en la bóveda funciona como un guardado cuidadoso:
 
 1. **Lee primero.** Claude lee cada nota que va a tocar y registra una huella (un hash SHA-256) de cada una.
-2. **Un plan, una aplicación.** Los ayudantes pueden trabajar en paralelo, pero solo devuelven borradores. Claude los combina en un solo plan, lo revisa y lo aplica como una única transacción.
+2. **Un plan, una aplicación.** Los agentes pueden trabajar en paralelo, pero solo devuelven borradores. Claude los combina en un solo plan, lo revisa y lo aplica como una única transacción.
 3. **Se deshace si algo falla.** Un diario conserva copias de respaldo durante la escritura. Si se corta la luz a la mitad, `transaction recover` revierte el cambio sin terminar a partir del diario.
 4. **Tus ediciones tienen prioridad.** Si cambias una nota en Obsidian mientras Claude planifica, la huella ya no coincide y la escritura se detiene con un conflicto en lugar de sobrescribir tus cambios.
 
@@ -214,9 +214,9 @@ La investigación web, los puntos de control de Git y cualquier cosa que envíe 
 <summary><b>Para los curiosos: cómo se elige y se protege la bóveda</b></summary>
 <br />
 
-El plugin nunca trata su propia carpeta ni su caché como tu bóveda. La bóveda se elige de forma explícita: mediante `CLAUDE_OBSIDIAN_VAULT`, el `.claude-obsidian.json` más cercano o una única carpeta superior inicializada y clara. Si no está seguro, termina sin escribir.
+El plugin nunca trata su propia carpeta ni su caché como tu bóveda. La bóveda se elige de forma explícita: mediante `CLAUDE_OBSIDIAN_VAULT`, el `.claude-obsidian.json` más cercano o una única carpeta superior inicializada y clara. Si el plugin no está seguro, termina sin escribir.
 
-El bloqueo coordina a los escritores locales que cooperan con él. Otros dispositivos y editores externos no lo comparten, así que conserva copias de respaldo, sobre todo cuando sincronizas archivos de Canvas o de Bases. Lee el [contrato de transacciones](skills/wiki/references/operation-transactions.md), el [contrato de procedencia](skills/wiki/references/provenance.md) y la [guía de la bóveda compuesta](docs/compound-vault-guide.md) para ver todos los detalles.
+El bloqueo coordina los procesos locales que escriben y cooperan con él. Otros dispositivos y editores externos no lo comparten, así que conserva copias de respaldo, sobre todo cuando sincronizas archivos de Canvas o de Bases. Lee el [contrato de transacciones](skills/wiki/references/operation-transactions.md), el [contrato de procedencia](skills/wiki/references/provenance.md) y la [guía de la bóveda compuesta](docs/compound-vault-guide.md) para ver todos los detalles.
 
 </details>
 
@@ -362,9 +362,9 @@ Sí. Las skills siguen el formato abierto Agent Skills. Claude Code recibe el pl
 
 Licencia MIT, consulta [LICENSE](LICENSE). El diseño sigue el [patrón LLM Wiki de Andrej Karpathy](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) y usa [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) como referencia para la sintaxis de Markdown, Bases y Canvas de Obsidian. Consulta [ATTRIBUTION.md](ATTRIBUTION.md) y [CITATION.cff](CITATION.cff).
 
-Las contribuciones son bienvenidas: lee primero [CONTRIBUTING.md](CONTRIBUTING.md) y ejecuta `make test` antes de abrir un pull request. Reporta los problemas de seguridad como se describe en [SECURITY.md](SECURITY.md) y lee [PRIVACY.md](PRIVACY.md) para saber qué se queda en tu equipo. Las notas de cada versión están en el [registro de cambios](CHANGELOG.md) y el [código de conducta](CODE_OF_CONDUCT.md) se aplica en todas partes. Los agentes de IA que programan en este repositorio empiezan en [AGENTS.md](AGENTS.md).
+Las contribuciones son bienvenidas: lee primero [CONTRIBUTING.md](CONTRIBUTING.md) y ejecuta `make test` antes de abrir un pull request. Informa los problemas de seguridad como se describe en [SECURITY.md](SECURITY.md) y lee [PRIVACY.md](PRIVACY.md) para saber qué se queda en tu equipo. Las notas de cada versión están en el [registro de cambios](CHANGELOG.md) y el [código de conducta](CODE_OF_CONDUCT.md) se aplica en todas partes. Los agentes de IA que programan en este repositorio empiezan en [AGENTS.md](AGENTS.md).
 
-**Gracias** a todas las personas que han ayudado. Pull requests: [@Ychris12138](https://github.com/Ychris12138), [@Marcos64s](https://github.com/Marcos64s), [@hphsu](https://github.com/hphsu), [@vinsocci](https://github.com/vinsocci), [@miraclemanza](https://github.com/miraclemanza), [@maartengoet](https://github.com/maartengoet), [@Lion-1209](https://github.com/Lion-1209), [@HectorBernstorff](https://github.com/HectorBernstorff), [@Packetslave](https://github.com/Packetslave), [@CooperSheroy](https://github.com/CooperSheroy), [@yotamleo](https://github.com/yotamleo), [@ketpatil77](https://github.com/ketpatil77), [@tilusnet](https://github.com/tilusnet), [@GPezzuti](https://github.com/GPezzuti), [@STiFLeR7](https://github.com/STiFLeR7). Reportes de problemas (issues): [@RoelKluin](https://github.com/RoelKluin), [@threnard](https://github.com/threnard), [@szrenwei](https://github.com/szrenwei), [@ppuri2](https://github.com/ppuri2), [@cosmos75](https://github.com/cosmos75), [@simonc](https://github.com/simonc).
+**Gracias** a todas las personas que han ayudado. Pull requests: [@Ychris12138](https://github.com/Ychris12138), [@Marcos64s](https://github.com/Marcos64s), [@hphsu](https://github.com/hphsu), [@vinsocci](https://github.com/vinsocci), [@miraclemanza](https://github.com/miraclemanza), [@maartengoet](https://github.com/maartengoet), [@Lion-1209](https://github.com/Lion-1209), [@HectorBernstorff](https://github.com/HectorBernstorff), [@Packetslave](https://github.com/Packetslave), [@CooperSheroy](https://github.com/CooperSheroy), [@yotamleo](https://github.com/yotamleo), [@ketpatil77](https://github.com/ketpatil77), [@tilusnet](https://github.com/tilusnet), [@GPezzuti](https://github.com/GPezzuti), [@STiFLeR7](https://github.com/STiFLeR7). Informes de problemas (issues): [@RoelKluin](https://github.com/RoelKluin), [@threnard](https://github.com/threnard), [@szrenwei](https://github.com/szrenwei), [@ppuri2](https://github.com/ppuri2), [@cosmos75](https://github.com/cosmos75), [@simonc](https://github.com/simonc).
 
 ## Historial de estrellas del proyecto original
 

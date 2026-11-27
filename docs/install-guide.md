@@ -72,7 +72,7 @@ bash scripts/setup-multi-agent.sh
 bash scripts/setup-multi-agent.sh --apply
 ```
 
-Enlaza cada directorio canónico `skills/<name>/` en el esquema de
+Enlaza cada directorio canónico `skills/<name>/` en la estructura de
 descubrimiento directo `<skill-root>/<name>/SKILL.md` del host. Los destinos se
 crean solo cuando no existen; nunca se reemplaza una skill ni un enlace
 existente. Comprueba si todo está listo sin escribir:
@@ -280,7 +280,7 @@ python3 scripts/claude-obsidian.py transaction recover --vault <vault>
 ```
 
 La recuperación preserva, por prudencia, las identidades de bloqueo obsoletas o
-ajenas. Solo después de confirmar que no hay ningún escritor activo puede un
+ajenas. Solo después de confirmar que no hay ningún proceso escribiendo puede un
 operador agregar `--force-stale-lock`.
 
 El historial de Git es opcional y nunca automático. Para crear un punto de
@@ -292,9 +292,9 @@ python3 scripts/claude-obsidian.py checkpoint <operation-id> --vault <vault> \
 ```
 
 El punto de control usa un índice temporal, verifica los bytes exactos de los
-blobs de Git, rechaza cualquier estado ya preparado (staged) y reanuda la
-finalización interrumpida de una referencia o del índice a partir de su registro
-pendiente, local a la bóveda.
+blobs de Git, rechaza cualquier estado previo en el área de preparación de Git y
+reanuda la finalización interrumpida de una referencia o del índice a partir de
+su anotación pendiente, local a la bóveda.
 
 ## Desinstalar
 
@@ -320,7 +320,7 @@ se tocan.
 | Obsidian CLI no está disponible | Usa lecturas del sistema de archivos; inicia o actualiza Obsidian antes de volver a intentar el transporte de la CLI. |
 | El adaptador de captura no está implementado | Inspecciona `capture adapters`; configura un ejecutor aparte solo con consentimiento explícito. |
 | Escrituras rechazadas con `UNSUPPORTED_PLATFORM` en Windows | Escribir en la bóveda requiere WSL; consulta la [guía de Windows y WSL](windows-wsl.md). |
-| WSL instalado pero `wsl --status` se cuelga | Sigue el flujo de diagnóstico y reporte de Microsoft en la [guía de Windows y WSL](windows-wsl.md#solución-de-problemas-de-wsl); no supongas una causa sin evidencia. |
+| WSL instalado pero `wsl --status` se cuelga | Sigue el flujo de diagnóstico e informe de Microsoft en la [guía de Windows y WSL](windows-wsl.md#solución-de-problemas-de-wsl); no supongas una causa sin evidencia. |
 | La aprobación de una simulación nativa falla en WSL con `PLAN_CHANGED` | Los hashes de aprobación se vinculan al entorno que revisa; repite la simulación dentro de WSL ([detalles](windows-wsl.md#solución-de-problemas-de-wsl)). |
 
 Ejecuta `make test` en el repositorio del producto al desarrollar o empaquetar cambios.
