@@ -1,56 +1,69 @@
-# Cited glossary and consolidation recipes
+# Recetas de glosario citado y de consolidación
 
-These are bounded uses of existing Ingest and Save workflows. They add no
-background action, new skill, or automatic merge. Select the vault and source
-budget first. Read [provenance.md](provenance.md) and
+Estos son usos acotados de los flujos existentes de Ingesta y de Guardado. No
+agregan ninguna acción en segundo plano, ninguna skill nueva ni ninguna fusión
+automática. Selecciona primero la bóveda y el presupuesto de fuentes. Lee
+[provenance.md](provenance.md) y
 [operation-transactions.md](operation-transactions.md).
 
-## Glossary from sources
+## Glosario a partir de fuentes
 
-1. Search existing concepts and aliases before proposing terms. List the source
-   paths and exact headings, blocks, or line ranges supporting each definition.
-2. Draft one definition per meaning, in the source's domain and language.
-   Separate a source definition from an editorial simplification. Preserve
-   conflicting definitions with their scopes; do not collapse them into consensus.
-3. Use a `concept` page or a bounded glossary section. Add aliases only for
-   actual equivalent names, and link source pages using specific wikilinks.
-   Unknown meanings remain an open question. Do not mint evidence locators.
-4. Keep a table with Term, Definition, Evidence, and Assessment. An evidence
-   locator is not an accepted assessment by itself. Apply the claim/source rules
-   when recording factual definitions. A generated glossary is synthesis, not
-   another independent source.
-5. For supplied source material, use one Ingest workflow bundle. For explicitly
-   selected conversation content, use Save and keep its synthetic origin clear.
-   Couple pages, catalogs, ledgers when changed, log, and bounded hot cache.
+1. Busca los conceptos y alias existentes antes de proponer términos. Enumera las
+   rutas de las fuentes y los encabezados, bloques o rangos de líneas exactos que
+   respaldan cada definición.
+2. Redacta una definición por cada significado, en el dominio y el idioma de la
+   fuente. Separa una definición de la fuente de una simplificación editorial.
+   Conserva las definiciones en conflicto con sus alcances; no las reduzcas a un
+   consenso.
+3. Usa una página `concept` o una sección de glosario acotada. Agrega alias solo
+   para nombres realmente equivalentes y enlaza las páginas de fuentes con
+   wikilinks específicos. Los significados desconocidos siguen siendo una
+   pregunta abierta. No inventes localizadores de evidencia.
+4. Mantén una tabla con Término, Definición, Evidencia y Valoración. Un
+   localizador de evidencia no es por sí solo una valoración aceptada. Aplica las
+   reglas de afirmaciones y de fuentes al registrar definiciones factuales. Un
+   glosario generado es una síntesis, no otra fuente independiente.
+5. Para el material de origen aportado, usa un solo paquete de flujo de Ingesta.
+   Para el contenido de la conversación seleccionado de forma explícita, usa
+   Guardado y deja claro su origen sintético. Acopla páginas, catálogos,
+   registros cuando cambien, bitácora y caché caliente acotada.
 
-A definition based only on a title, tag, model recollection, or retrieved snippet
-without adequate surrounding source context stays unsupported. Present the full
-term list, evidence coverage, and omissions before apply. Report the operation ID
-and changed paths, with no claim that the whole vault was covered unless read.
+Una definición basada solo en un título, una etiqueta, el recuerdo del modelo o un
+fragmento recuperado sin suficiente contexto de la fuente que lo rodea sigue sin
+respaldo. Presenta la lista completa de términos, la cobertura de la evidencia y
+las omisiones antes de aplicar. Informa el ID de operación y las rutas
+modificadas, sin afirmar que se cubrió toda la bóveda a menos que se haya leído.
 
-## Consolidate overlapping notes
+## Consolidar notas que se solapan
 
-Consolidation changes canonical knowledge and requires explicit consent for the
-identified merge. First return a read-only overlap proposal: source paths and
-hashes, proposed destination, unique claims to preserve, contradictions, existing
-inbound links, and exact catalog/ledger changes. Similar wording alone does not
-prove that meanings are equivalent.
+La consolidación cambia el conocimiento canónico y requiere consentimiento
+explícito para la fusión identificada. Primero devuelve una propuesta de
+solapamiento de solo lectura: rutas y hashes de origen, destino propuesto,
+afirmaciones únicas que se conservarán, contradicciones, enlaces entrantes
+existentes y los cambios exactos de catálogo y de registros. Una redacción
+similar no prueba por sí sola que los significados sean equivalentes.
 
-After approval, re-read all targets and rebuild the proposal if any hash changed.
-Use one `operation_type: ingest` workflow bundle. Keep the old note as a short
-`status: superseded` redirect note with a wikilink and the reason, preserving
-unique evidence and stable source/claim identities. Keep original raw payloads
-unchanged. Include the merged note, all approved redirect notes, active catalog,
-log, hot cache, and changed ledger records in that one bundle.
+Tras la aprobación, vuelve a leer todos los destinos y reconstruye la propuesta si
+algún hash cambió. Usa un solo paquete de flujo con `operation_type: ingest`.
+Conserva la nota antigua como una nota de redirección breve con
+`status: superseded`, con un wikilink y el motivo, y preserva la evidencia única y
+las identidades estables de fuentes y afirmaciones. Deja sin cambios las cargas
+útiles sin procesar originales. Incluye en ese único paquete la nota fusionada,
+todas las notas de redirección aprobadas, el catálogo activo, la bitácora, la
+caché caliente y las entradas modificadas de los registros.
 
-The transaction engine supports `create` and `replace`, not deletion or rename.
-Do not remove files, rewrite unrelated backlinks, or implement a move with host
-file tools. If a later cleanup is requested, plan it separately with a backup and
-explicit approval. Preserve Dataview, Tasks, Templater, math, and quoted source
-regions byte-for-byte unless they are themselves in the approved edit scope.
+El motor de transacciones admite `create` y `replace`, no la eliminación ni el
+cambio de nombre. No elimines archivos, no reescribas enlaces entrantes no
+relacionados ni implementes un movimiento con herramientas de archivos del host.
+Si después se solicita una limpieza, planifícala por separado con una copia de
+respaldo y aprobación explícita. Conserva byte a byte las regiones de Dataview,
+Tasks, Templater, matemáticas y citas de fuentes, salvo que estén dentro del
+alcance de edición aprobado.
 
-Inspect with `workflow inspect`, apply the exact reviewed hash once with
-`workflow apply`, then run deterministic lint. A successful storage receipt does
-not establish editorial correctness; review evidence coverage and each surviving
-inbound link. On conflict, rebuild. On interruption, use `transaction recover`.
-Do not auto-checkpoint or silently merge contradictory accepted claims.
+Inspecciona con `workflow inspect`, aplica una sola vez el hash exacto revisado
+con `workflow apply` y luego ejecuta el lint determinista. Un comprobante de
+almacenamiento exitoso no establece la corrección editorial; revisa la cobertura
+de la evidencia y cada enlace entrante que sobreviva. Ante un conflicto,
+reconstruye. Tras una interrupción, usa `transaction recover`. No crees puntos de
+control automáticos ni fusiones en silencio afirmaciones aceptadas que se
+contradicen.

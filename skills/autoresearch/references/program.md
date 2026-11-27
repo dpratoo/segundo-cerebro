@@ -1,81 +1,97 @@
-# Default research program
+# Programa de investigación por defecto
 
-This is the bounded default for `autoresearch`. User-supplied limits may make it
-stricter. The skill's privacy, provenance, and transaction contracts always
-override domain guidance.
+Este es el programa acotado por defecto de `autoresearch`. Los límites que
+proporcione el usuario pueden hacerlo más estricto. Los contratos de privacidad, de
+procedencia y de transacciones de la skill siempre prevalecen sobre la guía
+específica de un dominio.
 
-## Objectives
+## Objetivos
 
-- Answer a precise research question rather than collecting a topic indiscriminately.
-- Prefer primary and official sources, then high-quality independent analysis.
-- Extract falsifiable claims, entities, concepts, mechanisms, and decisions.
-- Seek counter-evidence, contradictions, source dependencies, and open gaps.
-- Separate direct source statements from inference and recommendations.
-- Stop when additional sources repeat known evidence or cannot change the answer.
+- Responder una pregunta de investigación precisa en lugar de recopilar un tema de
+  forma indiscriminada.
+- Preferir las fuentes primarias y oficiales y, después, el análisis
+  independiente de alta calidad.
+- Extraer afirmaciones falsables, entidades, conceptos, mecanismos y decisiones.
+- Buscar contraevidencia, contradicciones, dependencias entre fuentes y vacíos
+  abiertos.
+- Separar las declaraciones directas de la fuente de la inferencia y de las
+  recomendaciones.
+- Detenerse cuando las fuentes adicionales repitan evidencia ya conocida o no
+  puedan cambiar la respuesta.
 
-## Default budget
+## Presupuesto por defecto
 
-- Search rounds: at most 3
-- Fetched sources per round: at most 5
-- Drafted pages: at most 15
-- Parallel workers: at most the host's available safe concurrency
+- Rondas de búsqueda: como máximo 3
+- Fuentes obtenidas por ronda: como máximo 5
+- Páginas redactadas: como máximo 15
+- Agentes en paralelo: como máximo la concurrencia segura disponible en el host
 
-Before egress, also agree on elapsed-time, cost, domain, and privacy limits.
-Report budget use after each round. Reaching a page target is not a reason to
-invent content; record skipped questions and stop.
+Antes de la salida de red, acuerda también los límites de tiempo transcurrido, de
+costo, de dominios y de privacidad. Informa el uso del presupuesto después de cada
+ronda. Alcanzar un objetivo de páginas no es motivo para inventar contenido;
+registra las preguntas omitidas y detente.
 
-## Evidence assessment
+## Evaluación de la evidencia
 
-Use the source and claim ledgers, not a prose confidence label alone.
+Usa los registros de fuentes y de afirmaciones, no solo una etiqueta de confianza
+en prosa.
 
-- `accepted`: supported by at least one fresh, active, non-synthetic source.
-- High-risk accepted claims: supported by two independent sources.
-- `provisional`: useful but incomplete support.
-- `contested`: credible evidence disagrees.
-- `unsupported`: no adequate evidence.
-- `deprecated`: superseded and retained for history.
+- `accepted`: respaldada por al menos una fuente vigente, activa y no sintética.
+- Afirmaciones aceptadas de alto riesgo: respaldadas por dos fuentes
+  independientes.
+- `provisional`: útil, pero con respaldo incompleto.
+- `contested`: la evidencia creíble no coincide.
+- `unsupported`: sin evidencia adecuada.
+- `deprecated`: reemplazada y conservada por su valor histórico.
 
-Freshness is domain- and claim-specific. Record publication, retrieval, and
-review dates when known, set an appropriate `refresh_due`, and never apply a
-universal age cutoff to foundational work.
+La vigencia depende del dominio y de la afirmación. Registra las fechas de
+publicación, de obtención y de revisión cuando se conozcan, establece un
+`refresh_due` adecuado y nunca apliques un límite de antigüedad universal al
+trabajo fundacional.
 
-## Output style
+## Estilo de la salida
 
-- Use direct language while preserving necessary uncertainty.
-- Cite each material non-obvious claim to a source record and locator.
-- Use short, focused pages; split by concept when that improves retrieval.
-- State `unknown`, `unsupported`, or `contested` instead of filling gaps.
-- Preserve quotations exactly and keep them brief; otherwise paraphrase.
-- Never fabricate authors, dates, URLs, page numbers, measurements, or quotes.
+- Usa un lenguaje directo sin perder la incertidumbre necesaria.
+- Cita cada afirmación relevante y no obvia con un registro de fuente y un
+  localizador.
+- Usa páginas cortas y enfocadas; divide por concepto cuando eso mejore la
+  búsqueda.
+- Indica `unknown`, `unsupported` o `contested` en lugar de llenar los vacíos.
+- Conserva las citas textuales tal cual y mantenlas breves; en los demás
+  casos, parafrasea.
+- Nunca fabriques autores, fechas, URL, números de página, mediciones ni citas.
 
-## Source selection
+## Selección de fuentes
 
-Authority depends on the question:
+La autoridad depende de la pregunta:
 
-- Software and products: current official documentation, source repositories,
-  specifications, and reproducible tests.
-- Academic research: original papers, datasets, methods, corrections, and
-  systematic reviews where appropriate.
-- Business and markets: filings, official disclosures, primary datasets, and
-  independent reporting; label promotional material.
-- Medical, legal, and financial topics: current authoritative guidance and
-  primary evidence, with explicit jurisdiction, population, and limitations.
+- Software y productos: documentación oficial vigente, repositorios de código,
+  especificaciones y pruebas reproducibles.
+- Investigación académica: artículos originales, conjuntos de datos, métodos,
+  correcciones y, cuando corresponda, revisiones sistemáticas.
+- Negocios y mercados: presentaciones regulatorias, divulgaciones oficiales,
+  conjuntos de datos primarios y reportajes independientes; indica cuándo un
+  material es promocional.
+- Temas médicos, legales y financieros: orientación autorizada vigente y
+  evidencia primaria, con jurisdicción, población y limitaciones explícitas.
 
-Community posts and social media can identify experiences or leads but do not
-become high-authority evidence automatically. Deduplicate syndicated sources and
-record a shared `independence_key` when reports depend on the same origin.
+Las publicaciones de comunidades y las redes sociales pueden identificar
+experiencias o pistas, pero no se convierten automáticamente en evidencia de alta
+autoridad. Elimina duplicados entre fuentes sindicadas y registra una
+`independence_key` compartida cuando los informes dependan del mismo origen.
 
-## Stop conditions
+## Condiciones de parada
 
-Stop and report the boundary when any of these occurs:
+Detente e informa el límite cuando ocurra cualquiera de estos casos:
 
-- the agreed question is adequately supported;
-- a budget is exhausted;
-- the user stops or narrows the work;
-- remaining results repeat dependent evidence;
-- egress would exceed approved domains or expose private context;
-- a key claim cannot be verified;
-- sources require access or rights the user has not supplied.
+- la pregunta acordada está respaldada de forma adecuada;
+- se agotó un presupuesto;
+- el usuario detiene o acota el trabajo;
+- los resultados restantes repiten evidencia dependiente;
+- la salida de red excedería los dominios aprobados o expondría contexto privado;
+- no se puede verificar una afirmación clave;
+- las fuentes requieren un acceso o unos derechos que el usuario no ha
+  proporcionado.
 
-Research output remains a reviewable dossier. Merging it into canonical pages is
-a separate approved transaction.
+El resultado de la investigación sigue siendo un dosier revisable. Fusionarlo en
+las páginas canónicas es una transacción aprobada por separado.

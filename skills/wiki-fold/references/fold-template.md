@@ -1,6 +1,7 @@
-# Fold page template
+# Plantilla de página de consolidación
 
-Every fold is extractive, deterministic, and uses flat Obsidian properties.
+Toda consolidación es extractiva, determinista y usa propiedades planas de
+Obsidian.
 
 ## Frontmatter
 
@@ -29,94 +30,98 @@ related:
 ---
 ```
 
-Generate each `child_key` from the entry date plus its one-based position in the
-selected oldest-to-newest range. The same key appears in exactly one body row.
-This avoids nested YAML objects while preserving a frontmatter/table bijection.
-The deterministic `fold_id` matches the filename. Missing any required property
-is a dry-run failure.
+Genera cada `child_key` a partir de la fecha de la entrada más su posición, con
+base uno, en el rango seleccionado ordenado de la más antigua a la más reciente.
+La misma clave aparece en exactamente una fila del cuerpo. Así se evitan los
+objetos YAML anidados y se conserva la biyección entre el frontmatter y la
+tabla. El `fold_id` determinista coincide con el nombre del archivo. Que falte
+cualquier propiedad obligatoria es un fallo de la simulación.
 
-## Body
+## Cuerpo
 
-Use these sections in order.
+Usa estas secciones en orden.
 
-### Scope
+### Alcance
 
-One paragraph stating the level, exact count, date range, and only those themes
-supported by at least two child entries.
+Un párrafo que indique el nivel, el recuento exacto, el rango de fechas y solo
+los temas respaldados por al menos dos entradas hijas.
 
 ```markdown
-Level-{K} fold of {COUNT} log entries spanning {FROM} through {TO}.
+Consolidación de nivel {K} de {COUNT} entradas de la bitácora, desde {FROM} hasta {TO}.
 ```
 
-### Child Entries
+### Entradas hijas
 
-One row per child key and log entry. Preserve entries even when multiple rows
-refer to the same page.
+Una fila por cada clave hija y entrada de la bitácora. Conserva las entradas
+aunque varias filas se refieran a la misma página.
 
 ```markdown
-## Child Entries
+## Entradas hijas
 
-| Child key | Date | Op | Title | Page | Page state | Extractive summary |
+| Clave hija | Fecha | Op | Título | Página | Estado de la página | Resumen extractivo |
 |---|---|---|---|---|---|---|
-| log-20260701-001 | 2026-07-01 | ingest | Example source filed | [[Example Source]] | present | Added one source-backed example page. |
-| log-20260702-002 | 2026-07-02 | save | Example decision recorded | [[Example Decision]] | missing | Source page is missing; summary is limited to the log entry. |
+| log-20260701-001 | 2026-07-01 | ingest | Fuente de ejemplo archivada | [[Example Source]] | presente | Se agregó una página de ejemplo respaldada por la fuente. |
+| log-20260702-002 | 2026-07-02 | save | Decisión de ejemplo registrada | [[Example Decision]] | ausente | Falta la página de origen; el resumen se limita a la entrada de la bitácora. |
 ```
 
-The summary is one sentence supported by the log entry. Use `ambiguous in
-source` or `source missing` instead of guessing.
+El resumen es una oración respaldada por la entrada de la bitácora. Usa
+`ambiguous in source` o `source missing` en lugar de adivinar.
 
-### Key Outcomes
+### Resultados clave
 
-Include three to seven extractive bullets when supported. Cite the child key for
-every bullet and verify each number against the source entry.
+Incluye de tres a siete viñetas extractivas cuando haya respaldo. Cita la clave
+hija en cada viñeta y verifica cada número contra la entrada de origen.
 
 ```markdown
-## Key Outcomes
+## Resultados clave
 
-- Added one source-backed example page. (child: log-20260701-001)
+- Se agregó una página de ejemplo respaldada por la fuente. (hija: log-20260701-001)
 ```
 
-If no outcome is supported, state that explicitly.
+Si ningún resultado tiene respaldo, indícalo de forma explícita.
 
-### Cross-entry Themes
+### Temas entre entradas
 
-Include zero to four bullets. Each theme names at least two child keys. If no
-pattern is supported, write:
+Incluye de cero a cuatro viñetas. Cada tema nombra al menos dos claves hijas. Si
+ningún patrón tiene respaldo, escribe:
 
 ```markdown
-## Cross-entry Themes
+## Temas entre entradas
 
-No cross-entry themes identified; the entries are independent within this range.
+No se identificaron temas entre entradas; las entradas son independientes dentro de este rango.
 ```
 
-### Contradictions or Corrections
+### Contradicciones o correcciones
 
-Preserve disagreements and their status. Use `None detected` only after checking
-all selected entries.
+Conserva los desacuerdos y su estado. Usa `None detected` solo después de revisar
+todas las entradas seleccionadas.
 
-### Child Pages
+### Páginas hijas
 
-List each unique present target page once. This section is deduplicated by page;
-the Child Entries table is not.
+Enumera una sola vez cada página de destino presente y única. Esta sección se
+deduplica por página; la tabla de Entradas hijas no.
 
 ```markdown
-## Child Pages
+## Páginas hijas
 
 - [[Example Source]]
 
-## Related
+## Relacionado
 
-- [[log]] - source entries
-- [[index]] - vault catalog
+- [[log]] - entradas de origen
+- [[index]] - catálogo de la bóveda
 ```
 
-## Validation
+## Validación
 
-- `entry_count`, `child_keys`, and table rows have equal counts.
-- Every child key is unique and appears exactly twice: frontmatter and one row.
-- Every numeric statement is traceable to its cited child.
-- Every theme cites at least two children.
-- Missing pages remain explicit.
-- No child page or selected log entry is changed.
-- The fold body is a rollup, not a retelling; split an unusually large fold
-  instead of imposing an arbitrary line target.
+- `entry_count`, `child_keys` y las filas de la tabla tienen la misma cantidad.
+- Cada clave hija es única y aparece exactamente dos veces: en el frontmatter y en
+  una fila.
+- Cada afirmación numérica es trazable a su entrada hija citada.
+- Cada tema cita al menos dos entradas hijas.
+- Las páginas ausentes siguen siendo explícitas.
+- No se modifica ninguna página hija ni ninguna entrada seleccionada de la
+  bitácora.
+- El cuerpo de la consolidación es un resumen consolidado, no una narración
+  repetida; divide una consolidación inusualmente grande en lugar de imponer un
+  objetivo arbitrario de líneas.
