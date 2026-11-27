@@ -47,8 +47,8 @@ Tras la aprobación, vuelve a leer todos los destinos y reconstruye la propuesta
 algún hash cambió. Usa un solo paquete de flujo con `operation_type: ingest`.
 Conserva la nota antigua como una nota de redirección breve con
 `status: superseded`, con un wikilink y el motivo, y preserva la evidencia única y
-las identidades estables de fuentes y afirmaciones. Deja sin cambios las cargas
-útiles sin procesar originales. Incluye en ese único paquete la nota fusionada,
+las identidades estables de fuentes y afirmaciones. Deja sin cambios el contenido
+sin procesar original. Incluye en ese único paquete la nota fusionada,
 todas las notas de redirección aprobadas, el catálogo activo, la bitácora, la
 caché caliente y las entradas modificadas de los registros.
 

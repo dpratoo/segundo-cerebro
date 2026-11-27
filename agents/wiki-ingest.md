@@ -72,8 +72,8 @@ invoques un cliente de red ni sustituyas la fuente por otra.
 Se permiten comandos de shell locales seguros y de solo lectura, como `sha256sum`,
 `git grep` o el comando de ruta de solo lectura documentado del enrutador de
 modos. Nunca ejecutes Write/Edit, la aplicación de transacciones, la aplicación
-de migraciones, capturas, auxiliares de bloqueo, puntos de control, modificaciones
-de Git ni comandos con salida de red.
+de migraciones, capturas, scripts auxiliares de bloqueo, puntos de control,
+modificaciones de Git ni comandos con salida de red.
 
 ## Salida
 

@@ -68,14 +68,14 @@ La madurez de la captura depende del adaptador:
   producido. No afirmes que se copió un binario cuando la transacción contiene
   solo texto.
 
-Las cargas útiles de fuentes externas que se agreguen en `.raw/` deben usar el
-modo de transacción `create`. Nunca reemplaces ni edites una carga útil sin
-procesar existente. Una fuente remota que cambió recibe una captura nueva e
+El contenido de fuentes externas que se agregue en `.raw/` debe usar el modo
+de transacción `create`. Nunca reemplaces ni edites contenido sin procesar
+existente. Una fuente remota que cambió recibe una captura nueva e
 inmutable o una actualización honesta del registro, no una sobrescritura.
 
 ## Analizar antes de redactar
 
-1. Calcula el SHA-256 de cada carga útil disponible y revisa
+1. Calcula el SHA-256 de cada contenido sin procesar disponible y revisa
    `.raw/.manifest.json` y el registro de fuentes para detectar entradas sin
    cambios.
 2. Clasifica cada entrada antes de extraerla: código, investigación o artículo,
@@ -145,7 +145,7 @@ Redacta un único paquete `claude-obsidian.transaction.v1` con
 - una entrada de la bitácora para todo el lote, por encima de todas las
   existentes, y una caché caliente actualizada.
 
-El control del flujo de trabajo exige una fuente (una carga útil de `.raw/` de
+El control del flujo de trabajo exige una fuente (un contenido de `.raw/` de
 solo creación o una fuente registrada en el registro de fuentes) y un cambio real
 en al menos un registro. Nunca agregues una entrada de fuente o de afirmación
 solo para satisfacer el control.

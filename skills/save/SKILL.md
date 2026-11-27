@@ -66,7 +66,7 @@ Lee [el contrato de procedencia](../wiki/references/provenance.md) cuando la not
 contenga afirmaciones verificables externamente. Actualiza los registros de
 fuentes y de afirmaciones en la misma transacción cuando cambien sus entradas.
 Las aseveraciones de la conversación no son evidencia independiente; clasifícalas
-como sintéticas o como no respaldadas/provisionales, según corresponda. Por sí
+como sintéticas o como sin respaldo/provisionales, según corresponda. Por sí
 solas no pueden hacer que una afirmación quede `accepted`.
 
 Conserva los desacuerdos y la incertidumbre. Nunca inventes citas, fuentes ni

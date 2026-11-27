@@ -68,7 +68,7 @@ indica ese límite.
    plausible.
 3. Prefiere las fuentes oficiales y primarias. Registra URL, título,
    autor o editor, fechas de publicación y de obtención, autoridad, vigencia, hash
-   de la carga útil cuando esté disponible y clave de independencia.
+   del contenido cuando esté disponible y clave de independencia.
 4. Extrae afirmaciones falsables con localizadores de evidencia precisos. Mantén
    separadas las declaraciones de la fuente y la inferencia.
 5. Busca los vacíos y las contradicciones, no solo más ejemplos de la postura
