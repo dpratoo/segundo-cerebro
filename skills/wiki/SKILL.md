@@ -3,33 +3,35 @@ name: wiki
 description: "Inicializa, adopta y enruta el trabajo de una bóveda de conocimiento de Obsidian separada con el núcleo portátil de claude-obsidian. Úsala para configurar la bóveda o su uso entre proyectos, crear su estructura inicial y elegir el espacio de trabajo o la subskill de wiki correcta. Se activa con: /wiki, configura la wiki, crea la estructura inicial, crea una base de conocimiento, adopta esta bóveda, bóveda de Obsidian, configura un segundo cerebro, wiki persistente."
 ---
 
-# Wiki orchestration
+# Orquestación de la wiki
 
-Treat the installed product as code and the selected user vault as data. Never use
-the plugin/product root as a vault, even when the current directory happens to be
-the product checkout.
+Trata el producto instalado como código y la bóveda del usuario seleccionada como
+datos. Nunca uses la raíz del plugin o del producto como bóveda, aunque el
+directorio actual sea la copia de trabajo del producto.
 
-Resolve the portable core from this skill's installation and invoke it by absolute
-path:
+Resuelve el núcleo portátil a partir de la instalación de esta skill e invócalo
+por su ruta absoluta:
 
 ```bash
 CORE=/absolute/product/root/scripts/claude-obsidian.py
 python3 "$CORE" --help
 ```
 
-Resolve a vault in this order: explicit `--vault`,
-`CLAUDE_OBSIDIAN_VAULT`, the nearest `.claude-obsidian.json`, then an
-unambiguous initialized vault at or above the current directory. Fail closed when
-selection is missing or ambiguous.
+Resuelve una bóveda en este orden: `--vault` explícito,
+`CLAUDE_OBSIDIAN_VAULT`, el `.claude-obsidian.json` más cercano y, por último,
+una bóveda inicializada no ambigua en el directorio actual o por encima de él.
+Falla de forma cerrada cuando la selección falta o es ambigua.
 
-Baseline setup requires no network egress. Do not fetch templates, plugins, or
-remote content unless the user separately approves the destinations and budget.
+La configuración base no requiere salida de red. No descargues plantillas,
+plugins ni contenido remoto a menos que el usuario apruebe por separado los
+destinos y el presupuesto.
 
-## Set up a vault
+## Configurar una bóveda
 
-Use the deterministic setup commands. Both are dry-run by default.
+Usa los comandos de configuración deterministas. Ambos son de simulación por
+defecto.
 
-For a new, separate vault:
+Para una bóveda nueva y separada:
 
 ```bash
 python3 "$CORE" init /absolute/path/to/vault \
@@ -39,7 +41,7 @@ python3 "$CORE" init /absolute/path/to/vault \
   --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-For an existing Obsidian vault:
+Para una bóveda de Obsidian existente:
 
 ```bash
 python3 "$CORE" adopt /absolute/path/to/vault \
@@ -49,99 +51,105 @@ python3 "$CORE" adopt /absolute/path/to/vault \
   --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-Before `--apply`, show the selected path and changed-path preview, then pass
-the emitted `approved_plan_sha256` unchanged. Do not use
-`--force` unless the user has reviewed the conflicts and explicitly approved
-replacement. Setup is non-destructive by default and creates no upstream Git
-remote.
+Antes de `--apply`, muestra la ruta seleccionada y la vista previa de las rutas
+que cambian, y luego pasa sin cambios el `approved_plan_sha256` emitido. No uses
+`--force` a menos que el usuario haya revisado los conflictos y aprobado de
+forma explícita el reemplazo. La configuración no es destructiva por defecto y
+no crea ningún remoto de Git del proyecto de origen.
 
-If the user asks for a domain-specific scaffold, establish the baseline first,
-then read [modes.md](references/modes.md). Draft the additional pages and
-configuration as one operation-level transaction. Never mutate vault files with
-host Write/Edit tools or an Obsidian transport.
+Si el usuario pide una estructura inicial para un dominio específico, establece
+primero la base y luego lee [modes.md](references/modes.md). Redacta las páginas
+y la configuración adicionales como una sola transacción a nivel de operación.
+Nunca modifiques archivos de la bóveda con las herramientas Write/Edit del host
+ni con un transporte de Obsidian.
 
-## Route operations
+## Enrutar las operaciones
 
-Route the user's intent without silently broadening it:
+Enruta la intención del usuario sin ampliarla en silencio:
 
-| Intent | Skill |
+| Intención | Skill |
 |---|---|
-| Ingest supplied sources | `wiki-ingest` |
-| Answer from existing vault knowledge | `wiki-query` |
-| Save a specific conversation result | `save` |
-| Research the public web under a budget | `autoresearch` |
-| Check vault health | `wiki-lint` |
-| Draft a cited glossary or consolidate overlapping notes | `wiki-ingest`, with an explicitly reviewed scope |
-| Roll up log entries | `wiki-fold` |
-| Work with a canvas | `canvas` |
+| Ingerir fuentes proporcionadas | `wiki-ingest` |
+| Responder a partir del conocimiento existente de la bóveda | `wiki-query` |
+| Guardar un resultado específico de la conversación | `save` |
+| Investigar la web pública con un presupuesto | `autoresearch` |
+| Revisar la salud de la bóveda | `wiki-lint` |
+| Redactar un glosario con citas o consolidar notas que se solapan | `wiki-ingest`, con un alcance revisado de forma explícita |
+| Consolidar entradas de la bitácora | `wiki-fold` |
+| Trabajar con un canvas | `canvas` |
 
-Query is read-only. Persistence from a query must be an explicit, separately
-scoped Save operation. Never capture a transcript or update the hot cache merely
-because a session ended.
+La consulta es de solo lectura. La persistencia a partir de una consulta debe ser
+una operación de guardado explícita y con un alcance propio. Nunca captures una
+transcripción ni actualices la caché caliente solo porque terminó una sesión.
 
-## Mutation contract
+## Contrato de modificación
 
-Read [operation-transactions.md](references/operation-transactions.md) before
-any custom scaffold or mutation. One logical operation must produce one inspected
-and recoverable `claude-obsidian.transaction.v1` bundle. Parallel agents may
-return drafts and evidence only; the orchestrator merges them and applies once.
-Every canonical page create or removal includes an active index or MOC update
-in that bundle; update the overview only when the stable high-level picture
-changed. Raw source payloads are create-only. There are no automatic commits.
+Lee [operation-transactions.md](references/operation-transactions.md) antes de
+cualquier estructura inicial o modificación personalizada. Una operación lógica
+debe producir un único paquete `claude-obsidian.transaction.v1` inspeccionado y
+recuperable. Los agentes en paralelo solo pueden devolver borradores y
+evidencia; el orquestador los fusiona y aplica una sola vez. Toda creación o
+eliminación de una página canónica incluye, en ese paquete, una actualización
+del índice activo o del MOC; actualiza la vista general solo cuando cambió el
+panorama estable de alto nivel. El contenido sin procesar de las fuentes es de
+solo creación. No hay commits automáticos.
 
-Use [provenance.md](references/provenance.md) when initializing or changing
-source and claim ledgers. Unsupported evidence stays unsupported; never invent a
-source, quote, date, locator, or confidence.
+Usa [provenance.md](references/provenance.md) al inicializar o cambiar los
+registros de fuentes y de afirmaciones. La evidencia sin respaldo sigue sin
+respaldo; nunca inventes una fuente, una cita, una fecha, un localizador ni un
+nivel de confianza.
 
-After a successful apply, report the operation ID and exact changed paths. If the
-user explicitly wants a Git checkpoint, run it separately:
+Tras una aplicación exitosa, informa el ID de la operación y las rutas exactas
+que cambiaron. Si el usuario quiere de forma explícita un punto de control de
+Git, ejecútalo por separado:
 
 ```bash
 python3 "$CORE" checkpoint OPERATION_ID --vault /absolute/path/to/vault
 ```
 
-On a conflict, re-read and rebuild. On interruption, use `transaction recover`.
-Reuse an operation ID only with the identical bundle.
+Ante un conflicto, vuelve a leer y reconstruye. Ante una interrupción, usa
+`transaction recover`. Reutiliza un ID de operación solo con el paquete idéntico.
 
-## Installation context
+## Contexto de instalación
 
-Read [install-modes.md](references/install-modes.md) when installation or host
-behavior matters. Hooks are optional adapters; portable behavior lives in the
-core and skills.
+Lee [install-modes.md](references/install-modes.md) cuando importen la
+instalación o el comportamiento del host. Los hooks son adaptadores opcionales;
+el comportamiento portátil vive en el núcleo y en las skills.
 
-## Conditional references
+## Referencias condicionales
 
-Read only the reference needed for the current request:
+Lee solo la referencia que necesite la solicitud actual:
 
-- [frontmatter.md](references/frontmatter.md) when defining or adopting a
-  property schema;
-- [css-snippets.md](references/css-snippets.md) for requested Obsidian visual
-  customization;
-- [git-setup.md](references/git-setup.md) for explicit local Git or checkpoint
-  setup;
-- [plugins.md](references/plugins.md) when evaluating optional Obsidian
-  integrations;
-- [mcp-setup.md](references/mcp-setup.md) when the user asks to evaluate an
-  external read transport;
-- [rest-api.md](references/rest-api.md) only when the user explicitly has or
-  requests the Local REST API adapter;
-- [dataview.md](references/dataview.md) for an existing optional Dataview setup;
-- [knowledge-recipes.md](references/knowledge-recipes.md) for cited glossary or
-  consolidation work;
-- [coordination.md](references/coordination.md) for external editors or multiple
-  machines;
-- [native-conformance.md](../../docs/native-conformance.md) for versioned native
-  acceptance evidence;
-- [capacity-and-recovery.md](../../docs/capacity-and-recovery.md) for size limits
-  or recoverable legacy compaction;
-- [upstream-references.md](../../docs/upstream-references.md) when reconciling
-  pinned external syntax or design references.
-- [model-guidance.md](references/model-guidance.md) when evaluating a model,
-  changing a generation adapter, or validating host-specific prompting.
+- [frontmatter.md](references/frontmatter.md) al definir o adoptar un esquema de
+  propiedades;
+- [css-snippets.md](references/css-snippets.md) para la personalización visual de
+  Obsidian que se haya pedido;
+- [git-setup.md](references/git-setup.md) para una configuración explícita de Git
+  local o de puntos de control;
+- [plugins.md](references/plugins.md) al evaluar integraciones opcionales de
+  Obsidian;
+- [mcp-setup.md](references/mcp-setup.md) cuando el usuario pide evaluar un
+  transporte de lectura externo;
+- [rest-api.md](references/rest-api.md) solo cuando el usuario ya tiene o pide de
+  forma explícita el adaptador de Local REST API;
+- [dataview.md](references/dataview.md) para una configuración opcional de
+  Dataview ya existente;
+- [knowledge-recipes.md](references/knowledge-recipes.md) para trabajo de
+  glosarios con citas o de consolidación;
+- [coordination.md](references/coordination.md) para editores externos o varias
+  máquinas;
+- [native-conformance.md](../../docs/native-conformance.md) para la evidencia
+  versionada de aceptación nativa;
+- [capacity-and-recovery.md](../../docs/capacity-and-recovery.md) para los
+  límites de tamaño o la compactación recuperable de registros heredados;
+- [upstream-references.md](../../docs/upstream-references.md) al conciliar
+  referencias externas fijadas de sintaxis o de diseño.
+- [model-guidance.md](references/model-guidance.md) al evaluar un modelo, cambiar
+  un adaptador de generación o validar prompts específicos de un host.
 
-## Think, verify, grow
+## Pensar, verificar, crecer
 
-Before applying, pause once: observe existing state, verify the vault selection
-and evidence, then choose the smallest reversible operation that satisfies the
-request. Afterward, report uncertainty and the next useful improvement without
-performing it automatically.
+Antes de aplicar, haz una sola pausa: observa el estado existente, verifica la
+selección de la bóveda y la evidencia, y elige la operación reversible más
+pequeña que satisfaga la solicitud. Después, informa la incertidumbre y la
+siguiente mejora útil sin ejecutarla de forma automática.

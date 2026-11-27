@@ -1,31 +1,43 @@
-# External editors and multiple machines
+# Editores externos y varias máquinas
 
-The local mutation lock serializes cooperating claude-obsidian writers on the
-selected local vault. Expected SHA-256 preconditions detect changed targets at
-inspection/apply time. Obsidian, other editors, sync clients, and other machines
-do not acquire that lock. A file can still change after a check. This is not a
-cross-device merge or distributed-lock protocol.
+El bloqueo de modificación local serializa a los escritores cooperantes de
+claude-obsidian sobre la bóveda local seleccionada. Las precondiciones de SHA-256
+esperado detectan destinos modificados en el momento de la inspección o de la
+aplicación. Obsidian, otros editores, los clientes de sincronización y otras
+máquinas no adquieren ese bloqueo. Un archivo todavía puede cambiar después de
+una comprobación. Esto no es un protocolo de fusión entre dispositivos ni de
+bloqueo distribuido.
 
-For an operation that changes notes or ledgers:
+Para una operación que cambia notas o registros:
 
-1. Finish edits and wait for sync to settle on every device. Keep a recoverable
-   backup. Select one machine as the only writer for the operation.
-2. Pause overlapping plugin writers and background checkpoints. Avoid editing
-   targeted files in Obsidian while a reviewed transaction applies.
-3. Read and hash targets, inspect once, and apply the exact approved bundle.
-   Exit 75 requires a fresh read and rebuilt plan; do not retry stale writes.
-4. Verify the receipt, changed paths, source bytes, and deterministic lint before
-   resuming sync. Retain operation evidence outside the syncing vault if needed.
-5. Resume other writers only after every device converges on the verified bytes.
-   Conflicted copies need a separate evidence-preserving review, not last-writer
-   overwrite. Never erase a raw payload to make a sync conflict disappear.
+1. Termina las ediciones y espera a que la sincronización se estabilice en cada
+   dispositivo. Conserva una copia de seguridad recuperable. Elige una sola
+   máquina como único escritor de la operación.
+2. Pausa los escritores de complementos que se solapen y los puntos de control en
+   segundo plano. Evita editar en Obsidian los archivos de destino mientras se
+   aplica una transacción revisada.
+3. Lee y calcula el hash de los destinos, inspecciona una sola vez y aplica el
+   paquete aprobado exacto. El código de salida 75 exige una lectura nueva y un
+   plan reconstruido; no reintentes escrituras obsoletas.
+4. Verifica el comprobante, las rutas que cambiaron, los bytes de las fuentes y
+   el lint determinista antes de reanudar la sincronización. Conserva la
+   evidencia de la operación fuera de la bóveda que se sincroniza si hace falta.
+5. Reanuda los demás escritores solo después de que todos los dispositivos
+   converjan en los bytes verificados. Las copias en conflicto necesitan una
+   revisión aparte que preserve la evidencia, no una sobrescritura por parte del
+   último escritor. Nunca borres contenido sin procesar para que desaparezca un
+   conflicto de sincronización.
 
-If sync interrupts an apply, stop competing writers, preserve the complete vault
-and `.vault-meta/` journal together, and use `transaction recover`. Do not sync
-half a journal independently of its targets/backups. Do not force a stale lock
-until an operator has independently confirmed that no writer is alive.
+Si la sincronización interrumpe una aplicación, detén los escritores que
+compiten, conserva juntos la bóveda completa y el diario de `.vault-meta/`, y
+usa `transaction recover`. No sincronices la mitad de un diario por separado de
+sus destinos y copias de seguridad. No fuerces un bloqueo obsoleto hasta que un
+operador haya confirmado de forma independiente que no hay ningún escritor
+activo.
 
-These steps reduce overlap; no live cloud-sync or network-filesystem convergence
-is claimed by offline tests. A REST ETag protects one transport operation and
-cannot replace the multi-file journal, local hashes, or single-writer agreement.
-Filesystem/CLI reads remain preferable when an optional transport adds no value.
+Estos pasos reducen los solapamientos; las pruebas sin conexión no afirman
+ninguna convergencia real de sincronización en la nube ni de sistemas de
+archivos en red. Un ETag de REST protege una operación de transporte y no puede
+sustituir al diario de varios archivos, a los hashes locales ni al acuerdo de un
+único escritor. Las lecturas del sistema de archivos o de la CLI siguen siendo
+preferibles cuando un transporte opcional no aporta valor.

@@ -1,41 +1,49 @@
-# External read transports
+# Transportes de lectura externos
 
-The portable baseline reads vault files directly. The official Obsidian CLI is
-an optional read surface when runtime probing reports it usable. MCP servers and
-REST plugins are optional third-party integrations, never prerequisites.
+La base portátil lee directamente los archivos de la bóveda. La CLI oficial de
+Obsidian es una superficie de lectura opcional cuando la sonda en tiempo de
+ejecución informa que se puede usar. Los servidores MCP y los complementos REST
+son integraciones opcionales de terceros, nunca requisitos previos.
 
-## Selection policy
+## Política de selección
 
-1. Prefer direct filesystem reads for portability and least privilege.
-2. Use the official Obsidian CLI read-only when `detect-transport.sh --peek`
-   reports it usable.
-3. Consider an MCP or REST adapter only when the user needs a capability the
-   first two choices cannot provide and explicitly approves installation.
-4. Keep all vault mutations in a claude-obsidian operation transaction. An
-   external transport must not bypass expected hashes, journaling, or recovery.
+1. Prefiere las lecturas directas del sistema de archivos por portabilidad y por
+   mínimo privilegio.
+2. Usa la CLI oficial de Obsidian en modo de solo lectura cuando
+   `detect-transport.sh --peek` informe que se puede usar.
+3. Considera un adaptador MCP o REST solo cuando el usuario necesite una
+   capacidad que las dos primeras opciones no puedan ofrecer y apruebe de forma
+   explícita la instalación.
+4. Mantén todas las modificaciones de la bóveda dentro de una transacción de
+   operación de claude-obsidian. Un transporte externo no debe eludir los
+   hashes esperados, el diario ni la recuperación.
 
-## Third-party review
+## Revisión de terceros
 
-Installation recipes, package names, flags, and permissions change. Consult the
-adapter's current primary documentation before use, pin a reviewed version,
-and verify publisher and source. Do not execute floating `latest` packages,
-unverified downloads, or opaque install scripts from this reference.
+Las recetas de instalación, los nombres de paquetes, los flags y los permisos
+cambian. Consulta la documentación principal vigente del adaptador antes de
+usarlo, fija una versión revisada y verifica el publicador y el origen. No
+ejecutes paquetes flotantes `latest`, descargas no verificadas ni scripts de
+instalación opacos a partir de esta referencia.
 
-For any adapter:
+Para cualquier adaptador:
 
-- grant access only to the selected vault;
-- bind network listeners to loopback unless the user has designed and approved
-  authenticated remote access;
-- keep tokens out of notes, shell history, logs, and repository files;
-- preserve TLS verification rather than using global bypass environment flags;
-- default to read-only and test with non-sensitive data;
-- document what data can leave the machine and how to disable the adapter.
+- concede acceso solo a la bóveda seleccionada;
+- vincula los oyentes de red a loopback, a menos que el usuario haya diseñado y
+  aprobado un acceso remoto autenticado;
+- mantén los tokens fuera de las notas, del historial del shell, de las
+  bitácoras y de los archivos del repositorio;
+- conserva la verificación de TLS en lugar de usar variables de entorno globales
+  que la omitan;
+- usa solo lectura por defecto y prueba con datos no sensibles;
+- documenta qué datos pueden salir de la máquina y cómo desactivar el adaptador.
 
-Loopback binding reduces exposure but does not make disabled certificate
-verification or leaked bearer tokens safe.
+Vincular a loopback reduce la exposición, pero no vuelve seguros una verificación
+de certificados desactivada ni unos tokens de portador filtrados.
 
-## Verification
+## Verificación
 
-Report adapter readiness only after a harmless read probe succeeds. Binary or
-configuration presence alone means `available`, not `verified`. If a probe
-fails, fall back to filesystem reads without changing mutation semantics.
+Informa que un adaptador está listo solo después de que una sonda de lectura
+inofensiva tenga éxito. La sola presencia del binario o de la configuración
+significa `available`, no `verified`. Si una sonda falla, recurre a las lecturas
+del sistema de archivos sin cambiar la semántica de las modificaciones.

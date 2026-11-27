@@ -1,12 +1,12 @@
-# Visual Customization
+# Personalización visual
 
-Apply during scaffold. This makes the file explorer color-coded by folder type and adds custom callout styles.
+Aplícala al crear la estructura inicial. Esto colorea el explorador de archivos según el tipo de carpeta y agrega estilos de destacados personalizados.
 
 ---
 
-## CSS Snippet
+## Fragmento de CSS
 
-Create this file at `.obsidian/snippets/vault-colors.css` inside the vault:
+Crea este archivo en `.obsidian/snippets/vault-colors.css` dentro de la bóveda:
 
 ```css
 :root {
@@ -50,66 +50,66 @@ Create this file at `.obsidian/snippets/vault-colors.css` inside the vault:
 
 ---
 
-## Enable the Snippet
+## Activar el fragmento
 
-Tell the user: Settings > Appearance > CSS Snippets > open folder > paste the file > click the refresh icon > toggle it on.
+Dile al usuario: Configuración > Apariencia > Fragmentos de CSS > abre la carpeta > pega el archivo > haz clic en el ícono de actualizar > actívalo.
 
 ---
 
-## Graph View Groups
+## Grupos de la vista gráfica
 
-Guide the user to set these in Graph View settings (click the settings icon in the graph view):
+Guía al usuario para configurarlos en los ajustes de la vista gráfica (haz clic en el ícono de configuración de la vista gráfica):
 
-| Query | Color |
+| Consulta | Color |
 |-------|-------|
-| `path:wiki/domains` | Blue (`#4fc1ff`) |
-| `path:wiki/entities` | Purple (`#c586c0`) |
-| `path:wiki/concepts` | Yellow (`#dcdcaa`) |
-| `path:wiki/sources` | Orange (`#ce9178`) |
-| `path:wiki/questions` | Green (`#6a9955`) |
-| `path:.raw` | Gray (dimmed) |
+| `path:wiki/domains` | Azul (`#4fc1ff`) |
+| `path:wiki/entities` | Morado (`#c586c0`) |
+| `path:wiki/concepts` | Amarillo (`#dcdcaa`) |
+| `path:wiki/sources` | Naranja (`#ce9178`) |
+| `path:wiki/questions` | Verde (`#6a9955`) |
+| `path:.raw` | Gris (atenuado) |
 
 ---
 
-## Custom Callouts
+## Destacados personalizados
 
-This vault defines **four custom callout types** beyond Obsidian's built-in set (`note`, `tip`, `warning`, `info`, `todo`, `success`, `question`, `failure`, `danger`, `bug`, `example`, `quote`). They render correctly **only when `vault-colors.css` is enabled**. Without the snippet, they fall back to default callout styling (still readable, just plain).
+Esta bóveda define **cuatro tipos de destacados personalizados** además del conjunto integrado de Obsidian (`note`, `tip`, `warning`, `info`, `todo`, `success`, `question`, `failure`, `danger`, `bug`, `example`, `quote`). Se muestran correctamente **solo cuando `vault-colors.css` está activado**. Sin el fragmento, vuelven al estilo de destacado predeterminado (siguen siendo legibles, solo que sencillos).
 
-| Custom callout | Color | Icon | Use for |
+| Destacado personalizado | Color | Ícono | Úsalo para |
 |---|---|---|---|
-| `contradiction` | reddish-brown (rgb 209,105,105) | `lucide-alert-triangle` | New source conflicts with existing claim |
-| `gap` | beige (rgb 220,220,170) | `lucide-help-circle` | Topic has no source yet |
-| `key-insight` | bright blue (rgb 79,193,255) | `lucide-lightbulb` | Important takeaway worth highlighting |
-| `stale` | gray (rgb 128,128,128) | `lucide-clock` | Claim may be outdated, source older than threshold |
+| `contradiction` | marrón rojizo (rgb 209,105,105) | `lucide-alert-triangle` | Una fuente nueva entra en conflicto con una afirmación existente |
+| `gap` | beige (rgb 220,220,170) | `lucide-help-circle` | El tema aún no tiene fuente |
+| `key-insight` | azul brillante (rgb 79,193,255) | `lucide-lightbulb` | Conclusión importante que vale la pena resaltar |
+| `stale` | gris (rgb 128,128,128) | `lucide-clock` | La afirmación puede estar desactualizada; fuente más antigua que el umbral |
 
-### Usage
+### Uso
 
-Use these in wiki pages to flag important states:
+Úsalos en las páginas de la wiki para señalar estados importantes:
 
 ```markdown
-> [!contradiction] Title
-> [[Page A]] claims X. [[Page B]] says Y. Needs resolution.
+> [!contradiction] Título
+> [[Page A]] afirma X. [[Page B]] dice Y. Requiere resolución.
 
-> [!gap] Title
-> This topic has no source yet. Consider finding one.
+> [!gap] Título
+> Este tema aún no tiene fuente. Conviene buscar una.
 
-> [!key-insight] Title
-> The most important takeaway from this section.
+> [!key-insight] Título
+> La conclusión más importante de esta sección.
 
-> [!stale] Title
-> This claim may be outdated. Source was from 2022.
+> [!stale] Título
+> Esta afirmación puede estar desactualizada. La fuente es de 2022.
 ```
 
-### Why custom callouts (vs built-in)
+### Por qué destacados personalizados (frente a los integrados)
 
-The four custom types map to wiki-specific concepts that don't fit cleanly into Obsidian's default set:
+Los cuatro tipos personalizados corresponden a conceptos propios de la wiki que no encajan bien en el conjunto predeterminado de Obsidian:
 
-- `contradiction` is more specific than `warning`: it signals a **resolvable conflict** between two wiki pages, not a generic warning.
-- `gap` is more specific than `question`: it signals a **missing source**, an actionable improvement.
-- `key-insight` is more specific than `tip`: it marks **the** most important takeaway from a section, used sparingly.
-- `stale` has no built-in equivalent: it signals time-based decay of a claim.
+- `contradiction` es más específico que `warning`: señala un **conflicto resoluble** entre dos páginas de la wiki, no una advertencia genérica.
+- `gap` es más específico que `question`: señala una **fuente faltante**, una mejora accionable.
+- `key-insight` es más específico que `tip`: marca **la** conclusión más importante de una sección y se usa con moderación.
+- `stale` no tiene equivalente integrado: señala el deterioro de una afirmación con el paso del tiempo.
 
-If you don't want custom callouts, replace them with built-ins:
+Si no quieres destacados personalizados, reemplázalos por los integrados:
 - `[!contradiction]` → `[!warning] Contradiction`
 - `[!gap]` → `[!question] Gap`
 - `[!key-insight]` → `[!tip] Key insight`
@@ -117,9 +117,9 @@ If you don't want custom callouts, replace them with built-ins:
 
 ---
 
-## Theme compatibility
+## Compatibilidad con temas
 
-The snippet uses standard CSS variables and does not require a community theme.
-If the user chooses a theme, verify contrast and selector behavior in the
-installed Obsidian version before recommending it for accessibility-sensitive
-work.
+El fragmento usa variables CSS estándar y no requiere un tema de la comunidad.
+Si el usuario elige un tema, verifica el contraste y el comportamiento de los
+selectores en la versión de Obsidian instalada antes de recomendarlo para
+trabajo sensible a la accesibilidad.

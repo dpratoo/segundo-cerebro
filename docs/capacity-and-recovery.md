@@ -1,78 +1,90 @@
-# Capacity and recovery
+# Capacidad y recuperación
 
-Inspect the selected vault before a large operation:
+Inspecciona la bóveda seleccionada antes de una operación grande:
 
 ```bash
 python3 "$CORE" capacity --vault "$VAULT"
 ```
 
-This reads status without changing the vault. Keep ledger bytes, raw archive
-bytes, page count, and retrieval chunk count distinct when measuring capacity.
-No page-count promise or constant latency follows from a passing small fixture.
-Benchmark representative small, medium, and large copies on the target machine;
-retain elapsed time, memory, index size, cancellation outcome, and recovery time.
+Esto lee el estado sin modificar la bóveda. Mantén por separado los bytes de los
+registros, los bytes del archivo sin procesar, la cantidad de páginas y la cantidad de
+fragmentos de búsqueda al medir la capacidad. De un fixture pequeño que pasa no
+se deriva ninguna promesa sobre la cantidad de páginas ni una latencia
+constante. Mide el rendimiento de copias representativas pequeñas, medianas y
+grandes en el equipo de destino; conserva el tiempo transcurrido, la memoria, el
+tamaño del índice, el resultado de la cancelación y el tiempo de recuperación.
 
-Canonical source and claim ledgers must fit the 16 MiB reader/writer limit.
-Transactions preflight them and reject growth with `LEDGER_CAPACITY_EXCEEDED`.
-Do not remove evidence, lower fidelity, or disable validation to get under the
-limit. A formatting-heavy legacy ledger may be compacted losslessly:
+Los registros canónicos de fuentes y de afirmaciones deben caber en el límite de
+16 MiB del lector y del escritor. Las transacciones los verifican de antemano y
+rechazan el crecimiento con `LEDGER_CAPACITY_EXCEEDED`. No elimines evidencia,
+no reduzcas la fidelidad ni desactives la validación para quedar por debajo del
+límite. Un registro heredado con mucho formato puede compactarse sin pérdida:
 
 ```bash
 python3 "$CORE" capacity compact --vault "$VAULT" \
   --operation-id capacity-reviewed
-# Set APPROVAL_SHA256 to the reviewed approved_plan_sha256.
+# Define APPROVAL_SHA256 con el approved_plan_sha256 revisado.
 python3 "$CORE" capacity compact --vault "$VAULT" \
   --operation-id capacity-reviewed \
   --approved-plan-sha256 "$APPROVAL_SHA256" --apply
 ```
 
-Keep a complete recoverable vault backup before repair. Review the operation's
-paths and hashes. This repair reads legacy inputs only up to 64 MiB and changes
-JSON formatting, preserving every record and source identity. It rewrites only
-ledgers that `capacity` reports as `near_capacity` (at least 85% of the limit)
-or `over_capacity`; smaller ledgers are left byte-for-byte unchanged and a vault
-with none is a `noop`. If the compact canonical representation still exceeds
-16 MiB, it fails with `LEDGER_MIGRATION_REQUIRED`, refusing early when even
-removing all whitespace could not fit. Stop and retain the data; automated
-sharding and record eviction are not implemented. An arbitrary size increase
-would need reader, writer, journal, memory, and rollback evidence together.
+Conserva una copia de seguridad completa y recuperable de la bóveda antes de
+reparar. Revisa las rutas y los hashes de la operación. Esta reparación lee
+entradas heredadas solo hasta 64 MiB y cambia el formato del JSON, conservando
+cada entrada y la identidad de cada fuente. Reescribe solo los registros que
+`capacity` informa como `near_capacity` (al menos el 85% del límite) o
+`over_capacity`; los registros más pequeños quedan idénticos byte por byte, y
+una bóveda sin ninguno es un `noop`. Si la representación canónica compacta
+aún supera 16 MiB, falla con `LEDGER_MIGRATION_REQUIRED` y se niega de entrada
+cuando ni siquiera quitar todo el espacio en blanco permitiría que cupiera.
+Detente y conserva los datos; el particionado automático y la expulsión de
+entradas no están implementados. Un aumento de tamaño arbitrario necesitaría
+evidencia conjunta del lector, del escritor, del diario, de la memoria y de la
+reversión.
 
-The compaction is an ordinary transaction, so inspection runs the same semantic
-provenance validation as any ledger write. If the vault drifted out of band,
-for example a `.raw/` source edited after ingest so its recorded
-`content_sha256` no longer matches, inspection refuses the plan with
-`INVALID_PROVENANCE_LEDGER` even though only formatting would change. Do not
-bypass validation. Recover through a normal reviewed transaction that writes a
-corrected ledger in compact form (one JSON line with no insignificant
-whitespace), with the expected hash of the current ledger and an approved plan.
+La compactación es una transacción ordinaria, así que la inspección ejecuta la
+misma validación semántica de procedencia que cualquier escritura de un
+registro. Si la bóveda se desvió por una vía externa, por ejemplo una fuente de
+`.raw/` editada después de la ingesta, de modo que su `content_sha256`
+registrado ya no coincide, la inspección rechaza el plan con
+`INVALID_PROVENANCE_LEDGER` aunque solo cambiaría el formato. No omitas la
+validación. Recupera mediante una transacción normal y revisada que escriba un
+registro corregido en forma compacta (una línea JSON sin espacios en blanco
+prescindibles), con el hash esperado del registro actual y un plan aprobado.
 
-Writers determine how long the savings last. `migration_bundle` (`migrate`)
-now writes canonical ledgers in that compact form. The `init`/`adopt` planner
-in `claude_obsidian/vault_ops.py` and hand-written bundles may still write
-indented JSON; that is valid, and compaction becomes relevant only once such a
-ledger approaches the limit.
+Los escritores determinan cuánto duran los ahorros. `migration_bundle`
+(`migrate`) ahora escribe los registros canónicos en esa forma compacta. El
+planificador de `init`/`adopt` en `claude_obsidian/vault_ops.py` y los paquetes
+escritos a mano aún pueden escribir JSON con sangría; eso es válido, y la
+compactación solo pasa a ser relevante cuando uno de esos registros se acerca
+al límite.
 
-One content/predecessor file is bounded at 64 MiB; one operation's new content or
-recovery backups at 128 MiB; writes at 1,024. These storage ceilings are distinct
-from stricter ledger limits and from practical operating capacity. Split large
-work at a logical boundary and inspect each bounded operation. Never split a
-single coupled workflow into unreviewed per-file applies.
+Un archivo de contenido o predecesor está acotado a 64 MiB; el contenido nuevo
+de una operación o sus copias de seguridad de recuperación, a 128 MiB; las
+escrituras, a 1,024. Estos techos de almacenamiento son distintos de los
+límites más estrictos de los registros y de la capacidad operativa práctica.
+Divide el trabajo grande en un límite lógico e inspecciona cada operación
+acotada. Nunca dividas un único flujo de trabajo acoplado en aplicaciones por
+archivo sin revisar.
 
-For an interrupted operation, stop competing writers and retain the selected
-vault with its `.vault-meta/` journals and backups. Then use:
+Para una operación interrumpida, detén los escritores que compiten y conserva
+la bóveda seleccionada con sus diarios y copias de seguridad de `.vault-meta/`.
+Luego usa:
 
 ```bash
 python3 "$CORE" transaction recover --vault "$VAULT"
 ```
 
-Recovery may roll back an incomplete apply. Do not delete journals to hide an
-error or overwrite changed files by hand. Exit 75 requires a fresh read and plan.
-If an existing replacement target was deleted after an interrupted apply,
-recovery leaves it absent, retains the journal as `rollback-failed`, and returns
-`ROLLBACK_FAILED`. Review the external deletion and retained backup before
-authorizing a separate restoration; recovery does not silently recreate it.
-Use `--force-stale-lock` only after independently establishing that no writer
-is active. The capture queue has a separate explicit recovery interface; it is
-not a way to bypass the transaction lock. See
-[coordination.md](../skills/wiki/references/coordination.md) for external edits
-and multi-machine limits.
+La recuperación puede revertir una aplicación incompleta. No borres los diarios
+para ocultar un error ni sobrescribas a mano archivos modificados. El código de
+salida 75 exige una lectura y un plan nuevos. Si un destino de reemplazo existente se
+eliminó después de una aplicación interrumpida, la recuperación lo deja ausente,
+conserva el diario como `rollback-failed` y devuelve `ROLLBACK_FAILED`. Revisa
+la eliminación externa y la copia de seguridad conservada antes de autorizar una
+restauración aparte; la recuperación no lo recrea en silencio. Usa
+`--force-stale-lock` solo después de establecer de forma independiente que no
+hay ningún escritor activo. La cola de captura tiene una interfaz de
+recuperación explícita aparte; no es una forma de eludir el bloqueo de
+transacción. Consulta [coordination.md](../skills/wiki/references/coordination.md)
+para las ediciones externas y los límites de varias máquinas.

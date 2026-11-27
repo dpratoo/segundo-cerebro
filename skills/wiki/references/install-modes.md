@@ -1,7 +1,7 @@
-# Supported installation modes
+# Modos de instalación admitidos
 
-Resolve the installed product root from the invoking skill's own location, not
-from the user-vault working directory:
+Resuelve la raíz del producto instalado a partir de la ubicación de la skill que
+lo invoca, no del directorio de trabajo de la bóveda del usuario:
 
 ```bash
 PRODUCT_ROOT=/absolute/path/to/installed/claude-obsidian
@@ -9,33 +9,37 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-## Claude marketplace plugin
+## Plugin del marketplace de Claude
 
-Install the plugin through its marketplace and invoke namespaced skills such as
-`/claude-obsidian:wiki`. Plugin assets live in an ephemeral cache. Mutable vault
-state must resolve from the project, `--vault`, or workspace configuration,
-never `${CLAUDE_PLUGIN_ROOT}`.
+Instala el plugin a través de su marketplace e invoca las skills con espacio de
+nombres, como `/claude-obsidian:wiki`. Los recursos del plugin viven en una
+caché efímera. El estado modificable de la bóveda debe resolverse a partir del
+proyecto, de `--vault` o de la configuración del espacio de trabajo, nunca de
+`${CLAUDE_PLUGIN_ROOT}`.
 
-## Local Claude plugin development
+## Desarrollo local de plugins de Claude
 
 ```bash
 claude --plugin-dir /path/to/claude-obsidian
 ```
 
-Skills remain namespaced. Run Claude from the user vault, not the plugin source
-directory, or configure the vault explicitly.
+Las skills siguen teniendo espacio de nombres. Ejecuta Claude desde la bóveda del
+usuario, no desde el directorio de código fuente del plugin, o configura la
+bóveda de forma explícita.
 
-## Portable Agent Skills
+## Agent Skills portátiles
 
-Use `scripts/setup-multi-agent.sh` or link each `skills/<name>/` directory at the
-host's direct `<skill-root>/<name>/SKILL.md` discovery path. Codex, OpenCode,
-and other Agent Skills hosts consume the same `SKILL.md` files. Claude-only
-hooks are adapters, not core workflow logic.
+Usa `scripts/setup-multi-agent.sh` o enlaza cada directorio `skills/<name>/` en
+la ruta de descubrimiento directa del host, `<skill-root>/<name>/SKILL.md`.
+Codex, OpenCode y otros hosts de Agent Skills consumen los mismos archivos
+`SKILL.md`. Los hooks exclusivos de Claude son adaptadores, no lógica central
+del flujo de trabajo.
 
-## Product clone
+## Clon del producto
 
-A source clone is product/development code, not an automatically installed
-plugin and not the recommended user vault. Create a separate vault:
+Un clon del código fuente es código del producto y de desarrollo, no un plugin
+instalado de forma automática ni la bóveda de usuario recomendada. Crea una
+bóveda separada:
 
 ```bash
 python3 "$CORE" init /path/to/vault \
@@ -45,7 +49,7 @@ python3 "$CORE" init /path/to/vault \
   --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-Adopt an existing Obsidian vault non-destructively:
+Adopta una bóveda de Obsidian existente sin destruir nada:
 
 ```bash
 python3 "$CORE" adopt /path/to/vault \
@@ -55,5 +59,5 @@ python3 "$CORE" adopt /path/to/vault \
   --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-Both commands default to dry-run. New user vaults receive no upstream product
-remote.
+Ambos comandos son de simulación por defecto. Las bóvedas de usuario nuevas no
+reciben ningún remoto del producto de origen.

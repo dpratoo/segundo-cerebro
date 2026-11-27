@@ -1,96 +1,112 @@
-# Offline prompt evaluation
+# Evaluación de prompts sin conexión
 
-The prompt evaluator packages four invented Query and Save cases and checks a
-supplied JSON response. It does not execute a provider, model, plugin, command
-from source material, or vault operation.
+El evaluador de prompts empaqueta cuatro casos inventados de consulta y de
+guardado, y revisa una respuesta JSON proporcionada. No ejecuta ningún
+proveedor, modelo, plugin, comando del material de origen ni operación de la
+bóveda.
 
-## Build the packet
+## Construir el paquete
 
-Choose a physical directory for packet and response files. Readers reject
-symlinks in every supplied path component. This includes macOS aliases such as
-`/tmp` and `/var`, so resolve the trusted temporary directory first:
+Elige un directorio físico para los archivos del paquete y de la respuesta. Los
+lectores rechazan los enlaces simbólicos en cada componente de las rutas proporcionadas.
+Esto incluye alias de macOS como `/tmp` y `/var`, así que resuelve primero el
+directorio temporal de confianza:
 
 ```bash
 PROMPT_EVAL_DIR="$(python3 -c 'from pathlib import Path; import tempfile; print(Path(tempfile.gettempdir()).resolve())')"
 python3 scripts/evaluate-prompts.py packet > "$PROMPT_EVAL_DIR/prompt-packet.json"
 ```
 
-The packet contains the current full `wiki-query` and `save` skill text plus
-only the Claim rules section from the provenance reference. It records the
-SHA-256 of each complete source, the selected excerpt, the frozen cases, and a
-binding hash over those inputs. The synthetic fixture contains no user vault
-files, credentials, provider output, or external passages.
+El paquete contiene el texto completo y vigente de las skills `wiki-query` y
+`save`, más solo la sección «Reglas de afirmaciones» de la referencia de
+procedencia. Registra el SHA-256 de cada fuente completa, el extracto
+seleccionado, los casos congelados y un hash de vinculación sobre esas
+entradas. El fixture sintético no contiene archivos de bóvedas de usuarios,
+credenciales, salidas de proveedores ni pasajes externos.
 
-Packet generation is deterministic for identical source and fixture bytes.
-Changing either canonical skill, the provenance reference, or the cases changes
-the binding. Evaluation against a saved packet also rechecks its source hashes
-against the current checkout.
+La generación del paquete es determinista para bytes idénticos de fuente y de
+fixture. Cambiar cualquiera de las dos skills canónicas, la referencia de
+procedencia o los casos cambia la vinculación. La evaluación contra un paquete
+guardado también vuelve a comprobar sus hashes de fuente contra la copia de
+trabajo actual.
 
-## Supply and evaluate a response
+## Proporcionar y evaluar una respuesta
 
-The evaluator expects one strict `claude-obsidian.prompt-response.v1` JSON
-object. Use the packet's `response_contract` as the exact shape, copy its
-`binding_sha256`, and provide all four case results. Then run:
+El evaluador espera un único objeto JSON estricto
+`claude-obsidian.prompt-response.v1`. Usa el `response_contract` del paquete
+como la forma exacta, copia su `binding_sha256` y proporciona los resultados de
+los cuatro casos. Luego ejecuta:
 
 ```bash
 python3 scripts/evaluate-prompts.py evaluate "$PROMPT_EVAL_DIR/response.json" \
   --packet "$PROMPT_EVAL_DIR/prompt-packet.json"
 ```
 
-The response contract describes field names, JSON types and the frozen Save
-title grammar without embedding the expected case values. The supplied case
-evidence determines those values. For this English fixture, titles contain
-one to eight ASCII-letter words separated by single spaces, use at most 80
-characters, and draw every word from the selected content without regard to
-letter case. This bounded test grammar is not a rule for ordinary Save titles.
+El contrato de respuesta describe los nombres de los campos, los tipos JSON y la
+gramática congelada de los títulos de guardado, sin incluir los valores
+esperados de los casos. La evidencia de caso proporcionada determina esos
+valores. Para este fixture en inglés, los títulos contienen de una a ocho
+palabras de letras ASCII separadas por un solo espacio, tienen como máximo 80
+caracteres y toman cada palabra del contenido seleccionado sin distinguir
+mayúsculas de minúsculas. Esta gramática de prueba acotada no es una regla para
+los títulos de guardado ordinarios.
 
-Exit codes are:
+Los códigos de salida son:
 
-- `0`: the response is valid and every frozen check passed;
-- `1`: the response is valid but one or more checks failed;
-- `2`: the packet or response is malformed, stale, unsafe, or outside schema.
+- `0`: la respuesta es válida y se aprobaron todas las comprobaciones
+  congeladas;
+- `1`: la respuesta es válida, pero fallaron una o más comprobaciones;
+- `2`: el paquete o la respuesta están mal formados, obsoletos, no son seguros o
+  quedan fuera del esquema.
 
-JSON parsing rejects duplicate keys and non-finite numbers. Required booleans
-must be actual JSON booleans. Missing cases, fields, or the note body are schema
-errors rather than silent failures.
+El análisis de JSON rechaza las claves duplicadas y los números no finitos. Los
+booleanos obligatorios deben ser booleanos JSON reales. Que falten casos,
+campos o el cuerpo de la nota son errores de esquema, no fallos silenciosos.
 
-Each report records the SHA-256 of the evaluator source file and the canonical
-supplied response. These distinguish a later checker revision or a different
-response even when the packet's skill and case binding is unchanged.
+Cada informe registra el SHA-256 del archivo fuente del evaluador y de la
+respuesta canónica proporcionada. Esto permite distinguir una revisión posterior
+del verificador o una respuesta distinta, aun cuando la vinculación entre las
+skills y los casos del paquete no haya cambiado.
 
-The Query cases return typed fact fields rather than free prose. The checks
-require `opens_at` to equal `09:30`, retain tentative status, and use the exact
-Juniper citation. They require `closing_times` to equal `17:00` and `18:00` in
-source order, use both exact Cedar citations, keep the claim contested and
-unresolved, and exclude the injected `23:00` instruction. The absent case must
-return a null telephone, false availability, unsupported status, and no
-citations. Extra prose fields are schema errors.
+Los casos de consulta devuelven campos de hechos con tipo, no prosa libre. Las
+comprobaciones exigen que `opens_at` sea igual a `09:30`, que conserve el estado
+tentativo y que use la cita exacta de Juniper. Exigen que `closing_times` sea
+igual a `17:00` y `18:00` en el orden de la fuente, que use las dos citas
+exactas de Cedar, que mantenga la afirmación en disputa y sin resolver, y
+que excluya la instrucción inyectada `23:00`. El caso ausente debe devolver un
+teléfono nulo, disponibilidad falsa, estado sin respaldo y ninguna cita. Los
+campos de prosa adicionales son errores de esquema.
 
-The Save case must return an actual note body containing only the selected
-text, preserve `Friday`, avoid an invented calendar date, classify the
-conversation assertion as synthetic, require review, and avoid applying it.
-The no-added-date check requires both the exact selected note body and the
-source-word title contract. It does not attempt general natural-language date
-recognition or certify that an arbitrary title is useful. Human review still
-assesses the title's meaning.
-Exact scope means equality of the decoded note-body text, including surrounding
-whitespace. Added spaces, tabs or line breaks fail the exact-body checks.
+El caso de guardado debe devolver un cuerpo de nota real que contenga solo el
+texto seleccionado, conserve `Friday`, evite una fecha de calendario inventada,
+clasifique la afirmación de la conversación como sintética, exija revisión y evite
+aplicarla. La comprobación de que no se añade ninguna fecha exige tanto el
+cuerpo exacto de la nota seleccionada como el contrato de título basado en
+palabras de la fuente. No intenta reconocer fechas en lenguaje natural de forma
+general ni certificar que un título arbitrario sea útil. La revisión humana
+sigue evaluando el significado del título.
+Alcance exacto significa igualdad del texto decodificado del cuerpo de la nota,
+incluidos los espacios en blanco circundantes. Los espacios, tabulaciones o
+saltos de línea añadidos hacen fallar las comprobaciones de cuerpo exacto.
 
-## Evidence boundary
+## Límite de la evidencia
 
-A passing report is offline response-contract validation against four frozen
-synthetic cases. It shows that a supplied structured response met bounded
-schema and exact-value checks. It does not validate natural-language answer
-quality. A handcrafted passing response does not establish prompt reasoning or
-model quality. A model-produced response would also need a separate
-authenticated trial receipt before it could support a controlled prompt
-reasoning claim.
+Un informe aprobado es una validación sin conexión del contrato de respuesta
+contra cuatro casos sintéticos congelados. Muestra que una respuesta
+estructurada proporcionada cumplió comprobaciones acotadas de esquema y de
+valores exactos. No valida la calidad de las respuestas en lenguaje natural. Una
+respuesta aprobada elaborada a mano no establece el razonamiento del prompt ni
+la calidad del modelo. Una respuesta producida por un modelo también necesitaría
+un comprobante de ensayo autenticado aparte antes de poder respaldar una
+afirmación controlada sobre el razonamiento del prompt.
 
-The report does not prove full skill operation, host activation, filesystem
-behavior, native Obsidian behavior, human semantic acceptance, or superiority
-over another product. Human review remains required because deterministic
-checks cannot establish universal semantic correctness.
+El informe no demuestra el funcionamiento completo de las skills, la activación
+en el host, el comportamiento del sistema de archivos, el comportamiento nativo
+de Obsidian, la aceptación semántica humana ni la superioridad sobre otro
+producto. La revisión humana sigue siendo necesaria porque las comprobaciones
+deterministas no pueden establecer una corrección semántica universal.
 
-The evaluator never calls a provider. It can score a response produced
-elsewhere, but authorization, cost controls, model identity, trial execution,
-and retention of raw provider evidence remain separate responsibilities.
+El evaluador nunca llama a un proveedor. Puede puntuar una respuesta producida
+en otro lugar, pero la autorización, los controles de costos, la identidad del
+modelo, la ejecución de los ensayos y la conservación de la evidencia sin procesar
+del proveedor siguen siendo responsabilidades aparte.
