@@ -1,30 +1,33 @@
-# claude-obsidian: ZCode instructions
+# claude-obsidian: instrucciones para ZCode
 
-Read `AGENTS.md` as the canonical host-neutral contract. Skills live in
-`skills/<name>/SKILL.md` and the portable core lives in `claude_obsidian/`.
+Lee `AGENTS.md` como el contrato canónico independiente del host. Las skills viven
+en `skills/<name>/SKILL.md` y el núcleo portátil vive en `claude_obsidian/`.
 
-ZCode reads `AGENTS.md` at the workspace and user scope natively (per the
-ZCode Agent documentation, https://zcode.z.ai/en/docs/agents), so no mirrored
-rules file is needed. User-level skills are discovered at
-`~/.zcode/skills/<skill-name>/SKILL.md` (https://zcode.z.ai/en/docs/skill).
-Install skill discovery with:
+ZCode lee `AGENTS.md` de forma nativa en el ámbito del espacio de trabajo y del
+usuario (según la documentación de agentes de ZCode, https://zcode.z.ai/en/docs/agents),
+por lo que no hace falta un archivo de reglas reflejado. Las skills de nivel de
+usuario se descubren en `~/.zcode/skills/<skill-name>/SKILL.md`
+(https://zcode.z.ai/en/docs/skill). Instala el descubrimiento de skills con:
 
 ```bash
 bash scripts/setup-multi-agent.sh --host zcode
 bash scripts/setup-multi-agent.sh --host zcode --apply
 ```
 
-The first command previews the links; the second applies that reviewed scope.
-Links land in `~/.zcode/skills/` (user-level), so every ZCode workspace can
-invoke the skills without per-project setup.
+El primer comando muestra una vista previa de los enlaces; el segundo aplica ese
+alcance ya revisado. Los enlaces quedan en `~/.zcode/skills/` (nivel de usuario),
+de modo que cualquier espacio de trabajo de ZCode puede invocar las skills sin
+configuración por proyecto.
 
-This repository is product source, not the default user vault. Create a
-separate vault with the dry-run-first `init` command or adopt an existing vault.
-Resolve that vault before reading `wiki/hot.md` or running a skill.
+Este repositorio es la fuente del producto, no la bóveda de usuario por defecto.
+Crea una bóveda aparte con el comando `init`, que primero hace una simulación, o
+adopta una bóveda existente. Resuelve esa bóveda antes de leer `wiki/hot.md` o
+ejecutar una skill.
 
-All shared mutations use one inspected `claude-obsidian.transaction.v1` bundle.
-Parallel workers draft only. Do not use direct shared writes, automatic commits,
-or the deprecated per-file lock helper. Remote egress and destructive actions
-need explicit user consent.
+Toda modificación compartida usa un único paquete `claude-obsidian.transaction.v1`
+inspeccionado. Los agentes en paralelo solo redactan borradores. No uses
+escrituras compartidas directas, commits automáticos ni el auxiliar obsoleto de
+bloqueo por archivo. La salida de red remota y las acciones destructivas necesitan
+el consentimiento explícito del usuario.
 
-Public canonical: https://github.com/dpratoo/segundo-cerebro
+Repositorio canónico público: https://github.com/dpratoo/segundo-cerebro

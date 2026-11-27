@@ -1,19 +1,24 @@
-# claude-obsidian Copilot instructions
+# Instrucciones de Copilot para claude-obsidian
 
-Read `AGENTS.md` before proposing changes. The repository is an Agent Skills
-package, Claude Code adapter, standard-library Python core, and deterministic
-vault template, not the default live user vault.
+Lee `AGENTS.md` antes de proponer cambios. El repositorio es un paquete de Agent
+Skills, un adaptador de Claude Code, un núcleo de Python de biblioteca estándar y
+una plantilla de bóveda determinista, no la bóveda de usuario activa por defecto.
 
-When editing:
+Al editar:
 
-- Keep skill frontmatter to exactly `name` and single-line `description`.
-- Use Obsidian Flavored Markdown, flat YAML properties, and `YYYY-MM-DD` dates.
-- Never modify existing raw source payloads.
-- Route all logical knowledge mutations through one inspected operation bundle.
-- Keep workers draft-only and lint/query read-only.
-- Preserve vault path containment and product/vault separation.
-- Add hermetic regression tests for behavior changes and run `make test`.
-- Do not add secrets, private paths, unsupported capability claims, or duplicate
-  command wrappers.
+- Mantén el frontmatter de las skills en exactamente `name` y un `description` de
+  una sola línea.
+- Usa Obsidian Flavored Markdown, propiedades YAML planas y fechas `YYYY-MM-DD`.
+- Nunca modifiques las cargas de fuentes sin procesar existentes.
+- Encauza todas las modificaciones lógicas de conocimiento por un único paquete de
+  operación inspeccionado.
+- Mantén a los agentes limitados a redactar borradores y el lint y las consultas
+  en solo lectura.
+- Conserva la contención de las rutas de la bóveda y la separación entre producto
+  y bóveda.
+- Agrega pruebas de regresión herméticas para los cambios de comportamiento y
+  ejecuta `make test`.
+- No agregues secretos, rutas privadas, afirmaciones de capacidad sin respaldo ni
+  envoltorios de comandos duplicados.
 
-Public canonical: https://github.com/dpratoo/segundo-cerebro
+Repositorio canónico público: https://github.com/dpratoo/segundo-cerebro

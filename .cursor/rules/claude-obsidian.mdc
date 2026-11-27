@@ -1,5 +1,5 @@
 ---
-description: Portable rules for the claude-obsidian product and user vault workflows.
+description: Reglas portátiles para el producto claude-obsidian y los flujos de trabajo de la bóveda del usuario.
 globs:
   - "skills/**/SKILL.md"
   - "claude_obsidian/**/*.py"
@@ -10,23 +10,28 @@ alwaysApply: true
 
 # claude-obsidian
 
-Read `AGENTS.md` as the canonical contract. This repository is product source;
-mutable knowledge belongs in a separately resolved user vault.
+Lee `AGENTS.md` como el contrato canónico. Este repositorio es la fuente del
+producto; el conocimiento mutable pertenece a una bóveda de usuario que se
+resuelve por separado.
 
-- Discover workflows from `skills/<name>/SKILL.md`.
-- Resolve vaults explicitly; never use the plugin/product directory by default.
-- Read a selected vault's bounded `wiki/hot.md` at session start when present.
-- Treat raw source payloads as create-only.
-- Have parallel workers draft; apply one recoverable operation transaction.
-- Keep queries and lint read-only. Put persistence or repair in a separate
-  reviewed operation.
-- Require consent for network egress, destructive changes, and Git checkpoints.
+- Descubre los flujos de trabajo desde `skills/<name>/SKILL.md`.
+- Resuelve las bóvedas de forma explícita; nunca uses por defecto el directorio
+  del plugin o del producto.
+- Al iniciar la sesión, lee el `wiki/hot.md` acotado de la bóveda seleccionada
+  cuando exista.
+- Trata las cargas de fuentes sin procesar como solo de creación.
+- Haz que los agentes en paralelo redacten borradores; aplica una única
+  transacción de operación recuperable.
+- Mantén las consultas y el lint en solo lectura. Pon la persistencia o la
+  reparación en una operación aparte y revisada.
+- Exige consentimiento para la salida de red, los cambios destructivos y los
+  puntos de control de Git.
 
-Preview and then install workspace-local skill links with:
+Previsualiza y luego instala los enlaces de skills locales al espacio de trabajo con:
 
 ```bash
 bash scripts/setup-multi-agent.sh --host cursor --workspace "$PWD"
 bash scripts/setup-multi-agent.sh --host cursor --workspace "$PWD" --apply
 ```
 
-Public canonical: https://github.com/dpratoo/segundo-cerebro
+Repositorio canónico público: https://github.com/dpratoo/segundo-cerebro

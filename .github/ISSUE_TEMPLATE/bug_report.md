@@ -1,43 +1,43 @@
 ---
-name: Bug report
-about: Something is broken or behaves unexpectedly
+name: Reporte de error
+about: Algo está roto o se comporta de forma inesperada
 title: "[bug] "
 labels: bug
 assignees: ''
 ---
 
-## What happened
-A clear description of the unexpected behavior.
+## Qué ocurrió
+Una descripción clara del comportamiento inesperado.
 
-## Expected behavior
-What you expected to happen instead.
+## Comportamiento esperado
+Lo que esperabas que ocurriera en su lugar.
 
-## Reproduction steps
+## Pasos para reproducirlo
 1. ...
 2. ...
 3. ...
 
-## Environment
-- Product version: (run `python3 scripts/claude-obsidian.py --version`)
-- Claude Code version: (run `claude --version`)
-- OS: (e.g. macOS 14.5, Pop!_OS 24.04, Windows 11)
-- Obsidian version: (if relevant)
-- Vault selection source: (`doctor --vault <vault>` output, with private paths redacted)
-- Transport state: (`bash scripts/detect-transport.sh --peek --vault <vault>` output)
+## Entorno
+- Versión del producto: (ejecuta `python3 scripts/claude-obsidian.py --version`)
+- Versión de Claude Code: (ejecuta `claude --version`)
+- Sistema operativo: (por ejemplo, macOS 14.5, Pop!_OS 24.04, Windows 11)
+- Versión de Obsidian: (si es relevante)
+- Origen de la selección de la bóveda: (salida de `doctor --vault <vault>`, con las rutas privadas ocultas)
+- Estado del transporte: (salida de `bash scripts/detect-transport.sh --peek --vault <vault>`)
 
-## Skill / agent / script involved
-Which surface is affected? (e.g. `/claude-obsidian:wiki-ingest`, `scripts/wiki-mode.py`, `agents/verifier.md`)
+## Skill, agente o script involucrado
+¿Qué superficie está afectada? (por ejemplo, `/claude-obsidian:wiki-ingest`, `scripts/wiki-mode.py`, `agents/verifier.md`)
 
-## Logs / output
+## Salida o mensajes de error
 ```
 Paste relevant terminal output or error messages here.
 ```
 
-## What you tried
-- [ ] Ran the relevant regression test or `make test`: Yes / No
-- [ ] Confirmed the product repository and user vault are separate: Yes / No
-- [ ] Checked CHANGELOG for known issues at your version
-- [ ] Searched existing issues for similar reports
+## Qué intentaste
+- [ ] Ejecuté la prueba de regresión relevante o `make test`: Sí / No
+- [ ] Confirmé que el repositorio del producto y la bóveda del usuario están separados: Sí / No
+- [ ] Revisé en CHANGELOG si hay problemas conocidos en mi versión
+- [ ] Busqué reportes similares en los issues existentes
 
-## Additional context
-Anything else that might help (screenshots, related issues, recent changes).
+## Contexto adicional
+Cualquier otra cosa que pueda ayudar (capturas de pantalla, issues relacionados, cambios recientes).

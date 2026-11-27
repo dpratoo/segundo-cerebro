@@ -1,58 +1,58 @@
 # Pull request
 
-## Summary
-One-paragraph description of what this PR changes and why.
+## Resumen
+Una descripción de un párrafo de lo que cambia este PR y por qué.
 
-## Type
-- [ ] Bug fix (`fix:`)
-- [ ] New feature (`feat:`)
-- [ ] Documentation (`docs:`)
-- [ ] Refactor (`refactor:`)
-- [ ] Test coverage (`test:`)
-- [ ] Chore / build / maintenance (`chore:`)
+## Tipo
+- [ ] Corrección de error (`fix:`)
+- [ ] Función nueva (`feat:`)
+- [ ] Documentación (`docs:`)
+- [ ] Refactorización (`refactor:`)
+- [ ] Cobertura de pruebas (`test:`)
+- [ ] Tareas varias, compilación o mantenimiento (`chore:`)
 
-## Related issue
-Closes #<issue-number> (if applicable)
+## Issue relacionado
+Cierra #<número-del-issue> (si corresponde)
 
-## Changes
-List the files and surfaces touched:
-- `skills/<name>/SKILL.md`: what changed
-- `scripts/<name>.py`: what changed
+## Cambios
+Enumera los archivos y superficies tocados:
+- `skills/<name>/SKILL.md`: qué cambió
+- `scripts/<name>.py`: qué cambió
 - ...
 
-## Safety self-review
-- [ ] Read every file before changing it
-- [ ] New identifiers named for the next reader
-- [ ] Smallest unit that works (no speculative abstraction)
-- [ ] Deletions kept up with additions where applicable
-- [ ] New behavior has hermetic test coverage
-- [ ] New failure modes have explicit handling + undo plan
-- [ ] Product code and mutable user-vault state remain separate
-- [ ] Knowledge writes use one recoverable transaction; workers only draft
-- [ ] Network/destructive/external actions have explicit consent
-- [ ] Claims and capability maturity are evidence-backed
+## Autorrevisión de seguridad
+- [ ] Leí cada archivo antes de cambiarlo
+- [ ] Los identificadores nuevos tienen nombres pensados para el siguiente lector
+- [ ] La unidad más pequeña que funciona (sin abstracción especulativa)
+- [ ] Las eliminaciones acompañan a las adiciones cuando corresponde
+- [ ] El comportamiento nuevo tiene cobertura de pruebas herméticas
+- [ ] Los modos de fallo nuevos tienen manejo explícito y un plan de reversión
+- [ ] El código del producto y el estado mutable de la bóveda del usuario siguen separados
+- [ ] Las escrituras de conocimiento usan una única transacción recuperable; los agentes solo redactan borradores
+- [ ] Las acciones de red, destructivas o externas tienen consentimiento explícito
+- [ ] Las afirmaciones y la madurez de las capacidades están respaldadas por evidencia
 
-## Testing
+## Pruebas
 ```
 make test
 ```
-Paste the tail of the output here (or a summary if too long):
+Pega aquí el final de la salida (o un resumen si es muy larga):
 
 ```
 All tests passed.
 ```
 
-## Verifier
-For non-trivial changes, dispatch `agents/verifier.md` on the declared worktree or path scope and paste its verdict:
+## Verificador
+Para cambios no triviales, ejecuta `agents/verifier.md` sobre el árbol de trabajo o el alcance de rutas declarado y pega su veredicto:
 
-- Verdict: SHIP / HOLD-FIX-FIRST / NEEDS-REWORK
+- Veredicto: SHIP / HOLD-FIX-FIRST / NEEDS-REWORK
 - BLOCKER: N / HIGH: N / MEDIUM: N / LOW: N
 
 ## CHANGELOG
-- [ ] Added an entry under `## [Unreleased]` in `CHANGELOG.md`
+- [ ] Agregué una entrada bajo `## [Unreleased]` en `CHANGELOG.md`
 
-## Screenshots / output
-If the change affects user-visible output, paste a before/after example.
+## Capturas de pantalla o salida
+Si el cambio afecta la salida visible para el usuario, pega un ejemplo de antes y después.
 
-## Notes for reviewer
-Anything specific the reviewer should focus on, or context that's not obvious from the diff.
+## Notas para quien revise
+Cualquier punto específico en el que deba concentrarse quien revise, o contexto que no sea evidente en el diff.

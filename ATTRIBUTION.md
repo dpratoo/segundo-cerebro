@@ -1,121 +1,122 @@
-# Attributions
+# Atribuciones
 
-claude-obsidian is an original work. The following third-party patterns, tools, and creators informed its design.
-
----
-
-## LLM Wiki Pattern
-
-**Author:** Andrej Karpathy
-**Source:** https://github.com/karpathy
-**Use:** The core architecture of claude-obsidian (using an LLM to build and maintain a structured wiki from raw sources) is based on the LLM Wiki pattern Karpathy described publicly. claude-obsidian is an independent implementation; no code or content from Karpathy's repositories was copied.
+claude-obsidian es una obra original. Los siguientes patrones, herramientas y creadores de terceros influyeron en su diseño.
 
 ---
 
-## ITS CSS Snippets
+## Patrón LLM Wiki
 
-**Author:** SlRvb
-**Source:** https://github.com/SlRvb/Obsidian--ITS-Theme
-**License:** GPL-2.0
-**Files:**
+**Autor:** Andrej Karpathy
+**Fuente:** https://github.com/karpathy
+**Uso:** La arquitectura central de claude-obsidian (usar un LLM para construir y mantener una wiki estructurada a partir de fuentes sin procesar) se basa en el patrón LLM Wiki que Karpathy describió públicamente. claude-obsidian es una implementación independiente; no se copió código ni contenido de los repositorios de Karpathy.
+
+---
+
+## Fragmentos de CSS ITS
+
+**Autor:** SlRvb
+**Fuente:** https://github.com/SlRvb/Obsidian--ITS-Theme
+**Licencia:** GPL-2.0
+**Archivos:**
 - `.obsidian/snippets/ITS-Dataview-Cards.css`
 - `.obsidian/snippets/ITS-Image-Adjustments.css`
 
-These snippets exist only in the private contributor-vault state. They are not
-selected into the deterministic public product artifact and are not installed
-by the vault template. The project-owned `templates/vault/.obsidian/snippets/vault-colors.css`
-is the only snippet distributed by claude-obsidian.
+Estos fragmentos existen solo en el estado privado de la bóveda de colaboradores.
+No se seleccionan para el artefacto público determinista del producto ni los
+instala la plantilla de bóveda. El fragmento `templates/vault/.obsidian/snippets/vault-colors.css`,
+propio del proyecto, es el único fragmento que distribuye claude-obsidian.
 
 ---
 
-## Historical contributor-vault plugins
+## Complementos históricos de la bóveda de colaboradores
 
-The source repository has contained the following Obsidian community plugins in
-its contributor-vault state. They are not included in the deterministic public
-product artifact or installed by the vault template. Install and review them
-through Obsidian under their respective licenses.
+El repositorio de origen ha contenido los siguientes complementos comunitarios de
+Obsidian en el estado de su bóveda de colaboradores. No se incluyen en el
+artefacto público determinista del producto ni los instala la plantilla de
+bóveda. Instálalos y revísalos a través de Obsidian bajo sus respectivas licencias.
 
-| Plugin | Author | Repository |
-|--------|--------|-----------|
+| Complemento | Autor | Repositorio |
+|-------------|-------|-------------|
 | Calendar | Liam Cain | https://github.com/liamcain/obsidian-calendar-plugin |
 | Thino | Boninall (Quorafind) | https://github.com/Quorafind/Obsidian-Thino |
 | Obsidian Excalidraw | Zsolt Viczian | https://github.com/zsviczian/obsidian-excalidraw-plugin |
 | Obsidian Banners | Danny Hernandez | https://github.com/noatpad/obsidian-banners |
 
-`scripts/setup-vault.sh` does not download unverified plugin binaries. It prints
-manual installation guidance instead.
+`scripts/setup-vault.sh` no descarga binarios de complementos sin verificar. En su
+lugar, imprime una guía de instalación manual.
 
 ---
 
-## Adopted contributor designs
+## Diseños adoptados de colaboradores
 
-Two community pull requests diagnosed retrieval bugs and proposed fixes that
-the v2.0.0 refoundation implemented in near-identical form. The pull requests
-were not merged as submitted because the surrounding files were rewritten, but
-the designs are theirs.
+Dos pull requests de la comunidad diagnosticaron errores de búsqueda y propusieron
+correcciones que la refundación v2.0.0 implementó de forma casi idéntica. Los
+pull requests no se fusionaron tal como se enviaron porque se reescribieron los
+archivos circundantes, pero los diseños son suyos.
 
-| Change | Contributor | Pull request |
+| Cambio | Colaborador | Pull request |
 |--------|-------------|--------------|
-| Nomic `search_query` and `search_document` task prefixes in the reranker, including the `with_task_prefix` helper and cache-scheme invalidation | maartengoet | https://github.com/AgriciDaniel/claude-obsidian/pull/77 |
-| BM25 fallback order preserved in reranker no-op paths (`bm25_score` before `score`) | vinsocci | https://github.com/AgriciDaniel/claude-obsidian/pull/62 |
+| Prefijos de tarea Nomic `search_query` y `search_document` en el reordenador, incluido el auxiliar `with_task_prefix` y la invalidación del esquema de caché | maartengoet | https://github.com/AgriciDaniel/claude-obsidian/pull/77 |
+| Orden de la alternativa BM25 conservado en las rutas sin operación del reordenador (`bm25_score` antes de `score`) | vinsocci | https://github.com/AgriciDaniel/claude-obsidian/pull/62 |
 
-Version 3.0.0 also draws on the following diagnosed fixes and proposals. These
-credits do not imply that a pull request was merged or accepted without
-revision.
+La versión 3.0.0 también se apoya en las siguientes correcciones diagnosticadas y
+propuestas. Estos créditos no implican que un pull request se haya fusionado o
+aceptado sin revisión.
 
-| Change or design input | Contributor | Pull request |
+| Cambio o aporte de diseño | Colaborador | Pull request |
 |--------|-------------|--------------|
-| Split encoded Markdown destinations before decoding their path | Ychris12138 | https://github.com/AgriciDaniel/claude-obsidian/pull/194 |
-| Canvas `_index.md`, title-preserving routes and legacy journal compatibility | Marcos64s | https://github.com/AgriciDaniel/claude-obsidian/pull/199 |
-| Haiku 5.5 model and cache-floor migration, revised here with explicit thinking and output limits | hphsu | https://github.com/AgriciDaniel/claude-obsidian/pull/195 |
-| Optional local Ollama prefix tier, independently reimplemented here with bounded transport and local-model preflight | vinsocci | https://github.com/AgriciDaniel/claude-obsidian/pull/63 |
-| Dataview queries use vault-relative content paths | miraclemanza | https://github.com/AgriciDaniel/claude-obsidian/pull/46 |
+| Dividir los destinos Markdown codificados antes de decodificar su ruta | Ychris12138 | https://github.com/AgriciDaniel/claude-obsidian/pull/194 |
+| `_index.md` de Canvas, rutas que conservan el título y compatibilidad con el diario heredado | Marcos64s | https://github.com/AgriciDaniel/claude-obsidian/pull/199 |
+| Migración del modelo Haiku 5.5 y del piso de caché, revisada aquí con límites explícitos de razonamiento y de salida | hphsu | https://github.com/AgriciDaniel/claude-obsidian/pull/195 |
+| Nivel opcional de prefijos con Ollama local, reimplementado aquí de forma independiente con transporte acotado y comprobación previa del modelo local | vinsocci | https://github.com/AgriciDaniel/claude-obsidian/pull/63 |
+| Las consultas de Dataview usan rutas de contenido relativas a la bóveda | miraclemanza | https://github.com/AgriciDaniel/claude-obsidian/pull/46 |
 
-These community pull requests were merged as submitted.
+Estos pull requests de la comunidad se fusionaron tal como se enviaron.
 
-| Change | Contributor | Pull request |
+| Cambio | Colaborador | Pull request |
 |--------|-------------|--------------|
-| ZCode host adapter for portable skill discovery | Lion-1209 | https://github.com/AgriciDaniel/claude-obsidian/pull/146 |
-| One page-type vocabulary, so the router files every documented type | HectorBernstorff | https://github.com/AgriciDaniel/claude-obsidian/pull/149 |
-| Lint ignores gitignored candidates when resolving ambiguous wikilinks | Packetslave | https://github.com/AgriciDaniel/claude-obsidian/pull/159 |
-| Ingest prefers Markdown links for citable URLs | CooperSheroy | https://github.com/AgriciDaniel/claude-obsidian/pull/176 |
-| UTF-8 test output so Windows test runs do not crash | yotamleo | https://github.com/AgriciDaniel/claude-obsidian/pull/178 |
-| Contextual prefixes parse CRLF frontmatter | ketpatil77 | https://github.com/AgriciDaniel/claude-obsidian/pull/180 |
-| Scaffolded vaults pinned to the absolute wikilink format | tilusnet | https://github.com/AgriciDaniel/claude-obsidian/pull/182 |
+| Adaptador de host ZCode para el descubrimiento portátil de skills | Lion-1209 | https://github.com/AgriciDaniel/claude-obsidian/pull/146 |
+| Un único vocabulario de tipos de página, para que el enrutador organice todos los tipos documentados | HectorBernstorff | https://github.com/AgriciDaniel/claude-obsidian/pull/149 |
+| El lint ignora los candidatos ignorados por Git al resolver wikilinks ambiguos | Packetslave | https://github.com/AgriciDaniel/claude-obsidian/pull/159 |
+| La ingesta prefiere enlaces Markdown para las URL citables | CooperSheroy | https://github.com/AgriciDaniel/claude-obsidian/pull/176 |
+| Salida de pruebas en UTF-8 para que las ejecuciones de pruebas en Windows no fallen | yotamleo | https://github.com/AgriciDaniel/claude-obsidian/pull/178 |
+| Los prefijos contextuales interpretan frontmatter con CRLF | ketpatil77 | https://github.com/AgriciDaniel/claude-obsidian/pull/180 |
+| Bóvedas con estructura inicial fijadas al formato absoluto de wikilinks | tilusnet | https://github.com/AgriciDaniel/claude-obsidian/pull/182 |
 
-Version 2.2.0 also draws on these pull requests, implemented here independently.
+La versión 2.2.0 también se apoya en estos pull requests, implementados aquí de forma independiente.
 
-| Change | Contributor | Pull request |
+| Cambio | Colaborador | Pull request |
 |--------|-------------|--------------|
-| The repository root ignores `.mcp.json`, a possible credential carrier | GPezzuti | https://github.com/AgriciDaniel/claude-obsidian/pull/44 |
-| `stop_status` reads large valid journals instead of reporting them unreadable | STiFLeR7 | https://github.com/AgriciDaniel/claude-obsidian/pull/172 |
-| `checkpoint` honors Git's false values for `core.filemode` | STiFLeR7 | https://github.com/AgriciDaniel/claude-obsidian/pull/173 |
+| La raíz del repositorio ignora `.mcp.json`, un posible portador de credenciales | GPezzuti | https://github.com/AgriciDaniel/claude-obsidian/pull/44 |
+| `stop_status` lee diarios válidos grandes en lugar de informar que no se pueden leer | STiFLeR7 | https://github.com/AgriciDaniel/claude-obsidian/pull/172 |
+| `checkpoint` respeta los valores falsos de Git para `core.filemode` | STiFLeR7 | https://github.com/AgriciDaniel/claude-obsidian/pull/173 |
 
-These issue reports, several with a diagnosis or a tested patch, led to fixes
-in 3.0.0.
+Estos reportes de issues, varios con un diagnóstico o un parche probado, dieron
+lugar a correcciones en la 3.0.0.
 
-| Report | Reporter | Issue |
-|--------|----------|-------|
-| Lint passed a flat vault clean with 0 pages scanned | RoelKluin | https://github.com/AgriciDaniel/claude-obsidian/issues/200 |
-| Decoding before the fragment split broke `%23`-encoded links | threnard | https://github.com/AgriciDaniel/claude-obsidian/issues/193 |
-| Lint reported existing hidden `.raw` targets as missing files | szrenwei | https://github.com/AgriciDaniel/claude-obsidian/issues/191 |
-| SessionStart and Stop hooks timed out on Windows | ppuri2 | https://github.com/AgriciDaniel/claude-obsidian/issues/168 |
-| CLI transport detection ignored whether this vault was reachable | cosmos75 | https://github.com/AgriciDaniel/claude-obsidian/issues/141 |
-| Glossary proposal | simonc | https://github.com/AgriciDaniel/claude-obsidian/issues/25 |
+| Reporte | Reportante | Issue |
+|---------|------------|-------|
+| El lint dio por limpia una bóveda plana con 0 páginas analizadas | RoelKluin | https://github.com/AgriciDaniel/claude-obsidian/issues/200 |
+| Decodificar antes de dividir el fragmento rompía los enlaces codificados con `%23` | threnard | https://github.com/AgriciDaniel/claude-obsidian/issues/193 |
+| El lint informaba como archivos faltantes destinos `.raw` ocultos que sí existían | szrenwei | https://github.com/AgriciDaniel/claude-obsidian/issues/191 |
+| Los hooks SessionStart y Stop agotaban el tiempo de espera en Windows | ppuri2 | https://github.com/AgriciDaniel/claude-obsidian/issues/168 |
+| La detección del transporte de la CLI ignoraba si esta bóveda era accesible | cosmos75 | https://github.com/AgriciDaniel/claude-obsidian/issues/141 |
+| Propuesta de glosario | simonc | https://github.com/AgriciDaniel/claude-obsidian/issues/25 |
 
-Pinned ecosystem references, licenses and intentional differences are recorded
-in [config/upstream-references.json](config/upstream-references.json). The
-3.0.0 original examples do not incorporate restricted third-party plugin
-implementations or personal contributor vaults.
+Las referencias fijadas del ecosistema, las licencias y las diferencias
+intencionales se registran en
+[config/upstream-references.json](config/upstream-references.json). Los ejemplos
+originales de la 3.0.0 no incorporan implementaciones restringidas de complementos
+de terceros ni bóvedas personales de colaboradores.
 
 ---
 
 ## claude-obsidian
 
-**Author:** AgriciDaniel / AI Marketing Hub
-**License:** MIT (see [LICENSE](LICENSE))
-**Repository (public canonical):** https://github.com/AgriciDaniel/claude-obsidian
-**Community early-access mirror (Pro):** https://github.com/AI-Marketing-Hub
+**Autor:** AgriciDaniel / AI Marketing Hub
+**Licencia:** MIT (consulta [LICENSE](LICENSE))
+**Repositorio (canónico público):** https://github.com/AgriciDaniel/claude-obsidian
+**Espejo comunitario de acceso anticipado (Pro):** https://github.com/AI-Marketing-Hub
 
 ---
 

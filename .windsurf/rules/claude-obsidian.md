@@ -1,15 +1,17 @@
-# claude-obsidian: Windsurf rules
+# claude-obsidian: reglas para Windsurf
 
-Read `AGENTS.md` as the canonical host-neutral contract. Preview and then
-install Cascade skill links with
-`bash scripts/setup-multi-agent.sh --host windsurf --workspace "$PWD"` followed by
-the same command with `--apply`, and load the matching
-`skills/<name>/SKILL.md` when a request triggers it.
+Lee `AGENTS.md` como el contrato canónico independiente del host. Previsualiza y
+luego instala los enlaces de skills de Cascade con
+`bash scripts/setup-multi-agent.sh --host windsurf --workspace "$PWD"` seguido del
+mismo comando con `--apply`, y carga el `skills/<name>/SKILL.md` correspondiente
+cuando una solicitud lo active.
 
-The product clone and user vault are separate. Resolve the user vault before
-reading hot context or mutating knowledge. Raw payloads are create-only;
-parallel workers return drafts; one orchestrator inspects and applies one
-recoverable transaction. Queries and lint remain read-only. Network egress,
-destructive repair, and Git checkpoints require explicit user consent.
+El clon del producto y la bóveda del usuario son independientes. Resuelve la
+bóveda del usuario antes de leer el contexto caliente o de modificar el
+conocimiento. Las cargas sin procesar son solo de creación; los agentes en
+paralelo devuelven borradores; un orquestador inspecciona y aplica una única
+transacción recuperable. Las consultas y el lint siguen siendo de solo lectura. La
+salida de red, la reparación destructiva y los puntos de control de Git requieren
+consentimiento explícito del usuario.
 
-Public canonical: https://github.com/dpratoo/segundo-cerebro
+Repositorio canónico público: https://github.com/dpratoo/segundo-cerebro

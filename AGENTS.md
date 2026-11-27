@@ -1,98 +1,112 @@
-# claude-obsidian: Agent Instructions
+# claude-obsidian: instrucciones para agentes
 
-claude-obsidian is a local-first Agent Skills package for building source-cited,
-compounding Obsidian knowledge bases. It also ships a Claude Code plugin adapter.
-The portable workflow is implemented in `skills/` and the standard-library
-`claude_obsidian/` core; host hooks never define knowledge behavior.
+claude-obsidian es un paquete de Agent Skills, local por defecto, para construir
+bases de conocimiento de Obsidian que citan sus fuentes y se acumulan con el
+tiempo. También incluye un adaptador de plugin para Claude Code. El flujo de
+trabajo portátil se implementa en `skills/` y en el núcleo `claude_obsidian/` de
+biblioteca estándar; los hooks del host nunca definen el comportamiento del
+conocimiento.
 
-## Product and vault boundaries
+## Límites entre producto y bóveda
 
-- This repository is the product source. It is not the default user vault.
-- A user vault is the directory containing `.claude-obsidian.json`, `wiki/`,
-  and `.raw/`. Mutable state always belongs there.
-- `templates/vault/` is the distributable seed. Root `wiki/`, `.raw/`, and
-  `.vault-meta/` are contributor state and are excluded from public artifacts.
-- Never derive a user vault from the plugin cache or `${CLAUDE_PLUGIN_ROOT}`.
-- A checkout containing contributor-vault state has no marketplace catalog.
-  `config/public-marketplace.json` is injected as
-  `.claude-plugin/marketplace.json` only inside the audited release artifact.
-  An extracted distribution-clean artifact may retain that exact manifest and
-  rebuild idempotently. A public default branch must be populated from the clean
-  artifact, never by pushing contributor-vault state.
+- Este repositorio es la fuente del producto. No es la bóveda de usuario por
+  defecto.
+- Una bóveda de usuario es el directorio que contiene `.claude-obsidian.json`,
+  `wiki/` y `.raw/`. El estado mutable siempre pertenece a ella.
+- `templates/vault/` es la semilla distribuible. `wiki/`, `.raw/` y
+  `.vault-meta/` en la raíz son estado de colaboradores y se excluyen de los
+  artefactos públicos.
+- Nunca derives una bóveda de usuario de la caché del plugin ni de
+  `${CLAUDE_PLUGIN_ROOT}`.
+- Una copia de trabajo que contiene estado de bóveda de colaboradores no tiene
+  catálogo de marketplace. `config/public-marketplace.json` se inyecta como
+  `.claude-plugin/marketplace.json` solo dentro del artefacto de publicación
+  auditado. Un artefacto extraído y limpio para distribución puede conservar ese
+  manifiesto exacto y reconstruirse de forma idempotente. Una rama predeterminada
+  pública debe poblarse a partir del artefacto limpio, nunca haciendo push del
+  estado de la bóveda de colaboradores.
 
-Resolve a vault in this order: explicit `--vault`,
-`CLAUDE_OBSIDIAN_VAULT`, nearest `.claude-obsidian.json`, then an unambiguous
-vault at or above the current directory. Fail closed when no vault is selected.
+Resuelve una bóveda en este orden: `--vault` explícito,
+`CLAUDE_OBSIDIAN_VAULT`, el `.claude-obsidian.json` más cercano y, por último,
+una bóveda inequívoca en el directorio actual o por encima de él. Falla de forma
+cerrada cuando no se selecciona ninguna bóveda.
 
-## Bootstrap
+## Arranque
 
-1. Read this file. In a development checkout, also read the host-only root
-   `CLAUDE.md` when present; release artifacts intentionally omit it.
-2. Read the selected skill completely.
-3. Read only the references that skill routes to.
-4. Resolve the user vault. If `wiki/hot.md` exists, read it silently.
-5. For a new vault, run `python3 scripts/claude-obsidian.py init PATH` first;
-   apply only after reviewing the dry run. Use `adopt` for an existing vault.
+1. Lee este archivo. En una copia de desarrollo, lee también el `CLAUDE.md` raíz
+   exclusivo del host cuando exista; los artefactos de publicación lo omiten a
+   propósito.
+2. Lee completa la skill seleccionada.
+3. Lee solo las referencias a las que esa skill te dirige.
+4. Resuelve la bóveda del usuario. Si existe `wiki/hot.md`, léelo en silencio.
+5. Para una bóveda nueva, ejecuta primero `python3 scripts/claude-obsidian.py init PATH`;
+   aplica solo después de revisar la simulación. Usa `adopt` para una bóveda
+   existente.
 
-## Canonical skills
+## Skills canónicas
 
-All 15 skills live at `skills/<name>/SKILL.md`. They use the portable Agent
-Skills frontmatter subset: exactly `name` and `description`. Do not add mirrored
-files under `commands/`; Claude invokes plugin skills by namespaced names such
-as `/claude-obsidian:wiki`.
+Las 15 skills viven en `skills/<name>/SKILL.md`. Usan el subconjunto portátil de
+frontmatter de Agent Skills: exactamente `name` y `description`. No agregues
+archivos reflejados en `commands/`; Claude invoca las skills del plugin por
+nombres con espacio de nombres, como `/claude-obsidian:wiki`.
 
-Core workflows are `wiki`, `save`, `wiki-ingest`, `wiki-query`, and
-`wiki-lint`. Extensions are `autoresearch`, `canvas`, `defuddle`, `wiki-fold`,
-`wiki-mode`, `wiki-retrieve`, and `wiki-cli`. Reference skills are
-`obsidian-markdown`, `obsidian-bases`, and `think`.
+Los flujos de trabajo principales son `wiki`, `save`, `wiki-ingest`, `wiki-query`
+y `wiki-lint`. Las extensiones son `autoresearch`, `canvas`, `defuddle`,
+`wiki-fold`, `wiki-mode`, `wiki-retrieve` y `wiki-cli`. Las skills de referencia
+son `obsidian-markdown`, `obsidian-bases` y `think`.
 
-## Mutation protocol
+## Protocolo de modificación
 
-One logical knowledge operation is one recoverable transaction:
+Una operación lógica de conocimiento es una transacción recuperable:
 
-1. Read targets and record expected SHA-256 values.
-2. Let parallel workers return drafts and evidence only.
-3. Merge drafts into one `claude-obsidian.transaction.v1` bundle.
-4. Inspect the bundle, then apply it once through `scripts/claude-obsidian.py`.
-5. Report the operation ID and exact changed paths.
+1. Lee los destinos y registra los valores SHA-256 esperados.
+2. Deja que los agentes en paralelo devuelvan solo borradores y evidencia.
+3. Fusiona los borradores en un único paquete `claude-obsidian.transaction.v1`.
+4. Inspecciona el paquete y luego aplícalo una sola vez mediante
+   `scripts/claude-obsidian.py`.
+5. Informa el ID de la operación y las rutas exactas modificadas.
 
-Do not use direct shared writes, the deprecated `wiki-lock.sh` helper, or
-generic lifecycle auto-commits. Git checkpointing is separate and explicit.
-Raw source payloads are create-only; `.raw/.manifest.json` is the only mutable
-legacy raw metadata file. Destructive repairs, remote egress, and canonical
-research merges require explicit consent.
+No uses escrituras compartidas directas, el auxiliar obsoleto `wiki-lock.sh` ni
+commits automáticos genéricos del ciclo de vida. Los puntos de control de Git son
+independientes y explícitos. Las cargas de fuentes sin procesar son solo de
+creación; `.raw/.manifest.json` es el único archivo mutable de metadatos
+heredados de las fuentes sin procesar. Las reparaciones destructivas, la salida de red remota y
+las fusiones de investigación canónica requieren consentimiento explícito.
 
-## Vault conventions
+## Convenciones de la bóveda
 
-- `inbox/`: visible capture intake; never deleted automatically.
-- `.raw/`: immutable source payloads and legacy delta manifest.
-- `wiki/`: generated knowledge pages.
-- `wiki/meta/ledgers/`: source and claim provenance.
-- `wiki/hot.md`: bounded recent context, never a transcript.
-- `wiki/log.md`: operation history, newest first.
-- `.vault-meta/`: ignored runtime locks, journals, indexes, queues, and config.
+- `inbox/`: entrada visible de capturas; nunca se elimina de forma automática.
+- `.raw/`: cargas de fuentes inmutables y manifiesto delta heredado.
+- `wiki/`: páginas de conocimiento generadas.
+- `wiki/meta/ledgers/`: procedencia de fuentes y afirmaciones.
+- `wiki/hot.md`: contexto reciente acotado, nunca una transcripción.
+- `wiki/log.md`: historial de operaciones, las más recientes primero.
+- `.vault-meta/`: bloqueos, diarios, índices, colas y configuración de ejecución
+  ignorados.
 
-Use Obsidian Flavored Markdown: flat YAML properties, `YYYY-MM-DD` dates,
-wikilinks, embeds, and valid callouts. Never fabricate evidence locators,
-quotations, page numbers, or confidence.
+Usa Obsidian Flavored Markdown: propiedades YAML planas, fechas `YYYY-MM-DD`,
+wikilinks, incrustaciones y destacados válidos. Nunca inventes localizadores de
+evidencia, citas textuales, números de página ni niveles de confianza.
 
-## Verification
+## Verificación
 
-Run `make test` after behavioral changes. It executes every Python and shell
-suite plus the product, capability, package, hook, and manifest contracts.
-Public artifacts are built locally with `release build` and audited without
-publishing. No agent may push, tag, open or mutate issues, or publish a release
-without explicit owner approval.
+Ejecuta `make test` después de los cambios de comportamiento. Este comando
+ejecuta cada suite de Python y de shell, además de los contratos de producto, capacidades, paquete,
+hooks y manifiestos. Los artefactos públicos se construyen en local con
+`release build` y se auditan sin publicar. Ningún agente puede hacer push, crear
+etiquetas, abrir o modificar issues, ni publicar una versión sin la aprobación
+explícita del propietario.
 
-Claude SessionStart context injection is disabled by default. Treat
-`CLAUDE_OBSIDIAN_SESSION_CONTEXT=1` as explicit user consent to place bounded
-`wiki/hot.md` data in the model context; never set it automatically. A
-workspace-configured vault outside the project also requires an exact
-`CLAUDE_OBSIDIAN_SESSION_CONTEXT_VAULT` path.
+La inyección de contexto de SessionStart de Claude está deshabilitada por defecto.
+Trata `CLAUDE_OBSIDIAN_SESSION_CONTEXT=1` como consentimiento explícito del
+usuario para poner datos acotados de `wiki/hot.md` en el contexto del modelo;
+nunca lo definas de forma automática. Una bóveda configurada en el espacio de
+trabajo fuera del proyecto requiere además una ruta exacta en
+`CLAUDE_OBSIDIAN_SESSION_CONTEXT_VAULT`.
 
-## Reference
+## Referencia
 
-- Public canonical repository: https://github.com/dpratoo/segundo-cerebro
+- Repositorio canónico público: https://github.com/dpratoo/segundo-cerebro
 - Proyecto original: https://github.com/AgriciDaniel/claude-obsidian
-- LLM Wiki pattern: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
-- Obsidian primitives: https://github.com/kepano/obsidian-skills
+- Patrón LLM Wiki: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+- Primitivas de Obsidian: https://github.com/kepano/obsidian-skills

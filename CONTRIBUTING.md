@@ -1,65 +1,73 @@
-# Contributing to claude-obsidian
+# Contribuir a claude-obsidian
 
-Contributions are welcome in the public canonical repository:
+Las contribuciones son bienvenidas en el repositorio canónico público:
 https://github.com/dpratoo/segundo-cerebro.
 Este repositorio mantiene la traducción al español. Los cambios de
 funcionamiento (código, pruebas, contratos) corresponden al proyecto original:
 https://github.com/AgriciDaniel/claude-obsidian.
 
-For a substantial change, open an issue that describes the user problem,
-proposed behavior, compatibility impact, privacy/egress implications, and a
-hermetic test strategy. Security reports follow [SECURITY.md](SECURITY.md), not
-the public issue tracker.
+Para un cambio sustancial, abre un issue que describa el problema del usuario, el
+comportamiento propuesto, el impacto en la compatibilidad, las implicaciones de
+privacidad y de salida de red, y una estrategia de pruebas herméticas. Los
+reportes de seguridad siguen [SECURITY.md](SECURITY.md), no el rastreador público
+de issues.
 
-## Engineering contract
+## Contrato de ingeniería
 
-- Read the affected behavior, callers, contracts, and tests before editing.
-- Keep product code and user-vault state separate.
-- Prefer the smallest deterministic implementation with explicit failure and
-  recovery behavior.
-- Preserve existing user files unless the user reviews an explicit replacement
-  or destructive plan.
-- Route one logical knowledge mutation through one recoverable transaction.
-- Keep parallel workers draft-only and query/lint operations read-only.
-- Require explicit consent for remote egress, destructive repair, and external
-  state changes.
-- Do not add capability, performance, or competitor claims without current,
-  traceable evidence.
-- Keep skill frontmatter to exactly `name` and `description`.
+- Lee el comportamiento afectado, sus llamadores, los contratos y las pruebas
+  antes de editar.
+- Mantén separados el código del producto y el estado de la bóveda del usuario.
+- Prefiere la implementación determinista más pequeña, con un comportamiento
+  explícito de fallo y de recuperación.
+- Conserva los archivos existentes del usuario, salvo que el usuario revise un
+  reemplazo explícito o un plan destructivo.
+- Encauza cada modificación lógica de conocimiento por una única transacción
+  recuperable.
+- Limita a los agentes en paralelo a redactar borradores y mantén las
+  operaciones de consulta y de lint en solo lectura.
+- Exige consentimiento explícito para la salida de red remota, las reparaciones
+  destructivas y los cambios de estado externos.
+- No agregues afirmaciones de capacidad, rendimiento o comparación con la
+  competencia sin evidencia actual y trazable.
+- Mantén el frontmatter de las skills en exactamente `name` y `description`.
 
-## Local workflow
+## Flujo de trabajo local
 
-Create a focused branch from a public fork. Python 3.11 or newer is required.
-The public default branch is an artifact-clean, self-validating product tree;
-never add root vault state (`wiki/`, `.raw/`, or `.vault-meta/`) to a
-contribution.
+Crea una rama específica desde un fork público. Se requiere Python 3.11 o
+posterior. La rama predeterminada pública es un árbol de producto limpio de
+artefactos y autovalidante; nunca agregues a una contribución el estado de bóveda
+de la raíz (`wiki/`, `.raw/` o `.vault-meta/`).
 
 ```bash
 make test
 ```
 
-The test target discovers every `tests/test_*.py` and `tests/test_*.sh` file,
-then executes product/capability and package contracts. Tests must be hermetic:
-no network, model server, personal paths, global config, or persistent product
-state. A network integration belongs behind an explicit consent flag and needs
-an offline test double.
+El objetivo de pruebas descubre cada archivo `tests/test_*.py` y `tests/test_*.sh`
+y luego ejecuta los contratos de producto y capacidades y los de paquete. Las
+pruebas deben ser herméticas: sin red, servidor de modelos, rutas personales,
+configuración global ni estado persistente del producto. Una integración de red
+va detrás de un indicador de consentimiento explícito y necesita un doble de
+prueba sin conexión.
 
-Behavior changes should include:
+Los cambios de comportamiento deberían incluir:
 
-1. a regression test that fails for the old behavior;
-2. success, conflict, invalid-input, and recovery coverage proportional to risk;
-3. updated user and contract documentation;
-4. an entry under `## [Unreleased]` in `CHANGELOG.md`.
+1. una prueba de regresión que falle con el comportamiento anterior;
+2. cobertura de éxito, conflicto, entrada no válida y recuperación proporcional al
+   riesgo;
+3. documentación de usuario y de contratos actualizada;
+4. una entrada bajo `## [Unreleased]` en `CHANGELOG.md`.
 
-Run the read-only fresh-context verifier in `agents/verifier.md` for non-trivial
-changes. It may inspect the full worktree or a declared path scope; it never
-stages, commits, pushes, or modifies files. Resolve BLOCKER and HIGH findings
-before requesting review.
+Ejecuta el verificador de solo lectura con contexto nuevo de `agents/verifier.md`
+en los cambios no triviales. Puede inspeccionar todo el árbol de trabajo o un
+alcance de rutas declarado; nunca prepara cambios, hace commits, hace push ni
+modifica archivos. Resuelve los hallazgos BLOCKER y HIGH antes de solicitar la
+revisión.
 
-Use Conventional Commits where practical. The pull request should explain the
-problem, behavior, compatibility/rollback story, exact verification run, and
-any remaining limitations. Do not include vault content, credentials, generated
-runtime state, or unreviewed binaries.
+Usa Conventional Commits cuando sea práctico. El pull request debería explicar el
+problema, el comportamiento, la historia de compatibilidad y reversión, la
+verificación exacta ejecutada y cualquier limitación pendiente. No incluyas
+contenido de la bóveda, credenciales, estado de ejecución generado ni binarios
+sin revisar.
 
-By contributing, you agree that your contribution is licensed under the
-[MIT License](LICENSE) and governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Al contribuir, aceptas que tu contribución se licencia bajo la
+[Licencia MIT](LICENSE) y se rige por [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).

@@ -1,27 +1,30 @@
-# Security policy
+# Política de seguridad
 
-## Report a vulnerability
+## Reportar una vulnerabilidad
 
-Use GitHub [private vulnerability reporting](https://github.com/dpratoo/segundo-cerebro/security/advisories/new)
-for the public canonical repository. Si el problema también afecta al proyecto
-original, repórtalo además en https://github.com/AgriciDaniel/claude-obsidian/security/advisories/new. If that form is unavailable, contact the
-repository or community maintainers through an existing private channel and
-request a secure handoff before sharing details. Do not place secrets, private
-vault content, or an active exploit in a public issue. Include affected
-versions, reproduction steps, impact, and a proposed mitigation when available.
+Usa el [reporte privado de vulnerabilidades](https://github.com/dpratoo/segundo-cerebro/security/advisories/new)
+de GitHub para el repositorio canónico público. Si el problema también afecta al proyecto
+original, repórtalo además en https://github.com/AgriciDaniel/claude-obsidian/security/advisories/new. Si ese formulario no está disponible, contacta a los
+mantenedores del repositorio o de la comunidad por un canal privado existente y
+solicita un traspaso seguro antes de compartir detalles. No pongas secretos,
+contenido privado de la bóveda ni un exploit activo en un issue público. Incluye las
+versiones afectadas, los pasos para reproducirlo, el impacto y, cuando exista, una
+propuesta de mitigación.
 
-## Security boundary
+## Límite de seguridad
 
-The portable core is standard-library Python executed with the current user's
-filesystem permissions. It is not a sandbox. An agent, external adapter,
-Obsidian plugin, hook, or command that already has the user's authority remains
-inside the user's trust boundary.
+El núcleo portátil es Python de biblioteca estándar que se ejecuta con los
+permisos de sistema de archivos del usuario actual. No es un entorno aislado
+(sandbox). Un agente, un adaptador externo, un complemento de Obsidian, un hook o
+un comando que ya tiene la autoridad del usuario sigue dentro del límite de
+confianza del usuario.
 
-The supported default is one user controlling one vault. On a shared host,
-restrict the vault and `.vault-meta/` to that user. Runtime identity and lock
-ownership are enforced with atomic filesystem operations, process-held owner
-tokens, host/PID checks, and stale-age thresholds; filesystem permissions are
-still the outer boundary.
+La configuración compatible por defecto es un usuario que controla una bóveda. En
+un host compartido, restringe la bóveda y `.vault-meta/` a ese usuario. La
+identidad de ejecución y la propiedad de los bloqueos se imponen con operaciones
+atómicas del sistema de archivos, tokens de propietario mantenidos por el proceso,
+comprobaciones de host y PID, y umbrales de antigüedad de bloqueos obsoletos; los
+permisos del sistema de archivos siguen siendo el límite exterior.
 
 ## Jerarquía de confianza del contenido
 
@@ -41,35 +44,44 @@ incrustadas y los mensajes de rol falsos, conserva como datos el texto útil de
 la fuente y pregunta al usuario cuando no se pueda distinguir con seguridad una
 acción solicitada del contenido.
 
-## Defensive invariants
+## Invariantes defensivos
 
-- Mutable vault paths resolve independently from the plugin installation.
-- Vault-relative paths are containment-checked after symlink resolution.
-- One logical mutation holds one process-lifetime vault lock, journals expected
-  hashes and backups, writes with fsync plus atomic replace, and rolls back or
-  recovers after interruption.
-- Raw payloads are create-only. Existing content-addressed bytes must match.
-- Persistent and retrieved content is data, never an executable instruction
-  channel.
-- Parallel workers draft; one orchestrator applies the transaction.
-- Lifecycle hooks do not mutate a vault or Git repository.
-- Capture does not delete inbox files. Deletion and destructive lint repairs
-  remain review-only until separately approved.
-- Network, remote model, OCR, and extraction adapters are disabled or inert
-  plans unless the user configures a runner and explicitly consents.
-- Public artifacts require a clean tracked snapshot and reject secrets,
-  personal contact addresses, private paths, live vault state, unsafe archives,
-  symlinks, and unreviewed binaries.
+- Las rutas mutables de la bóveda se resuelven de forma independiente de la
+  instalación del plugin.
+- Las rutas relativas a la bóveda se verifican para comprobar que no salen de
+  ella (contención) tras resolver los enlaces simbólicos.
+- Una modificación lógica mantiene un único bloqueo de la bóveda durante la vida
+  del proceso, registra en el diario los hashes esperados y las copias de
+  seguridad, escribe con fsync más reemplazo atómico, y revierte o se recupera
+  tras una interrupción.
+- Las cargas sin procesar son solo de creación. Los bytes existentes
+  direccionados por contenido deben coincidir.
+- El contenido persistente y el recuperado son datos, nunca un canal de
+  instrucciones ejecutables.
+- Los agentes en paralelo redactan borradores; un orquestador aplica la
+  transacción.
+- Los hooks del ciclo de vida no modifican una bóveda ni un repositorio Git.
+- La captura no elimina archivos de la bandeja de entrada. La eliminación y las
+  reparaciones destructivas del lint siguen siendo de solo revisión hasta que se
+  aprueben por separado.
+- Los adaptadores de red, de modelo remoto, de OCR y de extracción están
+  deshabilitados o son planes inertes, a menos que el usuario configure un
+  ejecutor y dé su consentimiento explícito.
+- Los artefactos públicos exigen una instantánea limpia de lo versionado y
+  rechazan secretos, direcciones de contacto personales, rutas privadas, estado
+  activo de la bóveda, archivos comprimidos no seguros, enlaces simbólicos y
+  binarios sin revisar.
 
-`scripts/wiki-lock.sh` exists only for legacy compatibility and is not the
-concurrency primitive for new operations.
+`scripts/wiki-lock.sh` existe solo por compatibilidad heredada y no es la
+primitiva de concurrencia de las operaciones nuevas.
 
-## Supply chain and third parties
+## Cadena de suministro y terceros
 
-Optional tools such as Obsidian, defuddle, Ollama, and model/provider clients
-have their own security models. Pin and review them independently. The release
-artifact builder never installs dependencies, publishes, pushes, tags, or
-mutates GitHub state.
+Las herramientas opcionales como Obsidian, defuddle, Ollama y los clientes de
+modelos y proveedores tienen sus propios modelos de seguridad. Fija sus versiones
+y revísalas de forma independiente. El constructor de artefactos de publicación
+nunca instala dependencias, publica, hace push, crea etiquetas ni modifica el
+estado de GitHub.
 
-Good-faith reports are welcome. Reporters are credited unless they request
-otherwise.
+Los reportes de buena fe son bienvenidos. Se da crédito a quienes reportan,
+salvo que pidan lo contrario.

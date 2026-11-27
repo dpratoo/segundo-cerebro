@@ -1,24 +1,27 @@
-# claude-obsidian: Gemini instructions
+# claude-obsidian: instrucciones para Gemini
 
-Read `AGENTS.md` as the canonical host-neutral contract. Skills live in
-`skills/<name>/SKILL.md` and the portable core lives in `claude_obsidian/`.
+Lee `AGENTS.md` como el contrato canónico independiente del host. Las skills viven
+en `skills/<name>/SKILL.md` y el núcleo portátil vive en `claude_obsidian/`.
 
-Install skill discovery with:
+Instala el descubrimiento de skills con:
 
 ```bash
 bash scripts/setup-multi-agent.sh --host gemini
 bash scripts/setup-multi-agent.sh --host gemini --apply
 ```
 
-The first command previews the links; the second applies that reviewed scope.
+El primer comando muestra una vista previa de los enlaces; el segundo aplica ese
+alcance ya revisado.
 
-This repository is product source, not the default user vault. Create a
-separate vault with the dry-run-first `init` command or adopt an existing vault.
-Resolve that vault before reading `wiki/hot.md` or running a skill.
+Este repositorio es la fuente del producto, no la bóveda de usuario por defecto.
+Crea una bóveda aparte con el comando `init`, que primero hace una simulación, o
+adopta una bóveda existente. Resuelve esa bóveda antes de leer `wiki/hot.md` o
+ejecutar una skill.
 
-All shared mutations use one inspected `claude-obsidian.transaction.v1` bundle.
-Parallel workers draft only. Do not use direct shared writes, automatic commits,
-or the deprecated per-file lock helper. Remote egress and destructive actions
-need explicit user consent.
+Toda modificación compartida usa un único paquete `claude-obsidian.transaction.v1`
+inspeccionado. Los agentes en paralelo solo redactan borradores. No uses
+escrituras compartidas directas, commits automáticos ni el auxiliar obsoleto de
+bloqueo por archivo. La salida de red remota y las acciones destructivas necesitan
+el consentimiento explícito del usuario.
 
-Public canonical: https://github.com/dpratoo/segundo-cerebro
+Repositorio canónico público: https://github.com/dpratoo/segundo-cerebro
