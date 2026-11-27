@@ -1,192 +1,230 @@
-# Optional contextual prefix providers
+# Proveedores opcionales de prefijos contextuales
 
-Synthetic prefixes remain the default. Preview with `--peek`; use `--no-llm`
-to keep a build deterministic and provider-free. Selecting a provider changes
-derived caches only, and requires an explicit build. Canonical pages remain
-unchanged.
+Los prefijos sintéticos siguen siendo la opción por defecto. Haz una vista
+previa con `--peek`; usa `--no-llm` para que una construcción sea determinista y
+no dependa de ningún proveedor. Elegir un proveedor solo cambia cachés derivadas
+y requiere una construcción explícita. Las páginas canónicas permanecen sin
+cambios.
 
-## An installed local Ollama model
+## Un modelo local de Ollama instalado
 
-Pass `--local-ollama --ollama-model name:tag` to contextual-prefix.py. The
-adapter never starts a server, pulls a model or falls back to a cloud provider.
-It requires a cloud-disabled status response, an exact installed model tag and
-digest, and local model metadata before transmitting page text. Older servers
-without these fields fall back to synthetic prefixes. A changing model digest
-invalidates cached prefixes on the next explicit build.
+Pasa `--local-ollama --ollama-model name:tag` a contextual-prefix.py. El
+adaptador nunca inicia un servidor, descarga un modelo ni recurre a un proveedor
+en la nube. Antes de transmitir texto de páginas, exige una respuesta de estado
+con la nube desactivada, la etiqueta y el digest exactos de un modelo instalado,
+y metadatos del modelo local. Los servidores más antiguos que no tienen estos
+campos recurren a prefijos sintéticos. Un digest de modelo que cambia invalida
+los prefijos en caché en la siguiente construcción explícita.
 
-When that preflight is unavailable, for example during a transient outage, the
-cause is reported once for the operation and no page text is sent. Existing
-records produced by the same endpoint and model under the current prompt
-revision are kept for unchanged chunks, because their digest cannot be
-re-proved until the server returns. Only new or changed chunks receive a
-synthetic prefix. If no chunk changes, chunk records and the ready BM25 index
-remain byte identical.
+Cuando esa verificación previa no está disponible, por ejemplo durante una
+interrupción transitoria, la causa se informa una sola vez para la operación y
+no se envía texto de páginas. Los registros existentes producidos por el mismo
+endpoint y modelo con la revisión actual del prompt se conservan para los
+fragmentos sin cambios, porque su digest no se puede volver a comprobar hasta
+que el servidor regrese. Solo los fragmentos nuevos o modificados reciben un
+prefijo sintético. Si ningún fragmento cambia, los registros de fragmentos y el
+índice BM25 listo permanecen idénticos byte a byte.
 
-The default endpoint is the numeric loopback `127.0.0.1`. The exact hostname
-`localhost` is normalized to `127.0.0.1` before any request, and literal `::1`
-remains available. This prevents local mode from relying on host resolver
-configuration. An explicit non-loopback endpoint additionally requires the
-user's approval and `--allow-remote-ollama`. Select HTTPS for a remote server
-when page contents need transport encryption. Standard certificate hostname
-validation applies to the normalized numeric endpoint, so a certificate for
-only `localhost` does not cover `https://127.0.0.1`. Proxies and redirects are
-disabled. JSON requests and responses are bounded, as are output and timeouts.
-Each timeout is one wall-clock deadline for the complete request: connection,
-upload, response headers and every body read. A server that drips bytes cannot
-extend it. Responses are parsed strictly, and a duplicate object key at any
-depth rejects the response.
-Unsupported responses, refusal, truncation and mismatched model identity
-produce synthetic prefixes and open the operation circuit. Later chunks and
-pages then fall back without another generation request. A user-supplied
-server can misrepresent its configuration; the preflight does not attest the
-remote machine.
+El endpoint por defecto es el loopback numérico `127.0.0.1`. El nombre de host
+exacto `localhost` se normaliza a `127.0.0.1` antes de cualquier solicitud, y el
+literal `::1` sigue disponible. Esto evita que el modo local dependa de la
+configuración del resolvedor del host. Un endpoint explícito que no sea loopback
+requiere además la aprobación del usuario y `--allow-remote-ollama`. Elige HTTPS
+para un servidor remoto cuando el contenido de las páginas necesite cifrado de
+transporte. La validación estándar del nombre de host del certificado se aplica
+al endpoint numérico normalizado, de modo que un certificado solo para
+`localhost` no cubre `https://127.0.0.1`. Los proxies y las redirecciones están
+desactivados. Las solicitudes y las respuestas JSON están acotadas, igual que la
+salida y los tiempos de espera. Cada tiempo de espera es un único plazo de reloj
+para toda la solicitud: conexión, carga, encabezados de la respuesta y cada
+lectura del cuerpo. Un servidor que envía los bytes con cuentagotas no puede
+ampliarlo. Las respuestas se analizan de forma estricta, y una clave de objeto
+duplicada a cualquier profundidad rechaza la respuesta.
+Las respuestas no compatibles, el rechazo, el truncamiento y una identidad de
+modelo que no coincide producen prefijos sintéticos y abren el circuito de la
+operación. Los fragmentos y las páginas posteriores recurren entonces a la
+alternativa sin otra solicitud de generación. Un servidor proporcionado por el
+usuario puede falsear su configuración; la verificación previa no certifica la
+máquina remota.
 
-The optional Ollama embedding endpoints used by reranking and semantic tiling
-apply the same exact `localhost` to `127.0.0.1` normalization before their
-first transport request. They preserve an explicit port and base path, keep a
-literal `::1`, and retain the separate remote endpoint consent requirement.
-Before any query, page, chunk, or embedding cache work, all Ollama callers
-require server status to report `cloud.disabled` as the Boolean value `true`.
-They also require a selected installed model with a valid digest and nonempty
-local `model_info`. Cloud tags, remote model fields, malformed identity, and
-conflicting alias digests fail this proof. Remote fields are decisive in the
-status and model metadata responses, in the model list envelope, and in the
-list entries for the selected model or its permitted alias. Another installed
-cloud model never receives the request and does not block a local model. An
-explicit tag matches exactly. An
-untagged embedding model matches only its exact name or `:latest`, preferring
-the exact name. `--allow-remote-ollama` approves the server endpoint only. It
-does not approve cloud delegation by that server.
-Every embedding GET and POST disables ambient proxies, refuses redirects,
-requires the final response URL to match the requested URL, and reads a bounded
-JSON response within the same per-request wall-clock deadline and strict
-duplicate-key parsing. A malformed HTTP status line or other protocol error is
-treated as an unavailable server: reranking falls back to BM25 order and
-tiling exits 10, or 12 once local proof has begun. Reranking validates a nonempty query within 8,000 NFKC-normalized
-characters and at most 1,000 object candidates with safe relative paths and
-finite scores before model, endpoint, cache, or embedding work. Semantic tiling
-validates threshold schema version 1 and finite bands satisfying
-`0 <= review < error <= 1` before provider probes or cache reads and writes.
-Malformed input exits through the documented controlled interface and sends no
-query, candidate, or page body to Ollama.
-Embedding responses and semantic tiling cache vectors must be bounded lists of
-finite, nonboolean numbers with one consistent dimension per model. Malformed
-cache documents exit through the cache corruption contract before any cache
-publication. Rerank cache keys include the verified model digest. Semantic
-tiling cache schema version 2 binds reusable entries to the resolved model name
-and digest. A valid version 1 cache is treated as a miss, while a malformed
-legacy cache remains corruption. The first semantic tiling embedding failure,
-including an HTTP error, remote identity in the response, or a dimension
-change, opens a circuit for the run: no further page body is sent, and cached
-vectors still contribute to the report. Partial or total embedding failure
-preserves the previous cache, prints a provisional incomplete report, and
-exits 12.
-Malformed rerank chunk JSON,
-including non-text selected content, preserves the whole candidate set through
-the documented BM25 fallback.
-JSON parser conversion or nesting limits follow the same cache, threshold and
-candidate error or fallback contracts as other malformed JSON. They do not
-escape as raw parsing exceptions.
+Los endpoints opcionales de embeddings de Ollama que usan el reordenamiento y el
+teselado semántico aplican la misma normalización exacta de `localhost` a
+`127.0.0.1` antes de su primera solicitud de transporte. Conservan un puerto y
+una ruta base explícitos, mantienen un `::1` literal y conservan el requisito
+aparte de consentimiento para endpoints remotos.
+Antes de cualquier trabajo con consultas, páginas, fragmentos o la caché de
+embeddings, todos los que llaman a Ollama exigen que el estado del servidor
+informe `cloud.disabled` con el valor booleano `true`.
+También exigen un modelo instalado seleccionado con un digest válido y un
+`model_info` local no vacío. Las etiquetas de la nube, los campos de modelo
+remoto, una identidad mal formada y los digests de alias en conflicto no superan
+esta prueba. Los campos remotos son decisivos en las respuestas de estado y de
+metadatos del modelo, en la envoltura de la lista de modelos y en las entradas
+de la lista del modelo seleccionado o de su alias permitido. Otro modelo de la
+nube instalado nunca recibe la solicitud y no bloquea un modelo local. Una
+etiqueta explícita coincide de forma exacta. Un modelo de embeddings sin
+etiqueta coincide solo con su nombre exacto o con `:latest`, y se prefiere el
+nombre exacto. `--allow-remote-ollama` aprueba solo el endpoint del servidor. No
+aprueba la delegación a la nube por parte de ese servidor.
+Cada GET y POST de embeddings desactiva los proxies del entorno, rechaza las
+redirecciones, exige que la URL final de la respuesta coincida con la URL
+solicitada y lee una respuesta JSON acotada dentro del mismo plazo de reloj por
+solicitud y con el mismo análisis estricto de claves duplicadas. Una línea de
+estado HTTP mal formada u otro error de protocolo se trata como un servidor no
+disponible: el reordenamiento recurre al orden de BM25 y el teselado termina con
+el código 10, o con el 12 una vez iniciada la prueba local. El reordenamiento
+valida una consulta no vacía de hasta 8,000 caracteres normalizados con NFKC y
+como máximo 1,000 candidatos de objeto con rutas relativas seguras y
+puntuaciones finitas, antes de cualquier trabajo con el modelo, el endpoint, la
+caché o los embeddings. El teselado semántico valida la versión 1 del esquema de
+umbrales y bandas finitas que cumplan `0 <= review < error <= 1`, antes de
+sondear proveedores o de leer y escribir cachés.
+Una entrada mal formada termina por la interfaz controlada documentada y no
+envía a Ollama ninguna consulta, candidato ni cuerpo de página.
+Las respuestas de embeddings y los vectores en la caché del teselado semántico
+deben ser listas acotadas de números finitos que no sean booleanos, con una
+dimensión consistente por modelo. Los documentos de caché mal formados terminan
+según el contrato de corrupción de la caché, antes de cualquier publicación de
+la caché. Las claves de la caché del reordenamiento incluyen el digest
+verificado del modelo. La versión 2 del esquema de la caché del teselado
+semántico vincula las entradas reutilizables con el nombre y el digest
+resueltos del modelo. Una caché válida de la versión 1 se trata como un fallo de
+caché, mientras que una caché heredada mal formada sigue siendo corrupción. El
+primer fallo de embedding del teselado semántico, ya sea un error HTTP, una
+identidad remota en la respuesta o un cambio de dimensión, abre un circuito
+durante la ejecución: no se envía ningún otro cuerpo de página, y los vectores
+en caché siguen aportando al informe. Un fallo parcial o total de embeddings
+conserva la caché anterior, imprime un informe provisional incompleto y termina
+con el código 12.
+Un JSON de fragmento de reordenamiento mal formado, incluido un contenido
+seleccionado que no es texto, conserva todo el conjunto de candidatos mediante
+la alternativa documentada de BM25.
+Los límites de conversión o de anidamiento del analizador JSON siguen los mismos
+contratos de error o de alternativa para la caché, los umbrales y los candidatos
+que cualquier otro JSON mal formado. No escapan como excepciones de análisis sin
+procesar.
 
-The source contract was reviewed against Ollama revision
-`d1ed3fd13ac73f60cff00bbead8af24a68c4200d`, including its
-[status handler](https://github.com/ollama/ollama/blob/d1ed3fd13ac73f60cff00bbead8af24a68c4200d/server/routes.go)
-and [response types](https://github.com/ollama/ollama/blob/d1ed3fd13ac73f60cff00bbead8af24a68c4200d/api/types.go),
-checked 2026-10-17. Mocked protocol tests are separate from live server
-compatibility. No minimum released Ollama version has been established.
+El contrato de origen se revisó contra la revisión
+`d1ed3fd13ac73f60cff00bbead8af24a68c4200d` de Ollama, incluidos su
+[manejador de estado](https://github.com/ollama/ollama/blob/d1ed3fd13ac73f60cff00bbead8af24a68c4200d/server/routes.go)
+y sus [tipos de respuesta](https://github.com/ollama/ollama/blob/d1ed3fd13ac73f60cff00bbead8af24a68c4200d/api/types.go),
+comprobados el 2026-10-17. Las pruebas de protocolo con simulaciones son
+independientes de la compatibilidad con un servidor real. No se ha establecido
+una versión publicada mínima de Ollama.
 
-## An explicitly approved cloud provider
+## Un proveedor en la nube aprobado de forma explícita
 
-`--allow-egress` permits direct Anthropic API requests when
-`ANTHROPIC_API_KEY` is present. An API key never counts as consent. State which
-provider will receive the selected page bodies before an approved build.
+`--allow-egress` permite solicitudes directas a la API de Anthropic cuando
+`ANTHROPIC_API_KEY` está presente. Una clave de API nunca cuenta como
+consentimiento. Indica qué proveedor recibirá el cuerpo de las páginas
+seleccionadas antes de una construcción aprobada.
 
-The API defaults to `--anthropic-model claude-haiku-5-5`, using low effort,
-adaptive thinking and a bounded 2,048-token output budget. The explicit legacy
-profile is `--anthropic-model claude-haiku-4-5-20251001`. Unsupported model
-identifiers are refused. Refused, truncated, empty or unusable output falls
-back directly to a synthetic prefix and opens the operation circuit. Remaining
-chunks and pages use synthetic prefixes without repeating a failed generation
-request. Local Ollama mode never selects the API.
+La API usa por defecto `--anthropic-model claude-haiku-5-5`, con esfuerzo bajo,
+razonamiento adaptativo y un presupuesto de salida acotado de 2,048 tokens. El
+perfil heredado explícito es `--anthropic-model claude-haiku-4-5-20251001`. Los
+identificadores de modelo no compatibles se rechazan. Una salida rechazada,
+truncada, vacía o inutilizable recurre directamente a un prefijo sintético y
+abre el circuito de la operación. Los fragmentos y las páginas restantes usan
+prefijos sintéticos sin repetir una solicitud de generación fallida. El modo
+local de Ollama nunca elige la API.
 
-Generation request bodies have three configurable operation guards. Defaults
-are 128 requests, 16,777,216 serialized request-body bytes for the complete
-operation, and 1,048,576 serialized UTF-8 request-body bytes for one request.
-Use `--provider-max-requests`, `--provider-max-bytes`, and
-`--provider-max-request-bytes` to change those values within their hard caps.
-The hard caps are 512 requests, 134,217,728 operation bytes, and 4,194,304
-bytes for one request.
-Local Ollama keeps its smaller 131,072-byte request limit. The complete set of
-planned requests for one page is measured before that page's first generation
-call. A page that cannot fit the remaining count or byte budget uses synthetic
-prefixes without partial provider execution. Counts and bytes are shared
-across every selected page in one command. Synthetic and preview paths consume
-none of this generation budget, including explicit `--no-llm` runs.
+Los cuerpos de las solicitudes de generación tienen tres límites de operación
+configurables. Los valores por defecto son 128 solicitudes, 16,777,216 bytes
+serializados de cuerpo de solicitud para toda la operación y 1,048,576 bytes
+serializados en UTF-8 de cuerpo de solicitud para una sola solicitud. Usa
+`--provider-max-requests`, `--provider-max-bytes` y
+`--provider-max-request-bytes` para cambiar esos valores dentro de sus topes
+máximos. Los topes máximos son 512 solicitudes, 134,217,728 bytes por operación
+y 4,194,304 bytes para una sola solicitud.
+Ollama en modo local mantiene su límite menor de 131,072 bytes por solicitud. El
+conjunto completo de solicitudes planificadas para una página se mide antes de
+la primera llamada de generación de esa página. Una página que no cabe en el
+conteo o en el presupuesto de bytes restante usa prefijos sintéticos sin
+ejecución parcial del proveedor. Los conteos y los bytes se comparten entre
+todas las páginas seleccionadas en un mismo comando. Las rutas sintéticas y de
+vista previa no consumen nada de este presupuesto de generación, incluidas las
+ejecuciones explícitas con `--no-llm`.
 
-The 512-token cache floor is model-specific. The character-count estimate is
-only a heuristic; actual cache reads and writes require provider telemetry.
-Changing the model or generation profile refreshes derived prefixes on the
-next explicit build. These
-profiles were checked against current [model guidance](https://platform.claude.com/docs/en/models/haiku-5-5/migration-guide)
-and [caching guidance](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
-on 2026-10-17. Mocked payload tests establish request behavior, not live model
-quality, cache savings or billing.
+El mínimo de 512 tokens de la caché depende del modelo. La estimación por conteo
+de caracteres es solo una heurística; las lecturas y escrituras reales de la
+caché requieren telemetría del proveedor. Cambiar el modelo o el perfil de
+generación actualiza los prefijos derivados en la siguiente construcción
+explícita. Estos perfiles se comprobaron contra la
+[guía de modelos](https://platform.claude.com/docs/en/models/haiku-5-5/migration-guide)
+y la [guía de caché](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
+vigentes el 2026-10-17. Las pruebas de carga útil con simulaciones establecen el
+comportamiento de las solicitudes, no la calidad de un modelo real, el ahorro de
+caché ni la facturación.
 
-The ambient Claude CLI generation tier has been removed. No `claude -p`
-subprocess, subscription fallback, host tools, hooks or loaded host settings
-participate in prefix generation. With no usable API key or selected local
-Ollama provider, the result is synthetic. Older `claude-cli` records and records
-from previous prompt revisions regenerate on the next explicit build, even
-when their text happens to match the synthetic result. They are never retained
-as an equivalent safe fallback.
+El nivel de generación con la CLI de Claude del entorno se eliminó. Ningún
+subproceso `claude -p`, alternativa por suscripción, herramientas del host,
+hooks ni configuración del host cargada participa en la generación de prefijos.
+Sin una clave de API utilizable ni un proveedor local de Ollama seleccionado, el
+resultado es sintético. Los registros antiguos de `claude-cli` y los de
+revisiones anteriores del prompt se regeneran en la siguiente construcción
+explícita, incluso cuando su texto coincida por casualidad con el resultado
+sintético. Nunca se conservan como una alternativa segura equivalente.
 
-## Source envelopes and output validation
+## Envolturas del origen y validación de la salida
 
-Every current wiki page is decoded as strict UTF-8 during the address
-preflight, before optional provider preflight, page envelope construction,
-provider requests, or derived cache and index mutation. Malformed UTF-8 exits
-with the controlled page error and preserves existing chunks and index bytes.
-The direct single-page processing entry point applies the same strict decode
-before it inspects derived state.
+Cada página actual de la wiki se decodifica como UTF-8 estricto durante la
+verificación previa de direcciones, antes de la verificación previa opcional del
+proveedor, de la construcción de la envoltura de la página, de las solicitudes
+al proveedor y de cualquier modificación de la caché derivada y del índice. Un
+UTF-8 mal formado termina con el error controlado de página y conserva los
+fragmentos y los bytes del índice existentes. El punto de entrada directo de
+procesamiento de una sola página aplica la misma decodificación estricta antes
+de inspeccionar el estado derivado.
 
-Both generators use the same system trust policy. Each processed page creates
-one fresh random identifier shared by all of that page's page and chunk tags.
-The identifier is named in each request's system instruction. Titles, bodies
-and chunks are JSON encoded and HTML escaped inside those tags, so embedded
-quotes, matching closing tags, control characters and fake role text remain
-data. Request identifiers do not enter the derived
-prefix profile, so randomness alone never causes a rebuild. Reusing the same
-identifier within one page keeps its system and page blocks byte stable across
-chunk requests. Eligibility markers are retained, but only provider telemetry
-establishes actual cache use.
+Ambos generadores usan la misma política de confianza del sistema. Cada página
+procesada crea un identificador aleatorio nuevo, compartido por todas las
+etiquetas de página y de fragmento de esa página. El identificador se nombra en
+la instrucción de sistema de cada solicitud. Los títulos, los cuerpos y los
+fragmentos se codifican como JSON y se escapan como HTML dentro de esas
+etiquetas, de modo que las comillas incrustadas, las etiquetas de cierre
+coincidentes, los caracteres de control y el texto de roles falsos siguen siendo
+datos. Los identificadores de solicitud no entran en el perfil de prefijos
+derivado, así que la aleatoriedad por sí sola nunca causa una reconstrucción.
+Reutilizar el mismo identificador dentro de una página mantiene estables, byte a
+byte, sus bloques de sistema y de página entre las solicitudes de fragmentos. Se
+conservan los marcadores de elegibilidad, pero solo la telemetría del proveedor
+establece el uso real de la caché.
 
-A model response must be UTF-8 encodable, nonempty, a single line, at most 34
-whitespace-separated words and at most 280 Unicode characters. The character
-bound also applies to writing without spaces. Validation allows non-Latin
-scripts and the joining characters used by some languages. It rejects control
-characters, line separators, directional formatting controls and markup
-syntax. Invalid responses fall back as a whole; the adapter never silently
-keeps the first line or truncates an invalid model response. The deterministic
-synthetic prefix retains its separate 1,000-character bound.
+Una respuesta del modelo debe poder codificarse en UTF-8, no estar vacía, ser de
+una sola línea, tener como máximo 34 palabras separadas por espacios y como
+máximo 280 caracteres Unicode. El límite de caracteres también se aplica a la
+escritura sin espacios. La validación admite escrituras no latinas y los
+caracteres de unión que usan algunos idiomas. Rechaza los caracteres de
+control, los separadores de línea, los controles de formato direccional y la
+sintaxis de marcado. Las respuestas no válidas recurren a la alternativa en su
+totalidad; el adaptador nunca conserva en silencio la primera línea ni trunca
+una respuesta no válida del modelo. El prefijo sintético determinista conserva
+su propio límite aparte de 1,000 caracteres.
 
-Every replacement record for a page is serialized before its ready BM25 index
-is invalidated. An encoding failure therefore preserves that page's previous
-chunks and index. If a provider fails and its synthetic fallback exactly matches
-an existing generation with the current safe synthetic profile and matching
-source identity, the original chunk and ready index remain byte identical.
-Fallback records identify the effective provider as synthetic. A changed chunk
-set still invalidates the old index before publication and needs the usual
-explicit BM25 rebuild. Filesystem publication failures after invalidation also
-leave retrieval unavailable until rebuilt, preventing a mixed-generation read.
+Cada registro de reemplazo de una página se serializa antes de invalidar su
+índice BM25 listo. Por lo tanto, un fallo de codificación conserva los
+fragmentos y el índice anteriores de esa página. Si un proveedor falla y su
+alternativa sintética coincide exactamente con una generación existente que
+tiene el perfil sintético seguro vigente y una identidad de origen coincidente,
+el fragmento original y el índice listo permanecen idénticos byte a byte. Los
+registros de alternativa identifican el proveedor efectivo como sintético. Un
+conjunto de fragmentos modificado igualmente invalida el índice anterior antes
+de la publicación y requiere la reconstrucción explícita habitual de BM25. Los
+fallos de publicación en el sistema de archivos posteriores a la invalidación
+también dejan la búsqueda no disponible hasta que se reconstruya, lo que evita
+una lectura de generaciones mezcladas.
 
-An existing chunk is skipped only when its schema, source hashes, raw text,
-character count, contextualized text, effective provider, and complete prefix
-profile agree with the current page and requested generation profile. Unknown
-schemas, duplicate JSON keys, non-object JSON values, and malformed or
-internally inconsistent derived records regenerate. A synthetic record must
-also match the deterministic prefix recomputed from the current page and chunk.
+Un fragmento existente se omite solo cuando su esquema, los hashes de origen, el
+texto sin procesar, el conteo de caracteres, el texto contextualizado, el
+proveedor efectivo y el perfil de prefijos completo concuerdan con la página
+actual y con el perfil de generación solicitado. Los esquemas desconocidos, las
+claves JSON duplicadas, los valores JSON que no son objetos y los registros
+derivados mal formados o internamente inconsistentes se regeneran. Un registro
+sintético también debe coincidir con el prefijo determinista recalculado a
+partir de la página y el fragmento actuales.
 
-These checks establish structural boundaries and bounded output, not semantic
-sentence correctness, instruction detection or prompt-injection resistance.
-The tests use mocked responses and temporary vaults; live provider behavior,
-retrieval quality and adversarial model acceptance remain unverified.
+Estas comprobaciones establecen límites estructurales y una salida acotada, no
+la corrección semántica de las oraciones, la detección de instrucciones ni la
+resistencia a la inyección de prompts. Las pruebas usan respuestas simuladas y
+bóvedas temporales; el comportamiento de un proveedor real, la calidad de la
+búsqueda y la aceptación adversaria del modelo siguen sin verificarse.

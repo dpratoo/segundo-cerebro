@@ -1,113 +1,127 @@
-# DragonScale compatibility extension
+# Extensión de compatibilidad DragonScale
 
-DragonScale is an optional set of memory-maintenance experiments. The base
-vault does not require it. The extension consists of four independent ideas;
-their maturity and dependencies differ.
+DragonScale es un conjunto opcional de experimentos de mantenimiento de la
+memoria. La bóveda base no lo requiere. La extensión consta de cuatro ideas
+independientes; su madurez y sus dependencias son distintas.
 
-## Provisioning
+## Aprovisionamiento
 
-Preview the create-only setup transaction:
+Haz una vista previa de la transacción de configuración que solo crea:
 
 ```bash
 bash scripts/setup-dragonscale.sh --vault <vault>
 ```
 
-Apply only after reviewing the missing paths:
+Aplica solo después de revisar las rutas faltantes:
 
 ```bash
 bash scripts/setup-dragonscale.sh --vault <vault> \
   --generated-at <ISO-UTC> --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-Setup creates only missing address-counter, tiling-threshold, legacy-exception,
-and legacy-manifest files. It never replaces existing values, downloads a
-model, changes product scripts, probes a service, or modifies notes.
+La configuración crea solo los archivos que faltan del contador de direcciones,
+de los umbrales de teselado, de las excepciones heredadas y del manifiesto
+heredado. Nunca reemplaza valores existentes, descarga un modelo, cambia los
+scripts del producto, sondea un servicio ni modifica notas.
 
-## 1. Extractive log folds
+## 1. Consolidaciones extractivas de la bitácora
 
-`wiki-fold` creates a bounded rollup from recent `wiki/log.md` entries. A fold
-must be:
+`wiki-fold` crea un resumen consolidado acotado a partir de las entradas
+recientes de `wiki/log.md`. Una consolidación debe ser:
 
-- extractive: every statement points to a child entry;
-- additive: children remain unchanged;
-- structurally idempotent: the same input set produces the same fold identity;
-- previewed before one transaction applies the fold, index, and log update.
+- extractiva: cada afirmación apunta a una entrada hija;
+- aditiva: las entradas hijas permanecen sin cambios;
+- estructuralmente idempotente: el mismo conjunto de entrada produce la misma
+  identidad de consolidación;
+- previsualizada antes de que una transacción aplique la consolidación, el
+  índice y la actualización de la bitácora.
 
-Folds are navigation aids, not new evidence. Delete or revert only the fold
-operation if a rollup is unhelpful.
+Las consolidaciones son ayudas de navegación, no evidencia nueva. Si un resumen
+consolidado no resulta útil, elimina o revierte solo la operación de
+consolidación.
 
-## 2. Stable addresses
+## 2. Direcciones estables
 
-Modern operations request addresses through the main transaction bundle. The
-engine allocates the counter, injects page frontmatter, and updates the legacy
-address map inside the same journal. Do not call the legacy allocator for new
-ingestion workflows.
+Las operaciones modernas solicitan direcciones mediante el paquete principal de
+transacciones. El motor asigna el contador, inyecta el frontmatter de la página
+y actualiza el mapa de direcciones heredado dentro del mismo diario. No llames
+al asignador heredado en flujos de ingesta nuevos.
 
-`scripts/allocate-address.sh` remains a read-only compatibility diagnostic for
-older vaults. It accepts an explicit vault and never creates or acquires a lock.
-Its output does not replace the transaction engine's expected-hash, allocation,
-concurrency, or rollback guarantees.
+`scripts/allocate-address.sh` sigue siendo un diagnóstico de compatibilidad de
+solo lectura para bóvedas antiguas. Acepta una bóveda explícita y nunca crea ni
+adquiere un bloqueo. Su salida no reemplaza las garantías del motor de
+transacciones en cuanto a hash esperado, asignación, concurrencia o reversión.
 
-## 3. Semantic tiling diagnostics
+## 3. Diagnósticos de teselado semántico
 
-`scripts/tiling-check.py` embeds eligible pages through an Ollama model and
-compares every distinct page pair for possible duplication. It is optional and
-its seed thresholds are uncalibrated. A score is a review signal, not proof
-that two pages should be merged.
+`scripts/tiling-check.py` genera embeddings de las páginas elegibles mediante un
+modelo de Ollama y compara cada par distinto de páginas en busca de posible
+duplicación. Es opcional y sus umbrales semilla no están calibrados. Una
+puntuación es una señal de revisión, no una prueba de que dos páginas deban
+fusionarse.
 
-Preview without writing a report:
+Haz una vista previa sin escribir un informe:
 
 ```bash
 python3 scripts/tiling-check.py --vault <vault> --peek
 ```
 
-Remote Ollama hosts are refused unless `--allow-remote-ollama` is supplied.
-That flag approves only the endpoint. Every server must still prove cloud is
-disabled and the selected model is installed locally with a valid digest and
-nonempty metadata before any page or cache data is read. An untagged model
-matches only its exact name or `:latest`; other tags require exact selection.
-Calibrate thresholds on labeled examples from the selected vault before using
-them as policy. If Ollama or the model is absent, report that capability state;
-do not imply the check ran.
+Los hosts remotos de Ollama se rechazan a menos que se indique
+`--allow-remote-ollama`. Esa opción aprueba solo el endpoint. Aun así, cada
+servidor debe demostrar que la nube está desactivada y que el modelo
+seleccionado está instalado localmente con un digest válido y metadatos no
+vacíos antes de leer cualquier dato de páginas o de la caché. Un modelo sin
+etiqueta coincide solo con su nombre exacto o con `:latest`; las demás etiquetas
+requieren una selección exacta. Calibra los umbrales con ejemplos etiquetados de
+la bóveda seleccionada antes de usarlos como política. Si Ollama o el modelo no
+están, informa ese estado de la capacidad; no des a entender que la revisión se
+ejecutó.
 
-Tiling cache schema version 2 binds embeddings to the resolved model identity
-and digest. A valid version 1 cache is a miss. A malformed cache still exits 3.
-An unproved local state, or any incomplete embedding run, exits 12. Incomplete
-runs print a provisional report and preserve the previous cache bytes. A
-complete scan with no eligible pages reports `complete-empty` and succeeds.
+La versión 2 del esquema de la caché del teselado vincula los embeddings con la
+identidad y el digest resueltos del modelo. Una caché válida de la versión 1 es
+un fallo de caché. Una caché mal formada sigue terminando con el código 3. Un
+estado local sin demostrar, o cualquier ejecución de embeddings incompleta,
+termina con el código 12. Las ejecuciones incompletas imprimen un informe
+provisional y conservan los bytes de la caché anterior. Un escaneo completo sin
+páginas elegibles informa `complete-empty` y termina con éxito.
 
-## 4. Boundary scoring
+## 4. Puntuación de frontera
 
-`scripts/boundary-score.py` ranks pages that may deserve more research using
-current graph structure and recency. It is deterministic and read-only:
+`scripts/boundary-score.py` ordena las páginas que podrían merecer más
+investigación según la estructura actual del grafo y su actualidad. Es
+determinista y de solo lectura:
 
 ```bash
 python3 scripts/boundary-score.py --vault <vault> --json --top 10
 ```
 
-The score proposes attention; it does not establish importance or truth. Use a
-candidate as an autoresearch topic only after reviewing its underlying links
-and the research budget.
+La puntuación propone dónde poner atención; no establece importancia ni verdad.
+Usa un candidato como tema de autoresearch solo después de revisar sus enlaces
+subyacentes y el presupuesto de investigación.
 
-## Failure and recovery
+## Fallos y recuperación
 
-- A setup conflict means an expected path changed; generate a new plan.
-- An interrupted setup uses the normal transaction recovery command.
-- A corrupt legacy counter should be rebuilt from observed addresses only after
-  checking duplicates and the address map.
-- A tiling cache or BM25 index is derived and may be regenerated. Source pages
-  and provenance ledgers are not derived caches.
-- Disabling DragonScale requires no bulk rewrite. Stop invoking the optional
-  helpers; existing fold pages and addresses remain normal vault content.
+- Un conflicto de configuración significa que cambió una ruta esperada; genera
+  un plan nuevo.
+- Una configuración interrumpida usa el comando normal de recuperación de
+  transacciones.
+- Un contador heredado dañado debería reconstruirse a partir de las direcciones
+  observadas solo después de comprobar los duplicados y el mapa de direcciones.
+- Una caché de teselado o un índice BM25 son derivados y pueden regenerarse. Las
+  páginas de origen y los registros de procedencia no son cachés derivadas.
+- Desactivar DragonScale no requiere una reescritura masiva. Deja de invocar los
+  auxiliares opcionales; las páginas de consolidación y las direcciones
+  existentes siguen siendo contenido normal de la bóveda.
 
-## Verification
+## Verificación
 
-Run the relevant hermetic tests or the full suite:
+Ejecuta las pruebas herméticas pertinentes o el conjunto completo de pruebas:
 
 ```bash
 make test
 ```
 
-Capability maturity is based on executed checks, not the presence of a setup
-file. Keep each mechanism optional and fail closed when its prerequisites are
-unavailable.
+La madurez de una capacidad se basa en comprobaciones ejecutadas, no en la
+presencia de un archivo de configuración. Mantén cada mecanismo como opcional y
+haz que falle de forma cerrada cuando sus requisitos previos no estén
+disponibles.
