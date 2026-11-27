@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 610" role="img" aria-labelledby="title description">
-  <title id="title">The claude-obsidian knowledge loop</title>
-  <desc id="description">A four-stage loop moves sources through capture, grounding, connection, and use while preserving evidence.</desc>
+  <title id="title">El ciclo de conocimiento de claude-obsidian</title>
+  <desc id="description">Un ciclo de cuatro etapas lleva las fuentes por la captura, la fundamentación, la conexión y el uso, y conserva la evidencia.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f6eadd"/>
@@ -42,9 +42,9 @@
     <circle cx="819" cy="54" r="4" fill="#d9a2f4" stroke="none"/>
     <circle cx="856" cy="29" r="3" fill="#883aee" stroke="none"/>
   </g>
-  <text x="42" y="44" fill="#a94f1b" font-size="14" font-weight="750" letter-spacing="2.2">THE COMPOUNDING LOOP</text>
-  <text x="42" y="82" fill="#403b48" font-size="29" font-weight="720">From source material to usable knowledge</text>
-  <text x="42" y="112" fill="#6f6873" font-size="17">Four clear stages. One traceable path back to the evidence.</text>
+  <text x="42" y="44" fill="#a94f1b" font-size="14" font-weight="750" letter-spacing="2.2">EL CICLO ACUMULATIVO</text>
+  <text x="42" y="82" fill="#403b48" font-size="29" font-weight="720">Del material de origen al conocimiento útil</text>
+  <text x="42" y="112" fill="#6f6873" font-size="17">Cuatro etapas claras. Un camino trazable hasta la evidencia.</text>
 
   <path d="M432 236H468" fill="none" stroke="#6630b8" stroke-width="2.3" marker-end="url(#arrow)" class="flow"/>
   <path d="M663 336V382" fill="none" stroke="#6630b8" stroke-width="2.3" marker-end="url(#arrow)" class="flow"/>
@@ -56,13 +56,13 @@
     <rect x="42" y="136" width="390" height="5" rx="2.5" fill="#e9823c"/>
     <circle cx="78" cy="178" r="20" fill="#e9823c" opacity=".16"/>
     <text x="78" y="184" fill="#a94f1b" font-size="15" font-weight="750" text-anchor="middle">01</text>
-    <text x="110" y="185" fill="#403b48" font-size="21" font-weight="720">CAPTURE</text>
-    <text x="68" y="225" fill="#403b48" font-size="19" font-weight="650">Bring sources in</text>
-    <text x="68" y="258" fill="#6f6873" font-size="17">Visible inbox · local files</text>
-    <text x="68" y="287" fill="#6f6873" font-size="17">Approved external runners</text>
-    <rect x="260" y="292" width="146" height="30" rx="15" fill="#fff1e7" stroke="#e8c2a4"/>
-    <circle cx="282" cy="307" r="4" fill="#e9823c"/>
-    <text x="296" y="312" fill="#6b4939" font-size="13.5">explicit intake</text>
+    <text x="110" y="185" fill="#403b48" font-size="21" font-weight="720">CAPTURA</text>
+    <text x="68" y="225" fill="#403b48" font-size="19" font-weight="650">Trae tus fuentes</text>
+    <text x="68" y="258" fill="#6f6873" font-size="17">Bandeja visible · archivos locales</text>
+    <text x="68" y="287" fill="#6f6873" font-size="17">Ejecutores externos aprobados</text>
+    <rect x="247" y="295" width="159" height="30" rx="15" fill="#fff1e7" stroke="#e8c2a4"/>
+    <circle cx="269" cy="310" r="4" fill="#e9823c"/>
+    <text x="283" y="315" fill="#6b4939" font-size="13.5">entrada explícita</text>
   </g>
 
   <g class="card card-2">
@@ -70,13 +70,13 @@
     <rect x="468" y="136" width="390" height="5" rx="2.5" fill="#ee975a"/>
     <circle cx="504" cy="178" r="20" fill="#e9823c" opacity=".16"/>
     <text x="504" y="184" fill="#a94f1b" font-size="15" font-weight="750" text-anchor="middle">02</text>
-    <text x="536" y="185" fill="#403b48" font-size="21" font-weight="720">GROUND</text>
-    <text x="494" y="225" fill="#403b48" font-size="19" font-weight="650">Keep the evidence</text>
-    <text x="494" y="258" fill="#6f6873" font-size="17">Immutable source copy</text>
-    <text x="494" y="287" fill="#6f6873" font-size="17">Source + claim ledgers</text>
-    <rect x="686" y="292" width="146" height="30" rx="15" fill="#fff1e7" stroke="#e8c2a4"/>
-    <circle cx="708" cy="307" r="4" fill="#ee975a"/>
-    <text x="722" y="312" fill="#6b4939" font-size="13.5">traceable claims</text>
+    <text x="536" y="185" fill="#403b48" font-size="21" font-weight="720">FUNDAMENTA</text>
+    <text x="494" y="225" fill="#403b48" font-size="19" font-weight="650">Conserva la evidencia</text>
+    <text x="494" y="258" fill="#6f6873" font-size="17">Copia inmutable de la fuente</text>
+    <text x="494" y="287" fill="#6f6873" font-size="17">Registros de fuentes y afirmaciones</text>
+    <rect x="633" y="295" width="199" height="30" rx="15" fill="#fff1e7" stroke="#e8c2a4"/>
+    <circle cx="655" cy="310" r="4" fill="#ee975a"/>
+    <text x="669" y="315" fill="#6b4939" font-size="13.5">afirmaciones trazables</text>
   </g>
 
   <g class="card card-3">
@@ -84,13 +84,13 @@
     <rect x="468" y="382" width="390" height="5" rx="2.5" fill="#883aee"/>
     <circle cx="504" cy="424" r="20" fill="#6630b8" opacity=".2"/>
     <text x="504" y="430" fill="#6630b8" font-size="15" font-weight="750" text-anchor="middle">03</text>
-    <text x="536" y="431" fill="#403b48" font-size="21" font-weight="720">CONNECT</text>
-    <text x="494" y="471" fill="#403b48" font-size="19" font-weight="650">Build the wiki</text>
-    <text x="494" y="504" fill="#6f6873" font-size="17">Linked pages · indexes · Canvas</text>
-    <text x="494" y="533" fill="#6f6873" font-size="17">Methodology-aware structure</text>
-    <rect x="678" y="538" width="154" height="30" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
-    <circle cx="700" cy="553" r="4" fill="#883aee"/>
-    <text x="714" y="558" fill="#5c2ead" font-size="13.5">connected context</text>
+    <text x="536" y="431" fill="#403b48" font-size="21" font-weight="720">CONECTA</text>
+    <text x="494" y="471" fill="#403b48" font-size="19" font-weight="650">Construye la wiki</text>
+    <text x="494" y="504" fill="#6f6873" font-size="17">Páginas enlazadas · índices · Canvas</text>
+    <text x="494" y="533" fill="#6f6873" font-size="17">Estructura según la metodología</text>
+    <rect x="653" y="541" width="179" height="30" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
+    <circle cx="675" cy="556" r="4" fill="#883aee"/>
+    <text x="689" y="561" fill="#5c2ead" font-size="13.5">contexto conectado</text>
   </g>
 
   <g class="card card-4">
@@ -98,16 +98,16 @@
     <rect x="42" y="382" width="390" height="5" rx="2.5" fill="#6630b8"/>
     <circle cx="78" cy="424" r="20" fill="#6630b8" opacity=".2"/>
     <text x="78" y="430" fill="#6630b8" font-size="15" font-weight="750" text-anchor="middle">04</text>
-    <text x="110" y="431" fill="#403b48" font-size="21" font-weight="720">USE</text>
-    <text x="68" y="471" fill="#403b48" font-size="19" font-weight="650">Put knowledge to work</text>
-    <text x="68" y="504" fill="#6f6873" font-size="17">Grounded answers · bounded research</text>
-    <text x="68" y="533" fill="#6f6873" font-size="17">Lint · retrieve · fold</text>
-    <rect x="252" y="538" width="154" height="30" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
-    <circle cx="274" cy="553" r="4" fill="#6630b8"/>
-    <text x="288" y="558" fill="#5c2ead" font-size="13.5">evidence-led output</text>
+    <text x="110" y="431" fill="#403b48" font-size="21" font-weight="720">USA</text>
+    <text x="68" y="471" fill="#403b48" font-size="19" font-weight="650">Pon el conocimiento a trabajar</text>
+    <text x="68" y="504" fill="#6f6873" font-size="17">Respuestas fundadas · investigación</text>
+    <text x="68" y="533" fill="#6f6873" font-size="17">Lint · recuperación · consolidación</text>
+    <rect x="140" y="541" width="266" height="30" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
+    <circle cx="162" cy="556" r="4" fill="#6630b8"/>
+    <text x="176" y="561" fill="#5c2ead" font-size="13.5">resultados basados en evidencia</text>
   </g>
 
   <rect x="280" y="343" width="340" height="32" rx="16" fill="#fff9f4" stroke="url(#accent)"/>
   <circle cx="306" cy="359" r="4.5" fill="#e9823c" class="pulse"/>
-  <text x="321" y="365" fill="#534e59" font-size="14" font-weight="620">reviewed knowledge feeds the next use</text>
+  <text x="321" y="365" fill="#534e59" font-size="14" font-weight="620">lo revisado alimenta el siguiente uso</text>
 </svg>

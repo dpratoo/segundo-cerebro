@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" role="img" aria-labelledby="title description">
-  <title id="title">The claude-obsidian product and user-vault boundary</title>
-  <desc id="description">The portable product prepares one reviewed operation, which is applied once to a separately selected, user-owned vault.</desc>
+  <title id="title">La frontera entre el producto claude-obsidian y la bóveda del usuario</title>
+  <desc id="description">El producto portátil prepara una operación revisada, que se aplica una sola vez a una bóveda del usuario seleccionada por separado.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f6eadd"/>
@@ -43,28 +43,28 @@
     <circle cx="819" cy="54" r="4" fill="#d9a2f4" stroke="none"/>
     <circle cx="856" cy="29" r="3" fill="#883aee" stroke="none"/>
   </g>
-  <text x="42" y="44" fill="#a94f1b" font-size="14" font-weight="750" letter-spacing="2.2">THE TRUST BOUNDARY</text>
-  <text x="42" y="82" fill="#403b48" font-size="29" font-weight="720">Portable product. User-owned knowledge.</text>
-  <text x="42" y="112" fill="#6f6873" font-size="17">Code and templates stay separate from mutable vault state.</text>
+  <text x="42" y="44" fill="#a94f1b" font-size="14" font-weight="750" letter-spacing="2.2">LA FRONTERA DE CONFIANZA</text>
+  <text x="42" y="82" fill="#403b48" font-size="29" font-weight="720">Producto portátil. Conocimiento del usuario.</text>
+  <text x="42" y="112" fill="#6f6873" font-size="17">El código y las plantillas se separan del estado mutable de la bóveda.</text>
 
   <g class="row product">
     <rect x="42" y="140" width="816" height="132" rx="18" fill="#fff7ef" stroke="#e8c2a4" filter="url(#cardShadow)"/>
     <rect x="42" y="140" width="6" height="132" rx="3" fill="#e9823c"/>
-    <text x="66" y="177" fill="#a94f1b" font-size="14" font-weight="750" letter-spacing="1.4">PRODUCT PACKAGE</text>
-    <text x="66" y="210" fill="#403b48" font-size="21" font-weight="700">Portable and read-only at runtime</text>
-    <text x="66" y="242" fill="#6f6873" font-size="16">One audited package across supported hosts.</text>
+    <text x="66" y="177" fill="#a94f1b" font-size="14" font-weight="750" letter-spacing="1.4">PAQUETE DEL PRODUCTO</text>
+    <text x="66" y="210" fill="#403b48" font-size="21" font-weight="700">Portátil y de solo lectura al usarse</text>
+    <text x="66" y="242" fill="#6f6873" font-size="16">Un paquete auditado para los hosts compatibles.</text>
     <rect x="505" y="160" width="158" height="40" rx="13" fill="#fff1e7" stroke="#e8c2a4"/>
     <circle cx="526" cy="180" r="4" fill="#e9823c"/>
     <text x="540" y="186" fill="#6b4939" font-size="16" font-weight="620">15 Agent Skills</text>
     <rect x="677" y="160" width="156" height="40" rx="13" fill="#fff1e7" stroke="#e8c2a4"/>
     <circle cx="698" cy="180" r="4" fill="#ee975a"/>
-    <text x="712" y="186" fill="#6b4939" font-size="16" font-weight="620">Python core</text>
+    <text x="712" y="186" fill="#6b4939" font-size="16" font-weight="620">Base Python</text>
     <rect x="505" y="213" width="158" height="40" rx="13" fill="#fff1e7" stroke="#e8c2a4"/>
     <circle cx="526" cy="233" r="4" fill="#e9823c"/>
-    <text x="540" y="239" fill="#6b4939" font-size="16" font-weight="620">Vault templates</text>
+    <text x="540" y="239" fill="#6b4939" font-size="16" font-weight="620">Plantillas</text>
     <rect x="677" y="213" width="156" height="40" rx="13" fill="#fff1e7" stroke="#e8c2a4"/>
     <circle cx="698" cy="233" r="4" fill="#ee975a"/>
-    <text x="712" y="239" fill="#6b4939" font-size="16" font-weight="620">Host adapters</text>
+    <text x="712" y="239" fill="#6b4939" font-size="16" font-weight="620">Adaptadores</text>
   </g>
 
   <path d="M450 272V310" fill="none" stroke="url(#flowGradient)" stroke-width="2.4" marker-end="url(#arrow)" class="flow"/>
@@ -72,32 +72,32 @@
   <g class="row operation">
     <rect x="42" y="310" width="816" height="164" rx="18" fill="#fffaf6" stroke="#dfc8b4" filter="url(#cardShadow)"/>
     <rect x="42" y="310" width="6" height="164" rx="3" fill="#883aee"/>
-    <text x="66" y="347" fill="#6630b8" font-size="14" font-weight="750" letter-spacing="1.4">ONE REVIEWED OPERATION</text>
-    <text x="66" y="380" fill="#403b48" font-size="21" font-weight="700">One recoverable transaction</text>
-    <text x="66" y="412" fill="#6f6873" font-size="16">Draft first. Inspect conflicts. Apply once.</text>
+    <text x="66" y="347" fill="#6630b8" font-size="14" font-weight="750" letter-spacing="1.4">UNA OPERACIÓN REVISADA</text>
+    <text x="66" y="380" fill="#403b48" font-size="21" font-weight="700">Transacción recuperable</text>
+    <text x="66" y="412" fill="#6f6873" font-size="16">Redacta, revisa y aplica una vez.</text>
 
-    <rect x="446" y="336" width="116" height="112" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
-    <circle class="step-dot" cx="471" cy="367" r="11" fill="#e9823c" opacity=".9"/>
-    <text x="471" y="372" fill="#fffaf4" font-size="13" font-weight="800" text-anchor="middle">1</text>
-    <text x="492" y="373" fill="#403b48" font-size="17" font-weight="700">DRAFT</text>
-    <text x="464" y="407" fill="#6f6873" font-size="14.5">Prepare edits</text>
-    <text x="464" y="431" fill="#6f6873" font-size="14.5">with evidence</text>
-    <path d="M562 392H584" fill="none" stroke="#6630b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="369" y="336" width="144" height="112" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
+    <circle class="step-dot" cx="394" cy="367" r="11" fill="#e9823c" opacity=".9"/>
+    <text x="394" y="372" fill="#fffaf4" font-size="13" font-weight="800" text-anchor="middle">1</text>
+    <text x="415" y="373" fill="#403b48" font-size="17" font-weight="700">REDACTA</text>
+    <text x="387" y="407" fill="#6f6873" font-size="14.5">Propón cambios</text>
+    <text x="387" y="431" fill="#6f6873" font-size="14.5">con evidencia</text>
+    <path d="M513 392H529" fill="none" stroke="#6630b8" stroke-width="2" marker-end="url(#arrow)"/>
 
-    <rect x="584" y="336" width="116" height="112" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
-    <circle class="step-dot step-2" cx="609" cy="367" r="11" fill="#6630b8" opacity=".9"/>
-    <text x="609" y="372" fill="#fffaf4" font-size="13" font-weight="800" text-anchor="middle">2</text>
-    <text x="630" y="373" fill="#403b48" font-size="17" font-weight="700">INSPECT</text>
-    <text x="602" y="407" fill="#6f6873" font-size="14.5">Review bundle</text>
-    <text x="602" y="431" fill="#6f6873" font-size="14.5">and conflicts</text>
-    <path d="M700 392H722" fill="none" stroke="#6630b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="529" y="336" width="144" height="112" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
+    <circle class="step-dot step-2" cx="554" cy="367" r="11" fill="#6630b8" opacity=".9"/>
+    <text x="554" y="372" fill="#fffaf4" font-size="13" font-weight="800" text-anchor="middle">2</text>
+    <text x="575" y="373" fill="#403b48" font-size="17" font-weight="700">REVISA</text>
+    <text x="547" y="407" fill="#6f6873" font-size="14.5">Revisa cambios</text>
+    <text x="547" y="431" fill="#6f6873" font-size="14.5">y conflictos</text>
+    <path d="M673 392H689" fill="none" stroke="#6630b8" stroke-width="2" marker-end="url(#arrow)"/>
 
-    <rect x="722" y="336" width="111" height="112" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
-    <circle class="step-dot step-3" cx="747" cy="367" r="11" fill="#6630b8" opacity=".9"/>
-    <text x="747" y="372" fill="#fffaf4" font-size="13" font-weight="800" text-anchor="middle">3</text>
-    <text x="768" y="373" fill="#403b48" font-size="17" font-weight="700">APPLY</text>
-    <text x="740" y="407" fill="#6f6873" font-size="14.5">Write once</text>
-    <text x="740" y="431" fill="#6f6873" font-size="14.5">or recover</text>
+    <rect x="689" y="336" width="144" height="112" rx="15" fill="#f3eaff" stroke="#d4b7f2"/>
+    <circle class="step-dot step-3" cx="714" cy="367" r="11" fill="#6630b8" opacity=".9"/>
+    <text x="714" y="372" fill="#fffaf4" font-size="13" font-weight="800" text-anchor="middle">3</text>
+    <text x="735" y="373" fill="#403b48" font-size="17" font-weight="700">APLICA</text>
+    <text x="707" y="407" fill="#6f6873" font-size="14.5">Escribe una vez</text>
+    <text x="707" y="431" fill="#6f6873" font-size="14.5">o recupera</text>
   </g>
 
   <path d="M450 474V512" fill="none" stroke="url(#flowGradient)" stroke-width="2.4" marker-end="url(#arrow)" class="flow"/>
@@ -105,9 +105,9 @@
   <g class="row vault">
     <rect x="42" y="512" width="816" height="112" rx="18" fill="#fbf7ff" stroke="#d4b7f2" filter="url(#cardShadow)"/>
     <rect x="42" y="512" width="6" height="112" rx="3" fill="#6630b8"/>
-    <text x="66" y="548" fill="#6630b8" font-size="14" font-weight="750" letter-spacing="1.4">SELECTED USER VAULT</text>
-    <text x="66" y="581" fill="#403b48" font-size="21" font-weight="700">Mutable state stays with the user</text>
-    <text x="66" y="607" fill="#6f6873" font-size="16">Explicit selection · local-first · no automatic egress</text>
+    <text x="66" y="548" fill="#6630b8" font-size="14" font-weight="750" letter-spacing="1.4">BÓVEDA SELECCIONADA DEL USUARIO</text>
+    <text x="66" y="581" fill="#403b48" font-size="21" font-weight="700">El estado mutable es del usuario</text>
+    <text x="66" y="607" fill="#6f6873" font-size="16">Selección explícita · local · sin salida de red automática</text>
     <rect x="470" y="535" width="78" height="38" rx="12" fill="#f3eaff" stroke="#d4b7f2"/>
     <text x="509" y="560" fill="#5c2ead" font-size="16" font-weight="650" text-anchor="middle">inbox/</text>
     <rect x="558" y="535" width="78" height="38" rx="12" fill="#f3eaff" stroke="#d4b7f2"/>
@@ -116,18 +116,18 @@
     <text x="685" y="560" fill="#5c2ead" font-size="16" font-weight="650" text-anchor="middle">wiki/</text>
     <rect x="734" y="535" width="99" height="38" rx="12" fill="#f3eaff" stroke="#d4b7f2"/>
     <text x="783.5" y="559" fill="#5c2ead" font-size="14" font-weight="650" text-anchor="middle">.vault-meta/</text>
-    <rect x="593" y="584" width="240" height="27" rx="13.5" fill="#fbf7ff" stroke="#d4b7f2"/>
-    <circle cx="612" cy="597.5" r="4" fill="#6630b8"/>
-    <text x="626" y="603" fill="#5c2ead" font-size="14">never sourced from the plugin cache</text>
+    <rect x="526" y="584" width="307" height="27" rx="13.5" fill="#fbf7ff" stroke="#d4b7f2"/>
+    <circle cx="545" cy="597.5" r="4" fill="#6630b8"/>
+    <text x="559" y="603" fill="#5c2ead" font-size="14">nunca se toma de la caché del plugin</text>
   </g>
 
   <g fill="#6f6873" font-size="13" font-weight="600">
-    <text x="42" y="658">EXPLICIT VAULT SELECTION</text>
-    <circle cx="232" cy="653" r="3" fill="#e9823c"/>
-    <text x="249" y="658">CONFLICT-CHECKED WRITES</text>
-    <circle cx="438" cy="653" r="3" fill="#6630b8"/>
-    <text x="455" y="658">CRASH-RECOVERABLE APPLY</text>
-    <circle cx="655" cy="653" r="3" fill="#6630b8"/>
-    <text x="672" y="658">NO AUTO EGRESS OR GIT COMMIT</text>
+    <text x="42" y="658">SELECCIÓN EXPLÍCITA</text>
+    <circle cx="216.9" cy="653" r="3" fill="#e9823c"/>
+    <text x="231.9" y="658">CONTROL DE CONFLICTOS</text>
+    <circle cx="432.1" cy="653" r="3" fill="#6630b8"/>
+    <text x="447.1" y="658">APLICACIÓN RECUPERABLE</text>
+    <circle cx="657.4" cy="653" r="3" fill="#6630b8"/>
+    <text x="672.4" y="658">SIN SALIDA NI COMMIT</text>
   </g>
 </svg>
