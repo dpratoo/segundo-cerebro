@@ -4,8 +4,8 @@ Usa esta referencia siempre que una skill vaya a cambiar el estado de la bóveda
 
 ## Contrato
 
-Una operación lógica produce un paquete de transacción versionado y una
-aplicación recuperable. Los agentes en paralelo pueden leer y redactar, pero solo
+Una operación lógica produce un único paquete de transacción versionado y una
+única aplicación recuperable. Los agentes en paralelo pueden leer y redactar, pero solo
 el orquestador aplica las modificaciones de la bóveda.
 
 Resuelve la raíz del producto instalado a partir de la ubicación de la propia
@@ -30,7 +30,7 @@ vida.
    ausente.
 3. Haz que los agentes devuelvan borradores y evidencia. Los agentes no editan
    el estado compartido de la bóveda.
-4. Construye un paquete JSON `claude-obsidian.transaction.v1`.
+4. Construye un único paquete JSON `claude-obsidian.transaction.v1`.
 5. Ejecuta `python3 "$CORE" transaction inspect BUNDLE --vault VAULT`.
 6. Muestra al usuario las propuestas destructivas, externas o de fusión
    canónica antes de aplicarlas.
