@@ -89,8 +89,8 @@ inmutable o una actualización honesta del registro, no una sobrescritura.
    y fácil de buscar puede necesitar solo su entrada de fuente o de registro, o
    ninguna operación; no parafrasees solo para crear páginas.
 4. Lee `wiki/hot.md`, `wiki/index.md`, la configuración de la metodología activa
-   y solo las páginas existentes relevantes. Por defecto, lee cinco páginas
-   existentes por fuente; amplía el presupuesto de forma explícita cuando haga
+   y solo las páginas existentes relevantes. El presupuesto por defecto es de
+   cinco páginas existentes por fuente; amplíalo de forma explícita cuando haga
    falta.
 5. Lee por completo cada fuente dentro del alcance y del presupuesto acordado. Si
    no se puede leer por completo, marca el resultado como parcial y registra el
@@ -124,7 +124,7 @@ absolutos, autoridad, estado de revisión, vigencia y claves de independencia.
 Conserva la evidencia contradictoria. Marca como `unsupported` las afirmaciones
 sin datos. Una afirmación aceptada necesita una fuente activa, vigente y no
 sintética; una afirmación aceptada de alto riesgo necesita dos fuentes
-independientes. Si el respaldo es insuficiente, archiva la incertidumbre o
+independientes. Si el respaldo es insuficiente, registra la incertidumbre o
 rechaza la conclusión solicitada en lugar de inventar evidencia.
 
 ## Construir una sola transacción de ingesta
