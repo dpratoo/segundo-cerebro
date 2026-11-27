@@ -7,8 +7,8 @@ description: "Planifica la extracción opcional con Defuddle y conserva archivos
 
 Trata Defuddle como un extractor externo opcional. Este paquete admite planes de
 URL inertes y la captura desde el sistema de archivos; no incluye un limpiador
-de red que imponga límites. La limpieza, la captura en bruto y la ingesta en la
-wiki son operaciones separadas.
+de red que imponga límites. La limpieza, la captura sin procesar y la ingesta en
+la wiki son operaciones separadas.
 
 Resuelve la raíz del producto instalado a partir de la ubicación propia de esta
 skill, nunca desde la bóveda seleccionada ni desde el directorio de trabajo del
@@ -85,7 +85,7 @@ ID de operación fijos:
 python3 "$CORE" capture plan --vault "$VAULT" "$VAULT/inbox/source.md"
 python3 "$CORE" capture apply --vault "$VAULT" "$VAULT/inbox/source.md" \
   --generated-at "$GENERATED_AT" --operation-id "$OPERATION_ID"
-# Define APPROVAL_SHA256 con el approved_plan_sha256 revisado de la simulación.
+# Asigna a APPROVAL_SHA256 el approved_plan_sha256 revisado de la simulación.
 python3 "$CORE" capture apply --vault "$VAULT" "$VAULT/inbox/source.md" \
   --generated-at "$GENERATED_AT" --operation-id "$OPERATION_ID" \
   --approved-plan-sha256 "$APPROVAL_SHA256" --apply
@@ -96,8 +96,8 @@ solo creación. No limpia el HTML, no verifica los metadatos de la fuente ni
 sintetiza páginas. Inspecciona el resultado real y registra las limitaciones de
 la extracción. Si se entrega texto ya limpio, conserva su extractor y versión
 conocidos y su localizador, sin inventar los campos que falten. Informa el ID de
-la operación y las rutas exactas modificadas. Una carga idéntica repetida no
-hace nada; nunca sobrescribas el estado en bruto inmutable.
+la operación y las rutas exactas modificadas. Un contenido idéntico repetido no
+hace nada; nunca sobrescribas el estado sin procesar inmutable.
 
 Usa [operation-transactions.md](../wiki/references/operation-transactions.md)
 para los borradores de captura personalizados. Lee o analiza de forma

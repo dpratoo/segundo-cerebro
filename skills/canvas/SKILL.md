@@ -142,7 +142,7 @@ luego inspecciona el paquete antes de aplicarlo:
 
 ```bash
 python3 "$CORE" transaction inspect BUNDLE --vault VAULT
-# Define APPROVAL_SHA256 con el approval_sha256 del resultado de inspect tras revisarlo.
+# Tras la revisión, asigna a APPROVAL_SHA256 el approval_sha256 del resultado de inspect.
 python3 "$CORE" transaction apply BUNDLE --vault VAULT \
   --approved-plan-sha256 "$APPROVAL_SHA256"
 ```
