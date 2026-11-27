@@ -110,7 +110,7 @@ subyacentes y el presupuesto de investigación.
 - Una caché de teselado o un índice BM25 son derivados y pueden regenerarse. Las
   páginas de origen y los registros de procedencia no son cachés derivadas.
 - Desactivar DragonScale no requiere una reescritura masiva. Deja de invocar los
-  auxiliares opcionales; las páginas de consolidación y las direcciones
+  scripts auxiliares opcionales; las páginas de consolidación y las direcciones
   existentes siguen siendo contenido normal de la bóveda.
 
 ## Verificación
