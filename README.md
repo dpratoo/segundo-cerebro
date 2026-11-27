@@ -5,7 +5,7 @@
   15 skills y 3 agentes. Funciona en Claude Code, Codex, OpenCode, Gemini, ZCode, Cursor y Windsurf. Licencia MIT.
 -->
 
-<img src="assets/readme/hero.svg" width="1200" height="420" alt="claude-obsidian, un segundo cerebro con IA para Obsidian: los archivos de inbox/, una nota pegada y la investigación web aprobada se convierten en notas enlazadas en una transacción segura, crece una constelación de conocimiento y una respuesta se guarda como nota nueva." />
+<img src="assets/readme/hero.svg" width="1200" height="420" alt="claude-obsidian, un segundo cerebro con IA para Obsidian: archivos de inbox/, una nota pegada y una investigación web aprobada se convierten en notas enlazadas en una sola transacción segura, crece una constelación de conocimiento y una respuesta se guarda como nota nueva." />
 
 <h1 align="center">claude-obsidian</h1>
 
@@ -59,7 +59,7 @@ El resultado es una bóveda de Obsidian normal que sigue siendo útil con o sin 
 
 ## Instalación
 
-<img src="assets/readme/install.svg" width="1200" height="420" alt="Instalación de claude-obsidian: una terminal agrega el marketplace e instala el plugin, un inventario se llena con las 15 skills y los 3 agentes entran marchando. /claude-obsidian:wiki muestra primero una vista previa de la bóveda nueva y la crea solo después de que la apruebes. PRESS START." />
+<img src="assets/readme/install.svg" width="1200" height="420" alt="Instalación de claude-obsidian: una terminal agrega el marketplace dpratoo/segundo-cerebro e instala el plugin, el inventario se llena con las 15 skills y entran los 3 agentes. /claude-obsidian:wiki muestra primero una vista previa de la bóveda nueva y solo la crea cuando la apruebas. PULSA START." />
 
 Necesitas [Claude Code](https://claude.com/product/claude-code), Python 3.11 o superior y, para la parte visual, [Obsidian](https://obsidian.md). Instala el plugin con dos comandos:
 
@@ -133,7 +133,7 @@ Después reinicia Claude Code. La [guía de instalación](docs/install-guide.md)
 
 ## 15 skills, un solo sistema
 
-<img src="assets/readme/skills.svg" width="1200" height="420" alt="Las 15 skills de claude-obsidian como planetas que orbitan el cristal de la bóveda: 5 flujos principales, 7 extensiones y 3 skills de referencia. El equipo visita cada una en un platillo volador mientras la bitácora de skills avanza hasta 15 de 15." />
+<img src="assets/readme/skills.svg" width="1200" height="420" alt="Las 15 skills de claude-obsidian como planetas que orbitan el cristal de la bóveda: 5 del núcleo, 7 extensiones y 3 de referencia. El equipo visita cada una en un platillo mientras la bitácora de skills llega a 15 de 15." />
 
 Háblale con palabras sencillas, o llama a cualquier skill por su nombre con `/claude-obsidian:<skill>`. Abre un grupo para ver qué contiene.
 
@@ -181,7 +181,7 @@ Háblale con palabras sencillas, o llama a cualquier skill por su nombre con `/c
 
 ## Conoce al equipo
 
-<img src="assets/readme/crew.svg" width="1200" height="420" alt="Conoce al equipo: los tres agentes de solo lectura sobre una plataforma giratoria. wiki-ingest lee una fuente y redacta páginas, wiki-lint ejecuta la revisión de salud de la bóveda y el verifier prueba un cambio propuesto. Solo el núcleo de transacciones escribe en la bóveda." />
+<img src="assets/readme/crew.svg" width="1200" height="420" alt="Conoce al equipo: los tres agentes de solo lectura en una plataforma giratoria. wiki-ingest lee una fuente y redacta páginas, wiki-lint revisa la salud de la bóveda y verifier prueba un cambio propuesto. Solo el núcleo de transacciones escribe en la bóveda." />
 
 Detrás de las skills, tres agentes se encargan de la lectura y la verificación más pesadas. Los tres son de **solo lectura**: devuelven borradores e informes, y solo un lugar, el núcleo de transacciones, escribe en tu bóveda.
 
@@ -199,7 +199,7 @@ Detrás de las skills, tres agentes se encargan de la lectura y la verificación
 
 ## Nada se pierde
 
-<img src="assets/readme/safety.svg" width="1200" height="420" alt="Nada se pierde: Claude registra un hash de cada nota, planifica un cambio y lo aplica como una transacción. Cuando se corta la luz a mitad de una escritura, el diario revierte la bóveda. Cuando editas una nota durante la planificación, un conflicto detiene la escritura en lugar de sobrescribir tu edición." />
+<img src="assets/readme/safety.svg" width="1200" height="420" alt="Nada se pierde: Claude registra un hash de cada nota, planifica un cambio y lo aplica como una sola transacción. Si se corta la energía a mitad de la escritura, el diario revierte la bóveda. Si editas una nota durante la planificación, un conflicto detiene la escritura en lugar de sobrescribir tu edición." />
 
 Tus notas importan, así que cada cambio en la bóveda funciona como un guardado cuidadoso:
 
@@ -384,10 +384,10 @@ Si claude-obsidian te resulta útil, una estrella ayuda a que otras personas lo 
 
 Creado por **[Agrici Daniel](https://agricidaniel.com/about)**, arquitecto de flujos de trabajo con IA, con la ayuda de la comunidad [AI Marketing Hub Pro](https://www.skool.com/ai-marketing-hub-pro).
 
-<img src="assets/readme/credits.svg" width="1200" height="420" alt="Gracias por jugar: los tres bots bailan alrededor del cristal mientras los créditos de AgriciDaniel y de los colaboradores de la comunidad se pierden entre las estrellas, y luego CONTINUE? te pide que le des una estrella al repositorio." />
+<img src="assets/readme/credits.svg" width="1200" height="420" alt="Créditos de claude-obsidian, el plugin de Claude Code para Obsidian: tres bots bailan en ronda alrededor del cristal de Obsidian mientras los créditos de AgriciDaniel y de los colaboradores se alejan hacia las estrellas. Después: GRACIAS POR JUGAR, ¿CONTINUAR?, DALE UNA ESTRELLA." />
 
 <p align="center">
   <a href="https://www.youtube.com/@AgriciDaniel"><img src="assets/readme/btn-youtube.svg" width="137" height="44" alt="Tutoriales y demostraciones de Claude Code en YouTube" /></a>
   <a href="https://www.skool.com/ai-marketing-hub"><img src="assets/readme/btn-hub.svg" width="210" height="44" alt="AI Marketing Hub, la comunidad gratuita en Skool" /></a>
-  <a href="https://www.skool.com/ai-marketing-hub-pro"><img src="assets/readme/btn-pro.svg" width="155" height="44" alt="AI Marketing Hub Pro" /></a>
+  <a href="https://www.skool.com/ai-marketing-hub-pro"><img src="assets/readme/btn-pro.svg" width="187" height="44" alt="AI Marketing Hub Pro" /></a>
 </p>
