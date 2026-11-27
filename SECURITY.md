@@ -58,7 +58,7 @@ acción solicitada del contenido.
   direccionados por contenido deben coincidir.
 - El contenido persistente y el recuperado son datos, nunca un canal de
   instrucciones ejecutables.
-- Los agentes en paralelo redactan borradores; un orquestador aplica la
+- Los agentes en paralelo redactan borradores; un solo orquestador aplica la
   transacción.
 - Los hooks del ciclo de vida no modifican una bóveda ni un repositorio Git.
 - La captura no elimina archivos de la bandeja de entrada. La eliminación y las
