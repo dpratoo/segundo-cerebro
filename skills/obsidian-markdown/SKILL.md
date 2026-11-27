@@ -5,13 +5,13 @@ description: "Explica, redacta o valida la sintaxis de Obsidian Flavored Markdow
 
 # Obsidian Flavored Markdown
 
-Use this as a compact fallback for Obsidian-specific syntax. Prefer a separately
-installed `kepano/obsidian-skills` `obsidian-markdown` skill when available,
-then current [Obsidian Help](https://help.obsidian.md/), for detailed or
-version-sensitive questions.
+Úsala como alternativa compacta para la sintaxis específica de Obsidian. Para
+preguntas detalladas o que dependen de la versión, prefiere una skill
+`obsidian-markdown` de `kepano/obsidian-skills` instalada por separado, si está
+disponible, y después la [Ayuda de Obsidian](https://help.obsidian.md/) vigente.
 
-Resolve the installed product root from this skill's own location, not from the
-vault or current working directory:
+Resuelve la raíz del producto instalado a partir de la ubicación propia de esta
+skill, no desde la bóveda ni desde el directorio de trabajo actual:
 
 ```bash
 PRODUCT_ROOT=/absolute/path/to/installed/claude-obsidian
@@ -23,14 +23,16 @@ Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
 forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
 nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
-Answer syntax questions read-only. If the user requests a vault edit, draft the
-complete note, read [operation-transactions.md](../wiki/references/operation-transactions.md),
-and build one `claude-obsidian.transaction.v1` bundle with
-`operation_type: markdown` and only `wiki/` targets. Inspect it, then set
-`APPROVAL_SHA256` to the returned `approval_sha256` after review and apply it
-through the same vault-bound plan. A canonical page create or removal includes
-an active index or MOC update in that bundle; update the overview only when its
-stable high-level synthesis changed:
+Responde las preguntas de sintaxis en modo de solo lectura. Si el usuario pide
+editar la bóveda, redacta la nota completa, lee
+[operation-transactions.md](../wiki/references/operation-transactions.md) y
+construye un solo paquete `claude-obsidian.transaction.v1` con
+`operation_type: markdown` y únicamente destinos en `wiki/`. Inspecciónalo,
+define `APPROVAL_SHA256` con el `approval_sha256` devuelto después de revisarlo
+y aplícalo mediante el mismo plan vinculado a la bóveda. La creación o
+eliminación de una página canónica incluye en ese paquete una actualización del
+índice activo o MOC; actualiza la vista general solo cuando haya cambiado su
+síntesis estable de alto nivel:
 
 ```bash
 python3 "$CORE" transaction inspect "$BUNDLE" --vault "$VAULT"
@@ -38,11 +40,12 @@ python3 "$CORE" transaction apply "$BUNDLE" --vault "$VAULT" \
   --approved-plan-sha256 "$APPROVAL_SHA256"
 ```
 
-Never write a note directly.
+Nunca escribas una nota directamente.
 
-## Properties
+## Propiedades
 
-Use flat YAML properties and `YYYY-MM-DD` dates. Quote wikilinks inside YAML.
+Usa propiedades YAML planas y fechas `YYYY-MM-DD`. Pon entre comillas los
+wikilinks dentro de YAML.
 
 ```yaml
 ---
@@ -72,54 +75,56 @@ compatibles. Consulta [Etiquetas](https://obsidian.md/help/tags), revisado el
 2026-10-17. Conserva las propiedades existentes desconocidas salvo que la
 edición solicitada las cambie.
 
-## Wikilinks and embeds
+## Wikilinks e incrustaciones
 
 ```markdown
 [[Note Name]]
-[[Note Name|Display text]]
+[[Note Name|Texto visible]]
 [[Note Name#Heading]]
 [[Note Name#^block-id]]
 [[Folder/Note Name]]
 
-This paragraph is addressable. ^evidence-block
+Este párrafo es direccionable. ^evidence-block
 
 ![[Note Name#Summary]]
 ![[diagram.png|480]]
 ![[paper.pdf#page=3]]
 ```
 
-Match the target filename exactly. Use a vault-relative folder path when a
-basename is ambiguous. Use standard Markdown links for external URLs; use
-wikilinks for this vault's notes.
+Haz coincidir exactamente el nombre de archivo de destino. Usa una ruta de
+carpeta relativa a la bóveda cuando un nombre base sea ambiguo. Usa enlaces
+Markdown estándar para las URL externas y wikilinks para las notas de esta
+bóveda.
 
-## Callouts
+## Destacados
 
 ```markdown
 > [!note]
-> Supporting context.
+> Contexto de apoyo.
 
-> [!warning] Review required
-> This claim has contradictory evidence.
+> [!warning] Revisión requerida
+> Esta afirmación tiene evidencia contradictoria.
 
-> [!question]- Open question
-> What evidence would resolve this?
+> [!question]- Pregunta abierta
+> ¿Qué evidencia resolvería esto?
 ```
 
-`-` starts collapsed and `+` starts expanded. Common built-in types include
-`note`, `abstract`, `info`, `todo`, `tip`, `success`, `question`, `warning`,
-`failure`, `danger`, `bug`, `example`, and `quote`. Preserve custom vault
-callout types rather than rewriting them.
+`-` inicia el destacado contraído y `+` lo inicia expandido. Los tipos
+integrados más comunes incluyen `note`, `abstract`, `info`, `todo`, `tip`,
+`success`, `question`, `warning`, `failure`, `danger`, `bug`, `example` y
+`quote`. Conserva los tipos de destacado personalizados de la bóveda en lugar de
+reescribirlos.
 
-## Other Obsidian syntax
+## Otra sintaxis de Obsidian
 
 ````markdown
 #inline-tag #nested/tag
 
-==Highlighted text==
+==Texto resaltado==
 
-Visible text %%hidden comment%%
+Texto visible %%comentario oculto%%
 
-Inline math: $E = mc^2$
+Matemáticas en línea: $E = mc^2$
 
 $$
 \int_0^1 x^2\,dx = \frac{1}{3}
@@ -131,19 +136,23 @@ flowchart LR
 ```
 ````
 
-Standard CommonMark/GFM headings, lists, tasks, tables, code fences, and
-footnotes remain valid. Avoid HTML when native Markdown is sufficient.
+Los encabezados, listas, tareas, tablas, bloques de código y notas al pie
+estándar de CommonMark/GFM siguen siendo válidos. Evita HTML cuando basta con
+Markdown nativo.
 
-## Validate a drafted note
+## Valida una nota redactada
 
-- Parse the YAML boundary and keep property types consistent.
-- Verify every internal target, heading, and block reference that can be
-  checked locally; never fabricate a target to make a link look complete.
-- Keep evidence wording distinct from inference and preserve source locators.
-- Ensure code fences and callout quoting are balanced.
-- Run deterministic wiki lint after a requested mutation and report remaining
-  findings without silently repairing them.
+- Analiza el límite del YAML y mantén coherentes los tipos de las propiedades.
+- Verifica todo destino interno, encabezado y referencia a bloque que se pueda
+  comprobar localmente; nunca inventes un destino para que un enlace parezca
+  completo.
+- Mantén la redacción de la evidencia separada de la inferencia y conserva los
+  localizadores de la fuente.
+- Asegúrate de que los bloques de código y las citas de los destacados estén
+  balanceados.
+- Ejecuta el lint determinista de la wiki después de una modificación solicitada
+  e informa los hallazgos restantes sin repararlos en silencio.
 
-For source-cited pages, also follow
-[provenance.md](../wiki/references/provenance.md). Report the transaction
-operation ID and exact changed paths after an applied edit.
+Para las páginas que citan fuentes, sigue también
+[provenance.md](../wiki/references/provenance.md). Tras una edición aplicada,
+informa el ID de operación de la transacción y las rutas exactas modificadas.

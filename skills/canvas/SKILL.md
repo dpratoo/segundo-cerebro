@@ -5,11 +5,12 @@ description: "Crea, inspecciona y actualiza tableros JSON Canvas de Obsidian con
 
 # Canvas
 
-Treat a canvas as a vault-scoped JSON Canvas document. Keep reads read-only and
-route every requested mutation through one recoverable transaction.
+Trata un canvas como un documento JSON Canvas limitado a la bóveda. Mantén las
+lecturas en solo lectura y canaliza cada modificación solicitada mediante una
+sola transacción recuperable.
 
-Resolve the installed product root from this skill's own location, not from the
-vault or current working directory:
+Resuelve la raíz del producto instalado a partir de la ubicación propia de esta
+skill, no desde la bóveda ni desde el directorio de trabajo actual:
 
 ```bash
 PRODUCT_ROOT=/absolute/path/to/installed/claude-obsidian
@@ -21,66 +22,75 @@ Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
 forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
 nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
-## Choose the syntax source
+## Elige la fuente de sintaxis
 
-Prefer a separately installed `kepano/obsidian-skills` `json-canvas` skill for
-format details. Otherwise read [references/canvas-spec.md](references/canvas-spec.md).
-The open standard is [JSON Canvas 1.0](https://jsoncanvas.org/spec/1.0/).
+Para los detalles del formato, prefiere una skill `json-canvas` de
+`kepano/obsidian-skills` instalada por separado. Si no, lee
+[references/canvas-spec.md](references/canvas-spec.md). El estándar abierto es
+[JSON Canvas 1.0](https://jsoncanvas.org/spec/1.0/).
 
-Use this skill for vault workflow and transaction safety even when an upstream
-syntax skill is available.
+Usa esta skill para el flujo de trabajo de la bóveda y la seguridad de las
+transacciones aunque haya disponible una skill de sintaxis de upstream.
 
-## Scope
+## Alcance
 
-- Resolve the user vault before reading. Never derive it from plugin files.
-- Store boards under `wiki/canvases/`; use `wiki/canvases/main.canvas` only as
-  the default when the user did not name a board.
-- Treat `wiki/canvases/_index.md` as an optional catalog. Add a new board to it
-  in the same transaction when a catalog exists. Node or edge edits inside an
-  existing board do not require a catalog change.
-- The transaction engine supports file creation and replacement only. A board
-  file cannot be deleted or renamed through this skill. Explain that boundary
-  for a file-removal or file-rename request and return a separate cleanup plan;
-  do not substitute host file tools or silently turn a rename into a copy.
-- Use vault-relative paths in `file` and `background`; reject absolute paths,
-  `..` traversal, home shortcuts, and paths that escape through symlinks.
-- Reference only files already inside the vault or created in the same reviewed
-  transaction. If an optional capture or
-  media capability is detected, compose with it and consume its returned
-  vault-relative path. Do not assume a particular plugin, command, or session
-  log, and do not download or copy assets in this skill.
+- Resuelve la bóveda del usuario antes de leer. Nunca la derives de los archivos
+  del plugin.
+- Guarda los tableros en `wiki/canvases/`; usa `wiki/canvases/main.canvas` solo
+  como valor predeterminado cuando el usuario no haya nombrado un tablero.
+- Trata `wiki/canvases/_index.md` como un catálogo opcional. Agrega un tablero
+  nuevo a él en la misma transacción cuando exista un catálogo. Las ediciones de
+  nodos o conexiones dentro de un tablero existente no requieren cambiar el
+  catálogo.
+- El motor de transacciones solo admite la creación y el reemplazo de archivos.
+  Un archivo de tablero no se puede eliminar ni renombrar mediante esta skill.
+  Explica ese límite ante una solicitud de eliminar o renombrar un archivo y
+  devuelve un plan de limpieza aparte; no sustituyas las herramientas de
+  archivos del host ni conviertas en silencio un renombrado en una copia.
+- Usa rutas relativas a la bóveda en `file` y `background`; rechaza las rutas
+  absolutas, el recorrido con `..`, los atajos al directorio personal y las
+  rutas que escapen mediante enlaces simbólicos.
+- Referencia solo archivos que ya estén dentro de la bóveda o que se creen en la
+  misma transacción revisada. Si se detecta una capacidad opcional de captura o
+  de multimedia, combínala y consume la ruta relativa a la bóveda que devuelva.
+  No asumas un plugin, un comando ni una bitácora de sesión en particular, y no
+  descargues ni copies recursos en esta skill.
 - Usa nodos `link` para las URL. Acepta solo URL HTTPS; un nodo de enlace no
   da permiso para obtener la página. Crear su JSON no hace ninguna solicitud,
   pero abrirlo en Obsidian puede obtener metadatos Open Graph del host de esa
   URL. Advierte sobre esa salida de red al renderizar y confirma que sea
   aceptable; de lo contrario, usa un nodo de texto que contenga la URL.
 
-## Read-only operations
+## Operaciones de solo lectura
 
-For status or list requests, parse the selected `.canvas` files and report node
-counts, group labels, broken edge endpoints, and missing vault-relative file
-targets. If the default canvas is absent, report that fact and offer a creation
-preview; do not create it during a status request.
+Para las solicitudes de estado o de lista, analiza los archivos `.canvas`
+seleccionados e informa los conteos de nodos, las etiquetas de los grupos, los
+extremos de conexión rotos y los destinos de archivo relativos a la bóveda que
+falten. Si el canvas predeterminado no existe, informa ese hecho y ofrece una
+vista previa de su creación; no lo crees durante una solicitud de estado.
 
-## Draft a mutation
+## Redacta una modificación
 
-1. Read the entire canvas and any catalog target. Record each expected SHA-256,
-   or `null` for a file that must be absent.
-2. Preserve unknown JSON fields and existing array order. The node array is
-   bottom-to-top z-order.
-3. Draft the requested nodes or edges:
-   - Give every node and edge a unique ID. Prefer a random 16-character
-     lowercase hexadecimal ID and verify it is unused.
-   - Require integer `x`, `y`, `width`, and `height` values for every node.
-   - Use `text`, `file`, `link`, or `group` exactly as defined by JSON Canvas.
-   - Require every `fromNode` and `toNode` to reference an existing or newly
-     drafted node.
-4. Position new content deliberately. A group is a visual container, not a
-   parent. Use 20 px inner padding and 40 px gaps, wrap to a new row when
-   needed, and preview any group expansion.
-5. Serialize valid UTF-8 JSON with top-level `nodes` and `edges` arrays.
+1. Lee el canvas completo y cualquier destino de catálogo. Registra el SHA-256
+   esperado de cada uno, o `null` para un archivo que deba estar ausente.
+2. Conserva los campos JSON desconocidos y el orden existente de los arreglos. El
+   arreglo de nodos sigue el orden z de abajo hacia arriba.
+3. Redacta los nodos o conexiones solicitados:
+   - Asigna a cada nodo y conexión un ID único. Prefiere un ID hexadecimal
+     aleatorio de 16 caracteres en minúsculas y verifica que no esté en uso.
+   - Exige valores enteros de `x`, `y`, `width` y `height` para cada nodo.
+   - Usa `text`, `file`, `link` o `group` exactamente como los define JSON
+     Canvas.
+   - Exige que cada `fromNode` y `toNode` haga referencia a un nodo existente o
+     recién redactado.
+4. Coloca el contenido nuevo con intención. Un grupo es un contenedor visual, no
+   un padre. Usa 20 px de relleno interno y 40 px de separación, pasa a una fila
+   nueva cuando haga falta y muestra una vista previa de cualquier expansión de
+   un grupo.
+5. Serializa JSON UTF-8 válido con los arreglos `nodes` y `edges` en el nivel
+   superior.
 
-Minimal node examples:
+Ejemplos mínimos de nodos:
 
 ```json
 {
@@ -108,28 +118,31 @@ Minimal node examples:
 }
 ```
 
-Use `file` plus optional `subpath: "#Heading"` for notes, images, PDFs, and
-other vault files. Use `url` only on a `link` node. Escape line breaks in JSON
-strings as `\n`, not as literal backslash-plus-`n` text.
+Usa `file` más un `subpath: "#Heading"` opcional para notas, imágenes, PDF y
+otros archivos de la bóveda. Usa `url` solo en un nodo `link`. Escapa los saltos
+de línea en las cadenas JSON como `\n`, no como texto literal de barra invertida
+más `n`.
 
-## Preview and apply
+## Vista previa y aplicación
 
-Validate before showing the preview:
+Valida antes de mostrar la vista previa:
 
-- JSON parses and uses supported node types.
-- IDs are unique and edge endpoints exist.
-- dimensions are positive integers;
-- file and background paths are safe, vault-relative, and present;
-- new nodes do not unintentionally overlap or overflow their requested group.
+- El JSON se analiza y usa tipos de nodo admitidos.
+- Los ID son únicos y los extremos de las conexiones existen.
+- Las dimensiones son enteros positivos.
+- Las rutas de archivo y de fondo son seguras, relativas a la bóveda y existen.
+- Los nodos nuevos no se superponen ni se desbordan de su grupo solicitado sin
+  intención.
 
-Build one `claude-obsidian.transaction.v1` bundle with operation type `canvas`.
-Include the canvas and the catalog in that same bundle when the catalog changes.
-Read [operation-transactions.md](../wiki/references/operation-transactions.md),
-then inspect the bundle before applying it:
+Construye un solo paquete `claude-obsidian.transaction.v1` con el tipo de
+operación `canvas`. Incluye el canvas y el catálogo en ese mismo paquete cuando
+el catálogo cambie. Lee
+[operation-transactions.md](../wiki/references/operation-transactions.md) y
+luego inspecciona el paquete antes de aplicarlo:
 
 ```bash
 python3 "$CORE" transaction inspect BUNDLE --vault VAULT
-# Set APPROVAL_SHA256 to the inspect result's approval_sha256 after review.
+# Define APPROVAL_SHA256 con el approval_sha256 del resultado de inspect tras revisarlo.
 python3 "$CORE" transaction apply BUNDLE --vault VAULT \
   --approved-plan-sha256 "$APPROVAL_SHA256"
 ```

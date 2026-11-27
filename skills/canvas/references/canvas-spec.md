@@ -1,9 +1,9 @@
-# Obsidian Canvas JSON Specification
+# Especificación JSON de Canvas de Obsidian
 
-Canvas files are JSON with two top-level keys: `nodes` (array) and `edges` (array).
-Obsidian reads and writes them as UTF-8 JSON files with `.canvas` extension.
+Los archivos de Canvas son JSON con dos claves de nivel superior: `nodes` (arreglo) y `edges` (arreglo).
+Obsidian los lee y los escribe como archivos JSON UTF-8 con la extensión `.canvas`.
 
-This reference aligns with the [JSON Canvas 1.0 open specification](https://jsoncanvas.org/spec/1.0/). All structures support arbitrary additional fields (`[key: string]: any`) for forward compatibility. Obsidian will preserve unknown fields when reading and writing canvas files.
+Esta referencia se alinea con la [especificación abierta JSON Canvas 1.0](https://jsoncanvas.org/spec/1.0/). Todas las estructuras admiten campos adicionales arbitrarios (`[key: string]: any`) por compatibilidad futura. Obsidian conserva los campos desconocidos al leer y escribir archivos canvas.
 
 **Formato de los ID**: JSON Canvas 1.0 exige que el ID de cada nodo y conexión
 sea una cadena única; no prescribe una longitud ni un conjunto de caracteres.
@@ -15,7 +15,7 @@ generación.
 
 ---
 
-## Coordinate System
+## Sistema de coordenadas
 
 ```
         x increases →
@@ -27,19 +27,19 @@ y  │  (-920, 0)          (0, 0) ← origin
    │  (-920, 540)        (500, 540)
 ```
 
-- **Origin** (0, 0) is the center of the canvas viewport.
-- **x increases rightward.** Negative x = left of center.
-- **y increases downward.** Negative y = above center.
-- Node `x` and `y` are the **top-left corner** of the node, not the center.
-- Obsidian pans to fit all nodes on first open.
+- El **origen** (0, 0) es el centro de la vista del canvas.
+- **x aumenta hacia la derecha.** x negativa = a la izquierda del centro.
+- **y aumenta hacia abajo.** y negativa = por encima del centro.
+- `x` e `y` de un nodo son la **esquina superior izquierda** del nodo, no el centro.
+- Al abrirlo por primera vez, Obsidian desplaza la vista para que quepan todos los nodos.
 
 ---
 
-## Node Types
+## Tipos de nodo
 
-### Text node
+### Nodo de texto
 
-Renders markdown content as a styled card.
+Muestra contenido Markdown como una tarjeta con estilo.
 
 ```json
 {
@@ -54,15 +54,15 @@ Renders markdown content as a styled card.
 }
 ```
 
-- `text`: markdown string. Use `\n` for newlines.
-- Minimum readable size: width ≥ 200, height ≥ 60.
-- `color` is optional. Omit for default (no color).
+- `text`: cadena Markdown. Usa `\n` para los saltos de línea.
+- Tamaño mínimo legible: width ≥ 200, height ≥ 60.
+- `color` es opcional. Omítelo para el valor predeterminado (sin color).
 
 ---
 
-### File node
+### Nodo de archivo
 
-Renders an image, PDF, markdown note, or other vault file inline.
+Muestra en línea una imagen, un PDF, una nota Markdown u otro archivo de la bóveda.
 
 ```json
 {
@@ -76,19 +76,19 @@ Renders an image, PDF, markdown note, or other vault file inline.
 }
 ```
 
-- `file`: **vault-relative path** (not absolute, not `~/`).
-- Supported: `.png` `.jpg` `.webp` `.gif` `.pdf` `.md` `.canvas`
-- For `.md` files: renders as a preview card.
-- For `.pdf` files: renders the first page as preview.
+- `file`: **ruta relativa a la bóveda** (no absoluta, no `~/`).
+- Admitidos: `.png` `.jpg` `.webp` `.gif` `.pdf` `.md` `.canvas`
+- Para archivos `.md`: se muestra como una tarjeta de vista previa.
+- Para archivos `.pdf`: se muestra la primera página como vista previa.
 - Un nodo de archivo puede incluir el campo opcional `color`, como todo nodo
   genérico. Omítelo para usar la apariencia predeterminada.
 
 ---
 
-### Group node (Zone)
+### Nodo de grupo (zona)
 
-A labeled rectangular region. Does not clip or contain nodes. It's a visual guide.
-Nodes placed "inside" a group are just positioned within its bounding box.
+Una región rectangular con etiqueta. No recorta ni contiene nodos. Es una guía visual.
+Los nodos colocados "dentro" de un grupo solo están posicionados dentro de su caja delimitadora.
 
 ```json
 {
@@ -105,20 +105,20 @@ Nodes placed "inside" a group are just positioned within its bounding box.
 }
 ```
 
-- `label`: shown at the top of the group box.
-- `color`: colors the group border and label.
-- `background` *(optional)*: vault-relative path to a background image for the group.
-- `backgroundStyle` *(optional)*: how the background is rendered.
-  - `"cover"`: fills the group, cropping if needed (default-ish behavior)
-  - `"ratio"`: preserves aspect ratio, fits inside the group
-  - `"repeat"`: tiles the image
-- Groups do not affect auto-layout: they are purely visual containers.
+- `label`: se muestra en la parte superior de la caja del grupo.
+- `color`: colorea el borde y la etiqueta del grupo.
+- `background` *(opcional)*: ruta relativa a la bóveda de una imagen de fondo para el grupo.
+- `backgroundStyle` *(opcional)*: cómo se muestra el fondo.
+  - `"cover"`: llena el grupo y recorta si hace falta (comportamiento casi predeterminado)
+  - `"ratio"`: conserva la proporción y cabe dentro del grupo
+  - `"repeat"`: repite la imagen en mosaico
+- Los grupos no afectan el diseño automático: son contenedores puramente visuales.
 
 ---
 
-### Link node
+### Nodo de enlace
 
-Renders a web URL as an embedded preview card.
+Muestra una URL web como una tarjeta de vista previa incrustada.
 
 ```json
 {
@@ -132,8 +132,8 @@ Renders a web URL as an embedded preview card.
 }
 ```
 
-- `url`: must be a valid `https://` URL.
-- Obsidian fetches the Open Graph preview (title, description, thumbnail).
+- `url`: debe ser una URL `https://` válida.
+- Obsidian obtiene la vista previa Open Graph (título, descripción, miniatura).
 - Escribir el nodo en sí no realiza ninguna solicitud. Abrirlo o renderizarlo en
   Obsidian puede contactar al host de la URL, así que primero advierte sobre esa
   salida de red y usa un nodo de texto cuando no sea aceptable obtener la vista
@@ -141,9 +141,9 @@ Renders a web URL as an embedded preview card.
 
 ---
 
-## Edges
+## Conexiones
 
-Connections between nodes. Usually empty for mood boards.
+Conexiones entre nodos. Suelen estar vacías en los tableros de inspiración.
 
 ```json
 {
@@ -159,58 +159,58 @@ Connections between nodes. Usually empty for mood boards.
 }
 ```
 
-**Required fields**: `id`, `fromNode`, `toNode`. Everything else is optional.
+**Campos obligatorios**: `id`, `fromNode`, `toNode`. Todo lo demás es opcional.
 
-- `fromNode` / `toNode`: IDs of the source and target nodes.
-- `fromSide` / `toSide` *(optional)*: `"top"` `"bottom"` `"left"` `"right"`. If omitted, Obsidian auto-calculates the best side based on relative node positions.
-- `fromEnd` *(optional)*: end-cap on the source side. Defaults to `"none"`. Values: `"none"` | `"arrow"`.
-- `toEnd` *(optional)*: end-cap on the target side. **Defaults to `"arrow"`**: note the asymmetric default vs `fromEnd`. Values: `"none"` | `"arrow"`.
-- `label` *(optional)*: text shown on the edge.
-- `color` *(optional)*: same color palette as nodes (`"1"` to `"6"` or hex).
+- `fromNode` / `toNode`: ID de los nodos de origen y de destino.
+- `fromSide` / `toSide` *(opcional)*: `"top"` `"bottom"` `"left"` `"right"`. Si se omiten, Obsidian calcula automáticamente el mejor lado según las posiciones relativas de los nodos.
+- `fromEnd` *(opcional)*: remate en el lado de origen. Por defecto es `"none"`. Valores: `"none"` | `"arrow"`.
+- `toEnd` *(opcional)*: remate en el lado de destino. **Por defecto es `"arrow"`**: observa el valor predeterminado asimétrico respecto de `fromEnd`. Valores: `"none"` | `"arrow"`.
+- `label` *(opcional)*: texto que se muestra en la conexión.
+- `color` *(opcional)*: la misma paleta de colores que los nodos (`"1"` a `"6"` o hexadecimal).
 
-Most edges represent directed relationships, so the asymmetric defaults (`fromEnd: "none"`, `toEnd: "arrow"`) produce a single arrow pointing from source to target without specifying anything explicitly.
+La mayoría de las conexiones representan relaciones dirigidas, así que los valores predeterminados asimétricos (`fromEnd: "none"`, `toEnd: "arrow"`) producen una sola flecha que apunta del origen al destino sin especificar nada de forma explícita.
 
 ---
 
-## Color Reference
+## Referencia de colores
 
-| Code | Color | Hex (approx) | Use case |
+| Código | Color | Hex (aprox.) | Uso |
 |------|-------|-------------|----------|
-| `"1"` | Red / Tomato | #e03e3e | Warnings, archive |
-| `"2"` | Orange | #d09035 | Active work |
-| `"3"` | Yellow / Gold | #d0a023 | WIP, notes |
-| `"4"` | Green / Teal | #448361 | Content, sources |
-| `"5"` | Blue / Cyan | #3ea7d3 | Navigation, info |
-| `"6"` | Purple / Violet | #9063d2 | Title, identity |
+| `"1"` | Rojo / Tomate | #e03e3e | Advertencias, archivado |
+| `"2"` | Naranja | #d09035 | Trabajo activo |
+| `"3"` | Amarillo / Dorado | #d0a023 | En curso, notas |
+| `"4"` | Verde / Verde azulado | #448361 | Contenido, fuentes |
+| `"5"` | Azul / Cian | #3ea7d3 | Navegación, información |
+| `"6"` | Púrpura / Violeta | #9063d2 | Título, identidad |
 
-Omit `color` entirely for the default (no border color, transparent label).
+Omite `color` por completo para el valor predeterminado (sin color de borde, etiqueta transparente).
 
 ---
 
-## Image Sizing Guidelines
+## Pautas de tamaño de imágenes
 
-Calculate from actual image dimensions using PIL or `identify`:
+Calcula a partir de las dimensiones reales de la imagen con PIL o `identify`:
 
 ```bash
 python3 -c "from PIL import Image; img=Image.open('path.png'); print(img.width, img.height)"
-# or
+# o
 identify -format '%w %h' path.png
 ```
 
-| Aspect ratio | Condition | Canvas width | Canvas height |
+| Relación de aspecto | Condición | Ancho en el canvas | Alto en el canvas |
 |-------------|-----------|-------------|--------------|
-| 16:9 (wide) | ratio 1.6 to 2.0 | 420 | 236 |
-| 2:1 (ultra wide) | ratio > 2.0 | 440 | 220 |
-| 4:3 | ratio 1.2 to 1.6 | 380 | 285 |
-| 1:1 (square) | ratio 0.9 to 1.1 | 280 | 280 |
-| 3:4 | ratio 0.6 to 0.9 | 240 | 320 |
-| 9:16 (portrait) | ratio < 0.6 | 200 | 356 |
-| PDF | any | 400 | 520 |
-| Unknown | fallback | 320 | 240 |
+| 16:9 (ancho) | relación de 1.6 a 2.0 | 420 | 236 |
+| 2:1 (ultraancho) | relación > 2.0 | 440 | 220 |
+| 4:3 | relación de 1.2 a 1.6 | 380 | 285 |
+| 1:1 (cuadrado) | relación de 0.9 a 1.1 | 280 | 280 |
+| 3:4 | relación de 0.6 a 0.9 | 240 | 320 |
+| 9:16 (vertical) | relación < 0.6 | 200 | 356 |
+| PDF | cualquiera | 400 | 520 |
+| Desconocida | alternativa | 320 | 240 |
 
 ---
 
-## Auto-Positioning Pseudocode
+## Pseudocódigo de posicionamiento automático
 
 ```
 function place_node(canvas, zone_label, new_w, new_h):
@@ -221,7 +221,7 @@ function place_node(canvas, zone_label, new_w, new_h):
     max_y = max(n.y + n.height for n in canvas.nodes) + 60
     return (-400, max_y)
 
-  # Nodes visually inside zone
+  # Nodos visualmente dentro de la zona
   inside = [n for n in canvas.nodes
             if n.type != 'group'
             and zone.x <= n.x < zone.x + zone.width
@@ -230,23 +230,23 @@ function place_node(canvas, zone_label, new_w, new_h):
   if inside is empty:
     return (zone.x + padding, zone.y + padding)
 
-  # Rightmost point in zone
+  # Punto más a la derecha de la zona
   rightmost = max(n.x + n.width for n in inside)
   next_x = rightmost + 40
 
   if next_x + new_w > zone.x + zone.width - padding:
-    # Overflow → new row
+    # Desborde → nueva fila
     bottom_of_row = max(n.y + n.height for n in inside)
     return (zone.x + padding, bottom_of_row + padding)
 
-  # Same row
-  row_y = min(n.y for n in inside)  # align to top of existing row
+  # Misma fila
+  row_y = min(n.y for n in inside)  # alinear con la parte superior de la fila existente
   return (next_x, row_y)
 ```
 
 ---
 
-## Full Example: Two-Zone Canvas
+## Ejemplo completo: canvas de dos zonas
 
 ```json
 {
@@ -294,10 +294,10 @@ function place_node(canvas, zone_label, new_w, new_h):
 
 ---
 
-## Common Mistakes
+## Errores comunes
 
-- **Wrong path format**: use `_attachments/images/file.png`, not an absolute host path
-- **ID collision**: always read existing IDs before generating a new one
-- **Negative y confusion**: `y: -2400` is ABOVE `y: -1000` (more negative = higher up)
-- **Group does not clip**: placing a node "inside" a group is just positioning it within the group's bounding box: there is no parent-child relationship in the JSON
-- **Missing height on text nodes**: Obsidian will render the text but may clip it if height is too small. Use height ≥ content-lines × 24.
+- **Formato de ruta incorrecto**: usa `_attachments/images/file.png`, no una ruta absoluta del host
+- **Colisión de ID**: lee siempre los ID existentes antes de generar uno nuevo
+- **Confusión con y negativa**: `y: -2400` está POR ENCIMA de `y: -1000` (más negativo = más arriba)
+- **El grupo no recorta**: colocar un nodo "dentro" de un grupo es solo posicionarlo dentro de la caja delimitadora del grupo: no hay relación de padre e hijo en el JSON
+- **Falta de height en los nodos de texto**: Obsidian mostrará el texto, pero puede recortarlo si height es demasiado pequeño. Usa height ≥ líneas de contenido × 24.

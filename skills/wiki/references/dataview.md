@@ -1,11 +1,12 @@
-# Optional Dataview reference
+# Referencia opcional de Dataview
 
-Use only when the user already has Dataview and requests a compatible query.
-The portable core needs no community plugin. Prefer a native Base when it is
-sufficient. Do not install Dataview as a side effect.
+Úsala solo cuando el usuario ya tenga Dataview y pida una consulta compatible.
+El núcleo portátil no necesita ningún complemento comunitario. Prefiere una Base
+nativa cuando sea suficiente. No instales Dataview como efecto secundario.
 
-DQL resolves folder sources from the vault root, regardless of the dashboard
-note's location. This original example lists canonical concepts under `wiki/`:
+DQL resuelve las fuentes de carpeta desde la raíz de la bóveda, sin importar la
+ubicación de la nota del panel. Este ejemplo original enumera los conceptos
+canónicos dentro de `wiki/`:
 
 ```dataview
 TABLE type, status, updated
@@ -14,20 +15,25 @@ WHERE type = "concept"
 SORT file.name ASC
 ```
 
-An empty table means no matching indexed notes only after the plugin is present,
-enabled, and its index is current. Otherwise report unavailable or unverified.
-The example uses stored properties, not a claim that properties are true.
-Dataview's `file` fields are not Bases formula syntax.
+Una tabla vacía solo significa que no hay notas indexadas coincidentes cuando el
+complemento está presente, habilitado y con su índice actualizado. De lo
+contrario, informa que no está disponible o que no está verificado. El ejemplo
+usa propiedades almacenadas, no afirma que las propiedades sean verdaderas. Los
+campos `file` de Dataview no son sintaxis de fórmulas de Bases.
 
-The query is a declarative display example, not a Python executable test. Offline
-checks validate its source scope and referenced properties against shipped
-fixture notes. Native Dataview rendering still requires the plugin and a
-versioned app observation; see [native-conformance.md](../../../docs/native-conformance.md).
+La consulta es un ejemplo de visualización declarativo, no una prueba ejecutable
+de Python. Las comprobaciones sin conexión validan su alcance de fuente y las
+propiedades referenciadas contra las notas fixture incluidas. El renderizado
+nativo de Dataview sigue requiriendo el complemento y una observación de la
+aplicación con versión; consulta
+[native-conformance.md](../../../docs/native-conformance.md).
 
-Do not execute `dataviewjs` or imported queries during ingestion or normal
-query/lint work. Preserve existing DQL and executable blocks byte-for-byte on
-unrelated edits. DataviewJS can perform file and network operations.
+No ejecutes `dataviewjs` ni consultas importadas durante la ingesta ni en el
+trabajo normal de consulta o lint. Conserva byte a byte el DQL y los bloques
+ejecutables existentes en las ediciones no relacionadas. DataviewJS puede
+realizar operaciones de archivos y de red.
 
-Reference checked 2026-10-17: [Dataview documentation](https://blacksmithgu.github.io/obsidian-dataview/queries/query-types/)
-and [README at the pinned commit](https://github.com/blacksmithgu/obsidian-dataview/blob/5ad0994ff384cbb797de382e7edff2388141b73a/README.md).
-This recipe is independently written and imports no plugin code.
+Referencia revisada el 2026-10-17: [documentación de Dataview](https://blacksmithgu.github.io/obsidian-dataview/queries/query-types/)
+y [README en el commit fijado](https://github.com/blacksmithgu/obsidian-dataview/blob/5ad0994ff384cbb797de382e7edff2388141b73a/README.md).
+Esta receta está escrita de forma independiente y no importa ningún código del
+complemento.

@@ -1,37 +1,46 @@
-# Reconciling upstream references
+# Conciliación de las referencias de upstream
 
-`config/upstream-references.json` records the primary repository revisions
-reviewed on 2026-10-17, inspected paths, license boundaries, local references,
-and intentional divergences. These are dated source observations, not installed
-runtime versions or current-head claims. This update imports no upstream code,
-fixture corpus, branding, or substantial prose.
+`config/upstream-references.json` registra las revisiones de los repositorios
+primarios revisadas el 2026-10-17, las rutas inspeccionadas, los límites de
+licencia, las referencias locales y las divergencias intencionales. Son
+observaciones de fuente con fecha, no versiones de entorno de ejecución
+instaladas ni afirmaciones sobre la punta actual de la rama. Esta actualización
+no importa código de upstream, corpus de fixtures, marca ni prosa sustancial.
 
-Check local fallback hashes before reviewing a change. A hash mismatch means
-local text needs reconciliation; it is not permission to restore old text.
-Compare a proposed upstream revision against the pinned revision using an
-explicitly requested network read. Review behavior, source authority, license
-changes and application compatibility before moving a pin. Never download and
-replace skills automatically. Keep the 15-skill interface and transactional
-vault boundary unless a separately reviewed design changes them.
+Comprueba los hashes de las alternativas locales antes de revisar un cambio. Una
+discrepancia de hash significa que el texto local necesita conciliación; no es
+permiso para restaurar el texto antiguo. Compara una revisión de upstream
+propuesta con la revisión fijada mediante una lectura de red solicitada
+explícitamente. Revisa el comportamiento, la autoridad de la fuente, los cambios
+de licencia y la compatibilidad con la aplicación antes de mover una fijación.
+Nunca descargues y reemplaces skills automáticamente. Conserva la interfaz de
+15 skills y el límite transaccional de la bóveda, salvo que un diseño revisado
+por separado los cambie.
 
-When updating a reference, record the candidate SHA, exact inspected paths,
-retrieval date, native evidence when available, and new intentional divergences.
-Then update affected local hashes and run the reference-example tests plus
-package/contracts checks. Moving a pin without reviewing content is not an
-upstream refresh. No scheduler or installation is implied by this manifest.
+Al actualizar una referencia, registra el SHA candidato, las rutas exactas
+inspeccionadas, la fecha de obtención, la evidencia nativa cuando esté
+disponible y las nuevas divergencias intencionales. Después actualiza los hashes
+locales afectados y ejecuta las pruebas de ejemplos de referencia y las
+comprobaciones de paquete y de contratos. Mover una fijación sin revisar el
+contenido no es una actualización de upstream. Este manifiesto no implica ningún
+planificador ni instalación.
 
-MIT references still require their notices for copied substantial portions.
-Templater is an interoperability target under AGPLv3; do not copy its code into
-this MIT product without a separate license decision. Smart Connections uses a
-custom restricted license, so its implementation is excluded from copying.
-Web Clipper's marketing assets are outside its source-code MIT grant. A skill
-mentioning Knap grants no license to Knap itself, which was not inspected.
+Las referencias MIT siguen requiriendo sus avisos cuando se copian porciones
+sustanciales. Templater es un objetivo de interoperabilidad bajo AGPLv3; no
+copies su código en este producto MIT sin una decisión de licencia aparte. Smart
+Connections usa una licencia personalizada restringida, así que su implementación
+queda excluida de la copia. Los recursos de marketing de Web Clipper quedan fuera
+de su concesión MIT del código fuente. Una skill que menciona a Knap no otorga
+ninguna licencia sobre el propio Knap, que no se inspeccionó.
 
-Known disagreement: official Bases Help describes date differences in
-milliseconds while the 1.9.3 changelog and upstream skill describe a Duration.
-The recorded `obsidian.d.ts` excerpts do not include a Duration definition and
-are not cited for either side. Preserve this as unresolved until supported
-native app tests exist.
-The local Defuddle skill intentionally stops at inert plans/filesystem capture,
-even when an upstream recipe would run the CLI. Local transaction, no automatic
-installation, selected-vault and network-consent rules remain authoritative.
+Desacuerdo conocido: la Ayuda oficial de Bases describe las diferencias de fechas
+en milisegundos, mientras que el registro de cambios de la 1.9.3 y la skill de
+upstream describen una Duration. Los extractos registrados de `obsidian.d.ts` no
+incluyen una definición de Duration y no se citan para ninguno de los dos lados.
+Conserva esto como no resuelto hasta que existan pruebas nativas de la aplicación
+compatibles.
+La skill local de Defuddle se detiene intencionalmente en los planes inertes y en
+la captura del sistema de archivos, incluso cuando una receta de upstream
+ejecutaría la CLI. Las reglas locales de transacciones, de no instalación
+automática, de bóveda seleccionada y de consentimiento de red siguen siendo las
+que prevalecen.

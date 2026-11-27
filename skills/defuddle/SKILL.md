@@ -5,12 +5,14 @@ description: "Planifica la extracción opcional con Defuddle y conserva archivos
 
 # Defuddle
 
-Treat Defuddle as an optional external extractor. This package supports inert
-URL plans and filesystem capture; it does not ship an enforcing network cleaner.
-Cleaning, raw capture, and wiki ingestion are separate operations.
+Trata Defuddle como un extractor externo opcional. Este paquete admite planes de
+URL inertes y la captura desde el sistema de archivos; no incluye un limpiador
+de red que imponga límites. La limpieza, la captura en bruto y la ingesta en la
+wiki son operaciones separadas.
 
-Resolve the installed product root from this skill's own location, never from
-the selected vault or process working directory:
+Resuelve la raíz del producto instalado a partir de la ubicación propia de esta
+skill, nunca desde la bóveda seleccionada ni desde el directorio de trabajo del
+proceso:
 
 ```bash
 PRODUCT_ROOT=/absolute/path/to/installed/claude-obsidian
@@ -21,14 +23,16 @@ test -f "$CORE"
 Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
 forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
 nunca respecto del directorio `wiki/` de la bóveda seleccionada.
-Upstream flags may be checked in a separately installed `kepano/obsidian-skills`
-reference, but do not override this package's privacy and transaction boundary.
+Las opciones de upstream pueden consultarse en una referencia de
+`kepano/obsidian-skills` instalada por separado, pero no deben anular el límite
+de privacidad y de transacciones de este paquete.
 
-## Inert URL plan
+## Plan de URL inerte
 
-Accept HTTPS URLs only. Reject credentials, fragments, controls, sensitive query
-parameters, and non-public hosts or IP addresses. Never interpolate a URL into a
-shell string. Use one argv element when constructing a plan:
+Acepta solo URL HTTPS. Rechaza credenciales, fragmentos, caracteres de control,
+parámetros de consulta sensibles y hosts o direcciones IP no públicos. Nunca
+interpoles una URL en una cadena de shell. Usa un solo elemento de argv al
+construir un plan:
 
 ```bash
 python3 "$CORE" capture external-plan url "HTTPS_URL"
@@ -43,51 +47,59 @@ un verificador de comportamiento incluido. Identifica el ejecutable manual y el
 motivo informado; nunca lo ejecutes solo porque se encontró.
 Nunca cambies la etiqueta `configured` por `verified`.
 
-## Why execution stops here
+## Por qué la ejecución se detiene aquí
 
-The upstream CLI inspected at commit
+La CLI de upstream inspeccionada en el commit
 [`556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5`](https://github.com/kepano/defuddle/tree/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5)
-(checked 2026-10-17) follows redirects and enables asynchronous extraction.
-Even parsing a local HTML file can request additional resources or third-party
-fallbacks. Inspecting argv or obtaining consent for the initial URL cannot
-prove that every eventual destination remains approved.
+(revisado el 2026-10-17) sigue redirecciones y habilita la extracción
+asíncrona. Incluso analizar un archivo HTML local puede solicitar recursos
+adicionales o alternativas de terceros. Inspeccionar argv u obtener
+consentimiento para la URL inicial no puede demostrar que todo destino final
+siga aprobado.
 
-Do not execute the bare CLI against a URL or local HTML under this workflow.
-Do not silently substitute a browser, fetcher, proxy, cookies, or another runner.
-A future runnable adapter must enforce approved destinations after DNS and on
-each redirect, disable uncontrolled async/fallback traffic, constrain proxy
-behavior, and bound bytes, time, and subprocess output. It must retain original
-and final locators, exact version, approved hosts, capture hash, and mode.
-Behavioral tests must prove these limits before execution is offered. Consent
-for each destination remains required even with an enforcing adapter.
+No ejecutes la CLI directamente contra una URL ni contra un HTML local dentro
+de este flujo de trabajo. No sustituyas en silencio un navegador,
+una herramienta de descarga, un proxy, cookies ni otro ejecutor. Un futuro
+adaptador ejecutable debe imponer los destinos aprobados después del DNS y en
+cada redirección, deshabilitar el tráfico asíncrono o de alternativa no
+controlado, restringir el comportamiento del proxy y acotar los bytes, el tiempo
+y la salida de los subprocesos. Debe conservar los localizadores original y
+final, la versión exacta, los hosts aprobados, el hash de la captura y el modo.
+Las pruebas de comportamiento deben demostrar estos límites antes de ofrecer la
+ejecución. El consentimiento para cada destino sigue siendo obligatorio incluso
+con un adaptador que imponga los límites.
 
-Do not install tools or claim cleaning, extraction quality, or token savings.
-Leave the URL queued, or accept an already available local file. A local file
-may be retained as bytes without rendering HTML or running its scripts.
+No instales herramientas ni afirmes una limpieza, una calidad de extracción o un
+ahorro de tokens. Deja la URL en cola o acepta un archivo local ya disponible.
+Un archivo local puede conservarse como bytes sin renderizar el HTML ni ejecutar
+sus scripts.
 
-## Reviewable filesystem capture
+## Captura revisable del sistema de archivos
 
-When the user asks to retain an existing local HTML or Markdown file, place it
-in the selected vault's `inbox/` first. Preview and apply the filesystem plan
-with a pinned timestamp and operation ID:
+Cuando el usuario pida conservar un archivo HTML o Markdown local existente,
+colócalo primero en el `inbox/` de la bóveda seleccionada. Muestra una vista
+previa del plan del sistema de archivos y aplícalo con una marca de tiempo y un
+ID de operación fijos:
 
 ```bash
 python3 "$CORE" capture plan --vault "$VAULT" "$VAULT/inbox/source.md"
 python3 "$CORE" capture apply --vault "$VAULT" "$VAULT/inbox/source.md" \
   --generated-at "$GENERATED_AT" --operation-id "$OPERATION_ID"
-# Set APPROVAL_SHA256 to the reviewed approved_plan_sha256 from the dry run.
+# Define APPROVAL_SHA256 con el approved_plan_sha256 revisado de la simulación.
 python3 "$CORE" capture apply --vault "$VAULT" "$VAULT/inbox/source.md" \
   --generated-at "$GENERATED_AT" --operation-id "$OPERATION_ID" \
   --approved-plan-sha256 "$APPROVAL_SHA256" --apply
 ```
 
-This preserves source bytes in create-only `.raw/captured/` storage. It does not
-clean HTML, verify source metadata, or synthesize pages. Inspect the actual
-result and record extraction limitations. If already cleaned text is supplied,
-retain its known extractor/version and locator without inventing missing fields.
-Report the operation ID and exact changed paths. A repeated identical payload
-is a no-op; never overwrite immutable raw state.
+Esto conserva los bytes de la fuente en el almacenamiento `.raw/captured/` de
+solo creación. No limpia el HTML, no verifica los metadatos de la fuente ni
+sintetiza páginas. Inspecciona el resultado real y registra las limitaciones de
+la extracción. Si se entrega texto ya limpio, conserva su extractor y versión
+conocidos y su localizador, sin inventar los campos que falten. Informa el ID de
+la operación y las rutas exactas modificadas. Una carga idéntica repetida no
+hace nada; nunca sobrescribas el estado en bruto inmutable.
 
-Use [operation-transactions.md](../wiki/references/operation-transactions.md)
-for custom capture drafts. Read or analyze transiently when retention was not
-requested. Invoke `wiki-ingest` only as a distinct requested operation.
+Usa [operation-transactions.md](../wiki/references/operation-transactions.md)
+para los borradores de captura personalizados. Lee o analiza de forma
+transitoria cuando no se haya pedido conservar. Invoca `wiki-ingest` solo como
+una operación distinta solicitada.

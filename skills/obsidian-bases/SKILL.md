@@ -5,17 +5,18 @@ description: "Explica, redacta y valida archivos .base de Obsidian Bases con fil
 
 # Obsidian Bases
 
-Use this as a compact workflow and fallback syntax reference. Prefer a
-separately installed `kepano/obsidian-skills` `obsidian-bases` skill, then the
-current [official Bases syntax](https://help.obsidian.md/bases/syntax), for
-detailed or version-sensitive fields and functions.
+Úsala como referencia compacta de flujo de trabajo y de sintaxis alternativa.
+Para campos y funciones detallados o que dependen de la versión, prefiere una
+skill `obsidian-bases` de `kepano/obsidian-skills` instalada por separado y
+después la [sintaxis oficial de Bases](https://help.obsidian.md/bases/syntax)
+vigente.
 
-Answer design and syntax questions read-only. For a requested `.base` edit,
-resolve the user vault and use one inspected transaction; never write the file
-directly.
+Responde las preguntas de diseño y de sintaxis en modo de solo lectura. Para una
+edición solicitada de un archivo `.base`, resuelve la bóveda del usuario y usa
+una sola transacción inspeccionada; nunca escribas el archivo directamente.
 
-Resolve the installed product root from this skill's own location, not from the
-vault or current working directory:
+Resuelve la raíz del producto instalado a partir de la ubicación propia de esta
+skill, no desde la bóveda ni desde el directorio de trabajo actual:
 
 ```bash
 PRODUCT_ROOT=/absolute/path/to/installed/claude-obsidian
@@ -27,44 +28,49 @@ Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
 forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
 nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
-## Workflow
+## Flujo de trabajo
 
-1. Inspect representative note properties and any existing `.base` file.
-2. Define the smallest filter that selects the intended notes.
-3. Add formulas only for values that must be computed.
-4. Choose views and display order. Do not assume a view type or option is
-   supported by the user's Obsidian version or installed plugins.
-5. Validate YAML, expression quoting, property names, formula references, and
-   null handling.
-6. Preview the complete file and expected result set before a mutation.
-7. If an edit was requested, read
+1. Inspecciona las propiedades de notas representativas y cualquier archivo
+   `.base` existente.
+2. Define el filtro más pequeño que seleccione las notas previstas.
+3. Agrega fórmulas solo para los valores que deban calcularse.
+4. Elige las vistas y el orden de visualización. No asumas que un tipo de vista
+   o una opción es compatible con la versión de Obsidian del usuario ni con sus
+   complementos instalados.
+5. Valida el YAML, el uso de comillas en las expresiones, los nombres de
+   propiedades, las referencias a fórmulas y el manejo de valores nulos.
+6. Muestra una vista previa del archivo completo y del conjunto de resultados
+   esperado antes de una modificación.
+7. Si se pidió una edición, lee
    [operation-transactions.md](../wiki/references/operation-transactions.md),
-   keep the `.base` file under `wiki/`, and build one
-   `claude-obsidian.transaction.v1` bundle with `operation_type: base`. Inspect
-   it, then set `APPROVAL_SHA256` to the returned `approval_sha256` only after
-   review and apply once:
+   mantén el archivo `.base` dentro de `wiki/` y construye un solo paquete
+   `claude-obsidian.transaction.v1` con `operation_type: base`. Inspecciónalo,
+   define `APPROVAL_SHA256` con el `approval_sha256` devuelto solo después de
+   revisarlo y aplícalo una sola vez:
 
    ```bash
    python3 "$CORE" transaction inspect "$BUNDLE" --vault "$VAULT"
    python3 "$CORE" transaction apply "$BUNDLE" --vault "$VAULT" \
      --approved-plan-sha256 "$APPROVAL_SHA256"
    ```
-8. Record static validation separately from native Obsidian rendering. Follow
-   [the conformance procedure](../../docs/native-conformance.md) when application
-   behavior cannot be verified locally. Never label unobserved output as tested.
+8. Registra la validación estática por separado del renderizado nativo de
+   Obsidian. Sigue [el procedimiento de conformidad](../../docs/native-conformance.md)
+   cuando el comportamiento de la aplicación no se pueda verificar localmente.
+   Nunca marques como probada una salida que no se observó.
 
-## Version boundary
+## Límite de versiones
 
-Checked 2026-10-17 against [official view documentation](https://obsidian.md/help/bases/views).
-Table and cards require 1.9+, list requires 1.10+, and native kanban requires
-1.14+. Map requires the Maps plugin. These are documented minimum versions,
-not versions exercised by this package's offline tests. On an older app, keep
-an ordinary table fallback. Preserve unknown existing view fields.
+Revisado el 2026-10-17 frente a la [documentación oficial de vistas](https://obsidian.md/help/bases/views).
+Tabla y tarjetas requieren 1.9+, lista requiere 1.10+ y el kanban nativo
+requiere 1.14+. Mapa requiere el complemento Maps. Estas son versiones mínimas
+documentadas, no versiones ejercitadas por las pruebas sin conexión de este
+paquete. En una aplicación más antigua, conserva una alternativa de tabla
+ordinaria. Conserva los campos de vista existentes desconocidos.
 
-## Compact schema
+## Esquema compacto
 
-`.base` files are YAML. Common top-level keys are `filters`, `formulas`,
-`properties`, `summaries`, and `views`.
+Los archivos `.base` son YAML. Las claves comunes de nivel superior son
+`filters`, `formulas`, `properties`, `summaries` y `views`.
 
 ```yaml
 filters:
@@ -90,8 +96,9 @@ views:
       - formula.status_label
 ```
 
-Global filters apply to every view. A view may also define its own `filters`.
-Recursive filter objects use one of `and`, `or`, or `not` at each level.
+Los filtros globales se aplican a todas las vistas. Una vista también puede
+definir sus propios `filters`. Los objetos de filtro recursivos usan uno de
+`and`, `or` o `not` en cada nivel.
 
 ```yaml
 filters:
@@ -102,32 +109,35 @@ filters:
         - 'status == "active"'
 ```
 
-Use note properties by name, file metadata as `file.name`, `file.path`,
-`file.folder`, `file.ext`, `file.ctime`, `file.mtime`, or `file.tags`, and
-computed properties as `formula.<name>`.
+Usa las propiedades de las notas por su nombre, los metadatos del archivo como
+`file.name`, `file.path`, `file.folder`, `file.ext`, `file.ctime`, `file.mtime`
+o `file.tags`, y las propiedades calculadas como `formula.<name>`.
 
-## Formula and YAML rules
+## Reglas de fórmulas y YAML
 
-- Quote expressions that contain operators, colons, or nested string quotes.
-- Guard nullable properties with `if()`.
-- Date subtraction has conflicting current source descriptions. Treat the
-  examples in the date section below as unverified compatibility candidates,
-  and test the user's supported app versions before relying on the output.
-- Define every `formula.<name>` before referencing it in a view or property
-  display configuration.
-- Do not transplant Dataview-only keys such as `from` or `where` into a Base.
-- Do not invent properties absent from the selected notes without explaining
-  that the resulting column will be empty.
+- Pon entre comillas las expresiones que contengan operadores, dos puntos o
+  comillas de cadena anidadas.
+- Protege las propiedades que pueden ser nulas con `if()`.
+- La resta de fechas tiene descripciones contradictorias en las fuentes
+  actuales. Trata los ejemplos de la sección de fechas de más abajo como
+  candidatos de compatibilidad no verificados y prueba las versiones de la
+  aplicación que admite el usuario antes de confiar en el resultado.
+- Define cada `formula.<name>` antes de referenciarla en una vista o en la
+  configuración de visualización de propiedades.
+- No traslades a una Base claves exclusivas de Dataview, como `from` o `where`.
+- No inventes propiedades ausentes en las notas seleccionadas sin explicar que
+  la columna resultante estará vacía.
 
-## Date arithmetic needs native evidence
+## La aritmética de fechas necesita evidencia nativa
 
-The [Help syntax](https://obsidian.md/help/bases/syntax) checked 2026-10-17
-still describes date differences in milliseconds. The official
-[1.9.3 changelog](https://obsidian.md/changelog/2025-06-26-desktop-v1.9.3/)
-describes a Duration, and the pinned upstream skill also uses a Duration field.
-The recorded excerpts of the
-[API types at the reviewed commit](https://github.com/obsidianmd/obsidian-api/blob/9abd9605ce081383674aae1ed111c456edde0688/obsidian.d.ts)
-do not include a Duration definition, so they are not cited for either reading.
+La [sintaxis de la Ayuda](https://obsidian.md/help/bases/syntax) revisada el
+2026-10-17 todavía describe las diferencias de fechas en milisegundos. El
+[registro de cambios de la 1.9.3](https://obsidian.md/changelog/2025-06-26-desktop-v1.9.3/)
+oficial describe una Duration, y la skill de upstream fijada también usa un
+campo Duration. Los extractos registrados de los
+[tipos de la API en el commit revisado](https://github.com/obsidianmd/obsidian-api/blob/9abd9605ce081383674aae1ed111c456edde0688/obsidian.d.ts)
+no incluyen una definición de Duration, por lo que no se citan para ninguna de
+las dos lecturas.
 Ninguna observación en la aplicación nativa resuelve ese desacuerdo en esta
 actualización.
 
@@ -140,15 +150,17 @@ formulas:
   days_until: 'if(due_date, ((date(due_date) - today()) / 86400000).round(0), "")'
 ```
 
-Compare direct subtraction/division, the Duration day field, and explicit
-`number(date)` subtraction using one-day, multi-month, negative, and missing
-values. Record app version, timezone, expression, actual value/type, and errors
-using [native-conformance.md](../../docs/native-conformance.md). Do not rewrite
-existing formulas or assert that any candidate is correct before that check.
+Compara la resta y la división directas, el campo de días de Duration y la resta
+explícita con `number(date)` usando valores de un día, de varios meses,
+negativos y ausentes. Registra la versión de la aplicación, la zona horaria, la
+expresión, el valor y el tipo reales, y los errores usando
+[native-conformance.md](../../docs/native-conformance.md). No reescribas las
+fórmulas existentes ni afirmes que algún candidato es correcto antes de esa
+comprobación.
 
-## Additional views
+## Vistas adicionales
 
-Cards and list examples:
+Ejemplos de tarjetas y de lista:
 
 ```yaml
 views:
@@ -165,7 +177,8 @@ views:
       - status
 ```
 
-For Obsidian 1.14+, group a kanban by an existing writable note property:
+En Obsidian 1.14+, agrupa un kanban por una propiedad de nota existente y
+editable:
 
 ```yaml
 filters:
@@ -189,21 +202,23 @@ views:
       - status
 ```
 
-`groupOrder` lists visible groups in display order. An absent `groupOrder`
-shows all groups using the `groupBy` sort; an empty list hides every group.
-`null` includes pages without the grouped value. Adding an empty group does not
-create a note. Native card moves can change a note property, and grouping by
-`file.folder` can move files; agents must still use reviewed transactions for
-vault mutations. A formula or other read-only file property is unsuitable for
-an editable status board. See [Kanban view](https://obsidian.md/help/bases/views/kanban).
+`groupOrder` enumera los grupos visibles en el orden de visualización. Si falta
+`groupOrder`, se muestran todos los grupos con el orden de `groupBy`; una lista
+vacía oculta todos los grupos. `null` incluye las páginas sin el valor
+agrupado. Agregar un grupo vacío no crea una nota. Mover tarjetas de forma
+nativa puede cambiar una propiedad de la nota, y agrupar por `file.folder` puede
+mover archivos; los agentes deben seguir usando transacciones revisadas para las
+modificaciones de la bóveda. Una fórmula u otra propiedad de archivo de solo
+lectura no sirve para un tablero de estados editable. Consulta la
+[vista Kanban](https://obsidian.md/help/bases/views/kanban).
 
-Embed a Base or one named view in a Markdown note:
+Incrusta una Base, o una vista con nombre, en una nota Markdown:
 
 ```markdown
 ![[Dashboard.base]]
 ![[Dashboard.base#Wiki pages]]
 ```
 
-After an applied edit, report the operation ID, exact changed path, validation
-performed, and anything that still requires rendering in Obsidian. Do not
-commit Git.
+Tras una edición aplicada, informa el ID de la operación, la ruta exacta
+modificada, la validación realizada y todo lo que aún requiera renderizarse en
+Obsidian. No hagas commits en Git.

@@ -1,10 +1,10 @@
-# Frontmatter conventions
+# Convenciones de frontmatter
 
-Preserve an existing vault's valid property vocabulary. For a new generic
-claude-obsidian page, use flat YAML properties, block lists, and explicit
-evidence fields where they apply.
+Conserva el vocabulario de propiedades válido de una bóveda existente. Para una
+página genérica nueva de claude-obsidian, usa propiedades YAML planas, listas en
+bloque y campos de evidencia explícitos donde correspondan.
 
-## Common properties
+## Propiedades comunes
 
 ```yaml
 ---
@@ -24,16 +24,17 @@ claim_ids:
 ---
 ```
 
-Page types are declared once in `claude_obsidian/page_schema.py` and documented in
-[WIKI.md](../../../WIKI.md). This file previously restated a shorter list that
-omitted `session` and `fold`, which is how a vault ends up carrying values one
-document calls invalid. Statuses are still described in prose in both places and
-are out of this change's scope. A custom scaffold may add types when
-its schema is documented. `status` commonly progresses through `seed`,
-`developing`, `mature`, and `evergreen`; preserve other established values in an
-adopted vault.
+Los tipos de página se declaran una sola vez en `claude_obsidian/page_schema.py`
+y se documentan en [WIKI.md](../../../WIKI.md). Este archivo repetía antes una
+lista más corta que omitía `session` y `fold`, que es la forma en que una bóveda
+acaba con valores que uno de los documentos considera no válidos. Los estados se
+siguen describiendo en prosa en ambos lugares y quedan fuera del alcance de este
+cambio. Una estructura inicial personalizada puede agregar tipos cuando su
+esquema esté documentado. `status` suele avanzar por `seed`, `developing`,
+`mature` y `evergreen`; conserva los demás valores establecidos en una bóveda
+adoptada.
 
-## Source properties
+## Propiedades de las fuentes
 
 ```yaml
 source_type: article
@@ -49,11 +50,11 @@ key_claims:
   - "No claims extracted yet."
 ```
 
-Allowed authority values and evidence semantics are defined in
-[provenance.md](provenance.md). A missing value remains empty or `unknown`; do
-not manufacture metadata to complete a form.
+Los valores permitidos de autoridad y la semántica de la evidencia se definen en
+[provenance.md](provenance.md). Un valor ausente queda vacío o como `unknown`;
+no fabriques metadatos para completar un formulario.
 
-## Other type-specific properties
+## Otras propiedades específicas de cada tipo
 
 ```yaml
 # entity
@@ -83,18 +84,21 @@ assessment: unsupported
 risk: low
 ```
 
-## Rules
+## Reglas
 
-1. Keep generated properties flat; do not introduce nested mappings.
-2. Write dates as `YYYY-MM-DD` unless an existing schema requires a timestamp.
-3. Use block lists for generated multi-value properties.
-4. Quote wikilinks in YAML.
-5. Keep external locators on source records; use wikilinks for internal
-   `related` and `sources` relationships.
-6. Update `updated` only when the page content or assessed state changes.
-7. Preserve unknown valid properties during an edit.
-8. Do not treat a frontmatter confidence label as evidence; the claim ledger
-   and linked active sources determine support.
+1. Mantén planas las propiedades generadas; no introduzcas mapeos anidados.
+2. Escribe las fechas como `YYYY-MM-DD`, salvo que un esquema existente exija
+   una marca de tiempo.
+3. Usa listas en bloque para las propiedades generadas de varios valores.
+4. Pon entre comillas los wikilinks en YAML.
+5. Mantén los localizadores externos en los registros de fuentes; usa wikilinks
+   para las relaciones internas `related` y `sources`.
+6. Actualiza `updated` solo cuando cambie el contenido de la página o su estado
+   evaluado.
+7. Conserva las propiedades válidas desconocidas durante una edición.
+8. No trates una etiqueta de confianza del frontmatter como evidencia; el
+   registro de afirmaciones y las fuentes activas vinculadas determinan el
+   respaldo.
 9. Una etiqueta solo numérica no es válida aunque esté entre comillas. Usa
    `year/2026` o `y2026`, o una propiedad numérica `year`. Conserva los
    metadatos existentes del usuario salvo que se pida explícitamente
