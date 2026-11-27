@@ -1,6 +1,6 @@
 ---
 type: meta
-title: Sample Wiki Index
+title: Índice de la wiki de ejemplo
 status: evergreen
 created: 2026-07-11
 updated: 2026-07-11
@@ -10,24 +10,24 @@ tags:
   - sample
 ---
 
-# Sample Wiki Index
+# Índice de la wiki de ejemplo
 
-This deterministic fixture demonstrates a small, connected, synthetic vault.
+Este fixture determinista muestra una bóveda pequeña, conectada y sintética.
 
-Navigation: [[overview|Vault overview]] · [[hot|Recent context]] · [[log|Operation history]]
+Navegación: [[overview|Vista general de la bóveda]] · [[hot|Contexto reciente]] · [[log|Historial de operaciones]]
 
-## Sources
+## Fuentes
 
 - [[Example Source]]
 
-## Concepts
+## Conceptos
 
 - [[Source-grounded notes]]
 
-## Entities
+## Entidades
 
 - [[Example Maintainer]]
 
-## Questions
+## Preguntas
 
 - [[What supports source-grounded notes]]

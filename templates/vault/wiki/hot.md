@@ -1,6 +1,6 @@
 ---
 type: meta
-title: Hot Cache
+title: Caché caliente
 status: developing
 created: {{generated_date}}
 updated: {{generated_date}}
@@ -9,22 +9,22 @@ tags:
   - hot-cache
 ---
 
-# Recent Context
+# Contexto reciente
 
-Navigation: [[index|Wiki index]] · [[overview|Vault overview]] · [[log|Operation history]]
+Navegación: [[index|Índice de la wiki]] · [[overview|Vista general de la bóveda]] · [[log|Historial de operaciones]]
 
-## Last Updated
+## Última actualización
 
-Vault initialized. No knowledge operations have completed yet.
+Bóveda inicializada. Aún no se ha completado ninguna operación de conocimiento.
 
-## Key Recent Facts
+## Hechos recientes clave
 
-- No facts recorded.
+- No hay hechos registrados.
 
-## Recent Changes
+## Cambios recientes
 
-- Created the vault foundation.
+- Se creó la base de la bóveda.
 
-## Active Threads
+## Hilos activos
 
-- Add a source to `inbox/`, then ingest it.
+- Agrega una fuente a `inbox/` y luego ingiérela.

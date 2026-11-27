@@ -1,6 +1,6 @@
 ---
 type: concept
-title: Source-grounded notes
+title: Notas fundamentadas en fuentes
 status: evergreen
 created: 2026-07-11
 updated: 2026-07-11
@@ -9,9 +9,9 @@ tags:
   - sample
 ---
 
-# Source-grounded notes
+# Notas fundamentadas en fuentes
 
-In this synthetic example, a note states what its evidence supports and links
-back to [[Example Source]]. The validation question is [[What supports source-grounded notes]].
+En este ejemplo sintético, una nota indica lo que su evidencia respalda y enlaza
+de vuelta a [[Example Source]]. La pregunta de validación es [[What supports source-grounded notes]].
 
-See the [[index|Sample Wiki Index]].
+Consulta el [[index|Índice de la wiki de ejemplo]].

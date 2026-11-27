@@ -9,26 +9,26 @@ tags:
   - moc
 ---
 
-# {{title}}: Map of Content
+# {{title}}: mapa de contenido
 
-> A Map of Content (MOC) links into a cluster of related atomic notes. It is a navigation hub, not a container. Notes are not stored under this MOC; they live flat under `wiki/notes/` and are reached by following these links.
+> Un mapa de contenido (MOC) enlaza con un grupo de notas atómicas relacionadas. Es un centro de navegación, no un contenedor. Las notas no se almacenan bajo este MOC; viven en un nivel plano bajo `wiki/notes/` y se llega a ellas siguiendo estos enlaces.
 
-## Why this MOC exists
+## Por qué existe este MOC
 
-(One paragraph: what cluster of thinking does this MOC serve? What question does following its links answer?)
+(Un párrafo: ¿qué grupo de ideas atiende este MOC? ¿Qué pregunta responde quien sigue sus enlaces?)
 
-## Core notes
+## Notas principales
 
 - [[note-1]]
 - [[note-2]]
 - [[note-3]]
 
-## Adjacent MOCs
+## MOC adyacentes
 
 - [[adjacent-moc-1]]
 - [[adjacent-moc-2]]
 
-## Open questions / frontier
+## Preguntas abiertas / frontera
 
-- What questions does this cluster not yet answer?
-- What atomic notes would close those gaps?
+- ¿Qué preguntas aún no responde este grupo?
+- ¿Qué notas atómicas cerrarían esas brechas?

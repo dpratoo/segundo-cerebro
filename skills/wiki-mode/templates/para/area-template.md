@@ -12,23 +12,23 @@ tags:
 
 # {{title}}
 
-## Scope
+## Alcance
 
-(One paragraph: what ongoing responsibility does this area cover? What's IN scope, what's OUT of scope?)
+(Un párrafo: ¿qué responsabilidad continua cubre esta área? ¿Qué está DENTRO del alcance y qué queda FUERA?)
 
-## Standards
+## Estándares
 
-(What good looks like. What you aim to maintain.)
+(Cómo se ve lo bueno. Qué buscas mantener.)
 
-## Active projects in this area
+## Proyectos activos en esta área
 
 - [[{{project-1}}]]
 - [[{{project-2}}]]
 
-## Reference material
+## Material de referencia
 
 - [[{{resource-1}}]]
 
-## Review cadence
+## Cadencia de revisión
 
-(How often you check in on this area. Default: weekly.)
+(Con qué frecuencia revisas esta área. Por defecto: semanal.)

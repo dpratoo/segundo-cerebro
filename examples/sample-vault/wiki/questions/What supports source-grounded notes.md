@@ -1,6 +1,6 @@
 ---
 type: question
-title: What supports source-grounded notes
+title: Qué respalda a las notas fundamentadas en fuentes
 status: answered
 created: 2026-07-11
 updated: 2026-07-11
@@ -9,9 +9,9 @@ tags:
   - sample
 ---
 
-# What supports source-grounded notes?
+# ¿Qué respalda a las notas fundamentadas en fuentes?
 
-Within this synthetic fixture, [[Example Source]] supports the example concept
-[[Source-grounded notes]]. No external factual conclusion should be drawn.
+Dentro de este fixture sintético, [[Example Source]] respalda el concepto de ejemplo
+[[Source-grounded notes]]. No debería extraerse ninguna conclusión fáctica externa.
 
-See the [[index|Sample Wiki Index]].
+Consulta el [[index|Índice de la wiki de ejemplo]].

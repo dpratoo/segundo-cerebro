@@ -13,13 +13,13 @@ mocs:
 
 # {{title}}
 
-(One atomic idea, claim, or observation. Should fit on one screen; if it grows past that, split into two notes and link them.)
+(Una idea, afirmación u observación atómica. Debería caber en una pantalla; si crece más que eso, divídela en dos notas y enlázalas.)
 
-## Sources
+## Fuentes
 
 - [[{{source-1}}]]
-- (external citation, if any)
+- (cita externa, si existe)
 
-## See also
+## Consulta también
 
 - [[{{related-note}}]]

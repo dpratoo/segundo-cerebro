@@ -1,78 +1,87 @@
-# Domain-specific scaffold profiles
+# Perfiles de estructura inicial específicos de un dominio
 
-Initialize or adopt the baseline vault first. A profile adds folders, page
-types, and index sections in one inspected transaction; it does not replace the
-selected organizational methodology (`generic`, `lyt`, `para`, or
-`zettelkasten`). Preserve existing notes and routes.
+Inicializa o adopta primero la bóveda base. Un perfil agrega carpetas, tipos de
+página y secciones del índice en una sola transacción inspeccionada; no
+reemplaza la metodología organizativa seleccionada (`generic`, `lyt`, `para` o
+`zettelkasten`). Conserva las notas y las rutas existentes.
 
-Every profile keeps these invariants:
+Todo perfil mantiene estos invariantes:
 
-- immutable captured sources under `.raw/`;
-- generated knowledge under `wiki/`;
-- `wiki/index.md`, `wiki/log.md`, and `wiki/hot.md` as canonical lifecycle
-  pages;
-- evidence and claim ledgers under `wiki/meta/ledgers/`;
-- one operation-level transaction for a requested scaffold;
-- no remote, plugin, egress, or Git setup without separate approval.
+- fuentes capturadas inmutables bajo `.raw/`;
+- conocimiento generado bajo `wiki/`;
+- `wiki/index.md`, `wiki/log.md` y `wiki/hot.md` como páginas canónicas del
+  ciclo de vida;
+- registros de evidencia y de afirmaciones bajo `wiki/meta/ledgers/`;
+- una transacción a nivel de operación para una estructura inicial solicitada;
+- ninguna configuración remota, de plugins, de salida de red ni de Git sin
+  aprobación aparte.
 
-## Website or content system
+## Sitio web o sistema de contenido
 
-Suggested routes: `wiki/pages/`, `wiki/structure/`, `wiki/audits/`,
-`wiki/keywords/`, and `wiki/entities/`.
+Rutas sugeridas: `wiki/pages/`, `wiki/structure/`, `wiki/audits/`,
+`wiki/keywords/` y `wiki/entities/`.
 
-Useful page properties include the source URL, lifecycle status, canonical URL,
-last verified date, and internal-link counts. Treat crawl and analytics exports
-as sources; do not assert live indexing or HTTP status without current evidence.
+Las propiedades de página útiles incluyen la URL de origen, el estado del ciclo
+de vida, la URL canónica, la fecha de la última verificación y el número de
+enlaces internos. Trata las exportaciones de rastreo y de analítica como
+fuentes; no afirmes indexación en vivo ni estado HTTP sin evidencia actual.
 
-## Software repository
+## Repositorio de software
 
-Suggested routes: `wiki/modules/`, `wiki/components/`, `wiki/decisions/`,
-`wiki/dependencies/`, and `wiki/flows/`.
+Rutas sugeridas: `wiki/modules/`, `wiki/components/`, `wiki/decisions/`,
+`wiki/dependencies/` y `wiki/flows/`.
 
-Record repository-relative paths, purpose, status, dependency relationships,
-and evidence from code, tests, issues, or primary documentation. Generated
-architecture pages must distinguish observed behavior from inference.
+Registra rutas relativas al repositorio, propósito, estado, relaciones de
+dependencia y evidencia procedente del código, las pruebas, los issues o la
+documentación primaria. Las páginas de arquitectura generadas deben distinguir
+el comportamiento observado de la inferencia.
 
-## Business or project
+## Negocio o proyecto
 
-Suggested routes: `wiki/stakeholders/`, `wiki/decisions/`,
-`wiki/deliverables/`, `wiki/intel/`, and `wiki/meetings/`.
+Rutas sugeridas: `wiki/stakeholders/`, `wiki/decisions/`,
+`wiki/deliverables/`, `wiki/intel/` y `wiki/meetings/`.
 
-Record decision date, owner, status, rationale, and source record. Preserve
-conflicting recollections as contested evidence instead of rewriting history.
+Registra la fecha de la decisión, el responsable, el estado, la justificación y
+la fuente registrada. Conserva los recuerdos contradictorios como evidencia
+en disputa en lugar de reescribir la historia.
 
-## Personal knowledge vault
+## Bóveda de conocimiento personal
 
-Suggested routes: `wiki/goals/`, `wiki/learning/`, `wiki/people/`,
-`wiki/areas/`, and `wiki/resources/`.
+Rutas sugeridas: `wiki/goals/`, `wiki/learning/`, `wiki/people/`,
+`wiki/areas/` y `wiki/resources/`.
 
-Default to local-only processing. Confirm privacy and retention before capturing
-messages, health, finance, relationship, or voice data. Do not save a whole
-conversation when the user asked to preserve only one insight.
+Usa por defecto el procesamiento solo local. Confirma la privacidad y la
+retención antes de capturar mensajes, datos de salud, finanzas, relaciones o
+voz. No guardes una conversación completa cuando el usuario pidió conservar solo
+una idea.
 
-## Research
+## Investigación
 
-Suggested routes: `wiki/papers/`, `wiki/concepts/`, `wiki/entities/`,
-`wiki/syntheses/`, and `wiki/gaps/`.
+Rutas sugeridas: `wiki/papers/`, `wiki/concepts/`, `wiki/entities/`,
+`wiki/syntheses/` y `wiki/gaps/`.
 
-Track claim support, contradictions, authority, independence, freshness, and
-risk in the ledgers. A paper summary is secondary to the captured paper and
-does not automatically validate its claims.
+Haz seguimiento en los registros del respaldo de las afirmaciones, las
+contradicciones, la autoridad, la independencia, la vigencia y el riesgo. El
+resumen de un artículo es secundario respecto del artículo capturado y no valida
+automáticamente sus afirmaciones.
 
-## Book or course companion
+## Complemento de un libro o curso
 
-Suggested routes: `wiki/chapters/`, `wiki/concepts/`, `wiki/people/`,
-`wiki/exercises/`, and `wiki/reflections/`.
+Rutas sugeridas: `wiki/chapters/`, `wiki/concepts/`, `wiki/people/`,
+`wiki/exercises/` y `wiki/reflections/`.
 
-Capture only material the user is authorized to store. Prefer concise
-source-linked notes over reproducing copyrighted chapters or transcripts.
+Captura solo el material que el usuario esté autorizado a almacenar. Prefiere
+notas concisas enlazadas a la fuente en lugar de reproducir capítulos o
+transcripciones con derechos de autor.
 
-## Applying a profile
+## Aplicar un perfil
 
-1. Inspect the current methodology and representative notes.
-2. Draft a folder/page/property map and identify naming conflicts.
-3. Show the proposed paths and any schema additions.
-4. Apply approved additions once through the transaction core.
-5. Run deterministic lint and report unresolved findings.
-6. Let actual use determine later refinements rather than prebuilding an empty
-   hierarchy.
+1. Inspecciona la metodología actual y notas representativas.
+2. Redacta un mapa de carpetas, páginas y propiedades e identifica los
+   conflictos de nombres.
+3. Muestra las rutas propuestas y cualquier adición al esquema.
+4. Aplica las adiciones aprobadas una sola vez mediante el núcleo de
+   transacciones.
+5. Ejecuta el lint determinista e informa de los hallazgos sin resolver.
+6. Deja que el uso real determine los refinamientos posteriores, en lugar de
+   construir de antemano una jerarquía vacía.

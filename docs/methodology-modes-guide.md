@@ -1,43 +1,50 @@
-# Methodology modes
+# Modos de metodología
 
-Methodology mode is a vault-local routing preference for new notes. It does not
-change evidence rules, transaction safety, or existing files.
+El modo de metodología es una preferencia de enrutamiento local de la bóveda para
+las notas nuevas. No cambia las reglas de evidencia, la seguridad de las
+transacciones ni los archivos existentes.
 
-## Modes
+## Modos
 
-| Mode | Principle | Typical routes |
+| Modo | Principio | Rutas típicas |
 |---|---|---|
-| Generic | Familiar typed folders without a named methodology | `wiki/sources/`, `entities/`, `concepts/`, `sessions/` |
-| LYT | Maps of Content connect atomic notes | `wiki/mocs/`, `wiki/notes/` |
-| PARA | Organize by current actionability | `wiki/projects/`, `areas/`, `resources/`, `archives/` |
-| Zettelkasten | Stable IDs, atomic notes, dense links | Flat `wiki/<id>-<slug>.md` |
+| Genérico | Carpetas habituales por tipo, sin una metodología con nombre | `wiki/sources/`, `entities/`, `concepts/`, `sessions/` |
+| LYT | Los mapas de contenido conectan notas atómicas | `wiki/mocs/`, `wiki/notes/` |
+| PARA | Organiza según la capacidad de acción actual | `wiki/projects/`, `areas/`, `resources/`, `archives/` |
+| Zettelkasten | IDs estables, notas atómicas, enlaces densos | Estructura plana `wiki/<id>-<slug>.md` |
 
-Absent configuration means Generic. Choose based on retrieval and maintenance
-habits, not prestige:
+Sin configuración, el modo es Genérico. Elige según tus hábitos de búsqueda y de
+mantenimiento, no según el prestigio:
 
-- Use Generic when types are enough and migration cost should stay low.
-- Use LYT when curated maps are the primary navigation surface.
-- Use PARA when project/action status should control filing.
-- Use Zettelkasten when atomicity and dense linking are practiced consistently.
+- Usa Genérico cuando los tipos bastan y el costo de migración debería seguir
+  siendo bajo.
+- Usa LYT cuando los mapas curados son la superficie principal de navegación.
+- Usa PARA cuando el estado del proyecto o de la acción debería controlar la
+  organización.
+- Usa Zettelkasten cuando la atomicidad y los enlaces densos se practican de
+  forma consistente.
 
-## Read the current mode
+## Leer el modo actual
 
 ```bash
 python3 scripts/claude-obsidian.py mode get --vault <vault>
 ```
 
-The compatibility router can preview a destination without writing:
+El enrutador de compatibilidad puede mostrar una vista previa de un destino sin
+escribir:
 
 ```bash
 python3 scripts/wiki-mode.py --vault <vault> route concept "Example concept" --mode lyt
 ```
 
-Treat router output as a proposal. Validate it as a vault-relative path and
-include the chosen path in the operation preview.
+Trata la salida del enrutador como una propuesta. Valídala como una ruta
+relativa a la bóveda e incluye la ruta elegida en la vista previa de la
+operación.
 
-## Configure safely
+## Configurar con seguridad
 
-Mode changes use one configuration transaction and default to dry-run:
+Los cambios de modo usan una sola transacción de configuración y por defecto son
+una simulación:
 
 ```bash
 python3 scripts/claude-obsidian.py mode set para --vault <vault> \
@@ -47,7 +54,7 @@ python3 scripts/claude-obsidian.py mode set para --vault <vault> \
   --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-The compatibility wrapper has the same behavior:
+El script de compatibilidad se comporta igual:
 
 ```bash
 bash scripts/setup-mode.sh --vault <vault> --mode para
@@ -55,45 +62,50 @@ bash scripts/setup-mode.sh --vault <vault> --mode para \
   --generated-at <ISO-UTC> --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-Existing custom route settings are preserved. The command does not create
-folders, move notes, rewrite links, or migrate old content.
+Se conservan los ajustes de ruta personalizados existentes. El comando no crea
+carpetas, no mueve notas, no reescribe enlaces ni migra contenido antiguo.
 
-The Zettelkasten allocator has one canonical format:
-`YYYYMMDDHHMMSSffffff-UUID4HEX`. A legacy timestamp-only `id_format` is
-normalized in read output and in the next reviewed `mode set` transaction;
-existing filenames are not renamed. Routed filename components are bounded to
-255 UTF-8 bytes with a deterministic hash suffix when a title must be shortened.
+El asignador de Zettelkasten tiene un único formato canónico:
+`YYYYMMDDHHMMSSffffff-UUID4HEX`. Un `id_format` heredado que solo contiene la
+marca de tiempo se normaliza en la salida de lectura y en la siguiente
+transacción `mode set` revisada; los nombres de archivo existentes no se
+renombran. Los componentes del nombre de archivo enrutado están acotados a 255
+bytes UTF-8, con un sufijo de hash determinista cuando hay que acortar un
+título.
 
-## Switching modes
+## Cambiar de modo
 
-Switching affects only later routing. Before changing:
+El cambio solo afecta al enrutamiento posterior. Antes de cambiar:
 
-1. identify which workflows consume routes;
-2. preview representative source, entity, concept, session, and research names;
-3. check for filename or basename collisions;
-4. apply the configuration transaction;
-5. run the deterministic linter after the first operation in the new mode.
+1. identifica qué flujos de trabajo consumen rutas;
+2. obtén una vista previa de nombres representativos de fuentes, entidades,
+   conceptos, sesiones e investigación;
+3. revisa si hay colisiones de nombres de archivo o de nombres base;
+4. aplica la transacción de configuración;
+5. ejecuta el lint determinista después de la primera operación en el nuevo
+   modo.
 
-Bulk reorganization is a separate migration project. It needs a complete move
-map, link rewrite plan, expected hashes, collision handling, rollback, and
-explicit user approval. Never make it a side effect of `mode set`.
+La reorganización masiva es un proyecto de migración aparte. Necesita un mapa
+completo de movimientos, un plan de reescritura de enlaces, hashes esperados,
+manejo de colisiones, reversión y aprobación explícita del usuario. Nunca la
+conviertas en un efecto secundario de `mode set`.
 
-## How skills consume mode
+## Cómo usan el modo las skills
 
-`wiki-ingest`, `save`, and `autoresearch` may call the router while drafting.
-Workers include the proposed route in their draft packet; the parent
-orchestrator decides and applies the final path. Query, lint, and retrieval do
-not change behavior based on methodology mode.
+`wiki-ingest`, `save` y `autoresearch` pueden llamar al enrutador mientras
+redactan. Los agentes incluyen la ruta propuesta en su paquete de borrador; el
+orquestador padre decide y aplica la ruta final. La consulta, el lint y la
+búsqueda no cambian su comportamiento según el modo de metodología.
 
-Mode is organizational metadata, not evidence. A note's folder does not raise
-its authority, freshness, or confidence.
+El modo es un metadato de organización, no evidencia. La carpeta de una nota no
+aumenta su autoridad, su vigencia ni su confianza.
 
-## Troubleshooting
+## Solución de problemas
 
-| Symptom | Response |
+| Síntoma | Respuesta |
 |---|---|
-| Missing config | Generic is active; nothing is broken. |
-| Invalid JSON | Repair or replace it through a reviewed transaction; the router fails safely. |
-| Unexpected route | Preview with an explicit `--mode`, inspect custom settings, and sanitize the name. |
-| Mixed old/new layout | Expected after switching; do not auto-move older notes. |
-| Zettelkasten ID concern | New IDs combine a sortable UTC microsecond prefix with a UUIDv4 nonce. Existing timestamp-only IDs remain valid; still detect target collisions before apply. |
+| Falta la configuración | Genérico está activo; no hay nada roto. |
+| JSON no válido | Repáralo o reemplázalo mediante una transacción revisada; el enrutador falla de forma segura. |
+| Ruta inesperada | Genera una vista previa con un `--mode` explícito, inspecciona los ajustes personalizados y sanea el nombre. |
+| Estructura antigua y nueva mezclada | Es lo esperado tras cambiar de modo; no muevas automáticamente las notas más antiguas. |
+| Duda sobre los IDs de Zettelkasten | Los IDs nuevos combinan un prefijo UTC ordenable con microsegundos y un nonce UUIDv4. Los IDs existentes que solo contienen la marca de tiempo siguen siendo válidos; aun así, detecta las colisiones de destino antes de aplicar. |

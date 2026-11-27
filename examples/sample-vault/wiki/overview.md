@@ -1,6 +1,6 @@
 ---
 type: overview
-title: Sample Vault Overview
+title: Vista general de la bóveda de ejemplo
 status: evergreen
 created: 2026-07-11
 updated: 2026-07-11
@@ -9,7 +9,7 @@ tags:
   - sample
 ---
 
-# Sample Vault Overview
+# Vista general de la bóveda de ejemplo
 
-The fixture connects [[Example Source]], [[Source-grounded notes]],
-[[Example Maintainer]], and [[What supports source-grounded notes]].
+El fixture conecta [[Example Source]], [[Source-grounded notes]],
+[[Example Maintainer]] y [[What supports source-grounded notes]].

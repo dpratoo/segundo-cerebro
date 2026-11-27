@@ -13,21 +13,21 @@ tags:
 
 # {{title}}
 
-## Outcome
+## Resultado
 
-(One sentence: what does "done" look like?)
+(Una frase: ¿cómo se ve "hecho"?)
 
-## Status
+## Estado
 
-- **Current state:** active
-- **Deadline:** {{deadline-or-tbd}}
-- **Next action:** (single concrete next step)
+- **Estado actual:** activo
+- **Fecha límite:** {{deadline-or-tbd}}
+- **Próxima acción:** (un único paso siguiente concreto)
 
-## Notes
+## Notas
 
-(Working notes, decisions, blockers.)
+(Notas de trabajo, decisiones, bloqueos.)
 
-## Related
+## Relacionado
 
-- Areas: [[{{related-area}}]]
-- Resources: [[{{related-resource}}]]
+- Áreas: [[{{related-area}}]]
+- Recursos: [[{{related-resource}}]]

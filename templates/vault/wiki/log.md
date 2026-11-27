@@ -1,6 +1,6 @@
 ---
 type: meta
-title: Wiki Log
+title: Bitácora de la wiki
 status: evergreen
 created: {{generated_date}}
 updated: {{generated_date}}

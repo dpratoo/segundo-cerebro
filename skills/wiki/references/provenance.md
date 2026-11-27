@@ -1,9 +1,10 @@
-# Evidence and provenance
+# Evidencia y procedencia
 
-Keep ingestion state, source evidence, and claim assessment separate.
+Mantén separados el estado de la ingesta, la evidencia de las fuentes y la
+valoración de las afirmaciones.
 
-Resolve the installed product root from the invoking skill's own location, not
-from the user-vault working directory:
+Resuelve la raíz del producto instalado a partir de la ubicación de la propia
+skill que la invoca, no del directorio de trabajo de la bóveda del usuario:
 
 ```bash
 PRODUCT_ROOT=/absolute/path/to/installed/claude-obsidian
@@ -11,46 +12,54 @@ CORE="$PRODUCT_ROOT/scripts/claude-obsidian.py"
 test -f "$CORE"
 ```
 
-## Ledgers
+## Registros
 
-- `.raw/.manifest.json`: legacy-compatible ingestion hashes, generated pages,
-  address map, and last processing result.
-- `wiki/meta/ledgers/source-ledger.json`: stable source identities, authority,
-  SHA-256, retrieval/freshness, review state, and linked pages.
-- `wiki/meta/ledgers/claim-ledger.json`: falsifiable claims, note locations,
-  support, contradictions, confidence, risk, and review state.
+- `.raw/.manifest.json`: hashes de ingesta compatibles con versiones anteriores,
+  páginas generadas, mapa de direcciones y último resultado de procesamiento.
+- `wiki/meta/ledgers/source-ledger.json`: identidades estables de las fuentes,
+  autoridad, SHA-256, obtención y vigencia, estado de revisión y páginas
+  enlazadas.
+- `wiki/meta/ledgers/claim-ledger.json`: afirmaciones falsables, ubicaciones en
+  las notas, respaldo, contradicciones, confianza, riesgo y estado de revisión.
 
-Do not overload one ledger with all three jobs.
+No cargues un solo registro con los tres trabajos.
 
-## Source rules
+## Reglas de las fuentes
 
-- Use SHA-256 for new source identity and delta checks.
-- File locators are vault-relative. Remote locators are absolute HTTPS URLs.
-- Source authority is one of `official`, `primary`, `secondary`, `community`,
-  `synthetic`, or `unknown`.
-- Review state is `unreviewed`, `active`, `superseded`, or `rejected`.
-- Compute staleness from `refresh_due`; do not store a second stale flag.
-- Sources sharing an `independence_key` do not count as independent
-  corroboration.
-- Sources that resolve to the same canonical URL origin do not count as
-  independent merely because IPv6, IDN, Unicode, dot-segment, default-port, or
-  percent-encoding spelling differs. Escaped reserved path/query bytes remain
-  distinct because they can identify a different resource.
+- Usa SHA-256 para la identidad de las fuentes nuevas y para las comprobaciones
+  de deltas.
+- Los localizadores de archivo son relativos a la bóveda. Los localizadores
+  remotos son URLs HTTPS absolutas.
+- La autoridad de una fuente es una de `official`, `primary`, `secondary`,
+  `community`, `synthetic` o `unknown`.
+- El estado de revisión es `unreviewed`, `active`, `superseded` o `rejected`.
+- Calcula la obsolescencia a partir de `refresh_due`; no guardes una segunda
+  marca de obsolescencia.
+- Las fuentes que comparten un `independence_key` no cuentan como corroboración
+  independiente.
+- Las fuentes que se resuelven al mismo origen de URL canónico no cuentan como
+  independientes solo porque cambie la escritura IPv6, IDN, Unicode, de
+  segmentos de punto, de puerto predeterminado o de codificación porcentual. Los
+  bytes reservados escapados de la ruta o de la consulta siguen siendo
+  distintos, porque pueden identificar un recurso diferente.
 
 ## Reglas de afirmaciones
 
-- Assessment is `accepted`, `provisional`, `contested`, `unsupported`, or
+- La valoración es `accepted`, `provisional`, `contested`, `unsupported` o
   `deprecated`.
-- Accepted claims need at least one fresh, active, non-synthetic source.
-- High-risk accepted claims need two independent sources.
-- Preserve contradictory evidence. Do not silently select a winner.
-- `unsupported` is the canonical no-data state. A grounded refusal is better
-  than confident invention.
-- Never fabricate quotations, page numbers, dates, or evidence locators.
+- Las afirmaciones aceptadas necesitan al menos una fuente vigente, activa y no
+  sintética.
+- Las afirmaciones aceptadas de alto riesgo necesitan dos fuentes
+  independientes.
+- Conserva la evidencia contradictoria. No elijas un ganador en silencio.
+- `unsupported` es el estado canónico de ausencia de datos. Una negativa
+  fundamentada es mejor que una invención segura de sí misma.
+- Nunca inventes citas textuales, números de página, fechas ni localizadores de
+  evidencia.
 
 ## Migración
 
-Run migration as a dry-run first:
+Ejecuta la migración primero como simulación:
 
 ```bash
 python3 "$CORE" migrate --vault VAULT \
@@ -60,15 +69,18 @@ python3 "$CORE" migrate --vault VAULT \
   --approved-plan-sha256 <reviewed-sha256> --apply
 ```
 
-Migration leaves `.raw/.manifest.json` byte-for-byte unchanged, creates missing
-ledgers, defaults unknown evidence fields honestly, and never extracts claims
-from legacy prose automatically. A legacy source key that resolves to a regular
-file remains a file source with its computed SHA-256. A valid key with no file
-is preserved as an unreviewed manual source with unknown authority and no
-verified payload hash. This unresolved record preserves the legacy identity,
-date, and page links; it does not prove a batch-to-file relationship. Migration
-never enumerates raw payloads to invent that relationship or promotes the
-legacy short hash to SHA-256.
-The reviewed migration bundle also pins each legacy locator's observed file
-state. Apply fails if an unresolved label appears, becomes unsafe, cannot be
-inspected, or if a file source changes after review.
+La migración deja `.raw/.manifest.json` idéntico byte a byte, crea los registros
+que faltan, asigna valores predeterminados honestos a los campos de evidencia
+desconocidos y nunca extrae afirmaciones de la prosa heredada de forma
+automática. Una clave de fuente heredada que se resuelve a un archivo regular
+sigue siendo una fuente de archivo con su SHA-256 calculado. Una clave válida
+sin archivo se conserva como una fuente manual sin revisar, con autoridad
+desconocida y sin hash de contenido verificado. Esta entrada sin resolver
+conserva la identidad heredada, la fecha y los enlaces de página; no demuestra
+una relación entre lote y archivo. La migración nunca enumera los contenidos sin
+procesar para inventar esa relación ni promueve el hash corto heredado a
+SHA-256.
+El paquete de migración revisado también fija el estado observado del archivo de
+cada localizador heredado. La aplicación falla si aparece una etiqueta sin
+resolver, si pasa a ser no segura, si no se puede inspeccionar o si una fuente
+de archivo cambia después de la revisión.

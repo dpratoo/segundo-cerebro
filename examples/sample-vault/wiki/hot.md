@@ -1,6 +1,6 @@
 ---
 type: meta
-title: Sample Hot Cache
+title: Caché caliente de ejemplo
 status: developing
 created: 2026-07-11
 updated: 2026-07-11
@@ -10,6 +10,6 @@ tags:
   - sample
 ---
 
-# Recent Context
+# Contexto reciente
 
-The sample vault contains only synthetic notes and no contributor context.
+La bóveda de ejemplo contiene solo notas sintéticas y ningún contexto de colaboradores.

@@ -1,6 +1,6 @@
 ---
 type: overview
-title: Vault Overview
+title: Vista general de la bóveda
 status: developing
 created: {{generated_date}}
 updated: {{generated_date}}
@@ -8,9 +8,10 @@ tags:
   - overview
 ---
 
-# Vault Overview
+# Vista general de la bóveda
 
-This local-first vault compounds source-backed knowledge over time.
+Esta bóveda, local por defecto, acumula con el tiempo conocimiento respaldado por fuentes.
 
-Use [[index|Wiki index]] to find knowledge, [[hot|Recent context]] to resume
-work, and [[log|Operation history]] to review completed operations.
+Usa [[index|Índice de la wiki]] para encontrar conocimiento,
+[[hot|Contexto reciente]] para retomar el trabajo y [[log|Historial de operaciones]]
+para revisar las operaciones completadas.

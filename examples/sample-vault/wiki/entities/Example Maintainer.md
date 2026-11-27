@@ -1,6 +1,6 @@
 ---
 type: entity
-title: Example Maintainer
+title: Mantenedor de ejemplo
 status: evergreen
 created: 2026-07-11
 updated: 2026-07-11
@@ -9,9 +9,9 @@ tags:
   - sample
 ---
 
-# Example Maintainer
+# Mantenedor de ejemplo
 
-This fictional entity appears only to exercise links from [[Example Source]]
-and [[overview|Sample Vault Overview]].
+Esta entidad ficticia aparece solo para ejercitar los enlaces desde [[Example Source]]
+y [[overview|Vista general de la bóveda de ejemplo]].
 
-See the [[index|Sample Wiki Index]].
+Consulta el [[index|Índice de la wiki de ejemplo]].

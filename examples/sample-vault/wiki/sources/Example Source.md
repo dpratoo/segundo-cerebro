@@ -1,6 +1,6 @@
 ---
 type: source
-title: Example Source
+title: Fuente de ejemplo
 status: evergreen
 created: 2026-07-11
 updated: 2026-07-11
@@ -9,10 +9,10 @@ tags:
   - sample
 ---
 
-# Example Source
+# Fuente de ejemplo
 
-This is synthetic fixture content, not evidence for a real-world claim. It
-illustrates how a source page can support [[Source-grounded notes]] and record a
-relationship to [[Example Maintainer]].
+Este es contenido de fixture sintético, no evidencia de una afirmación del mundo
+real. Ilustra cómo una página de fuente puede respaldar [[Source-grounded notes]]
+y registrar una relación con [[Example Maintainer]].
 
-See the [[index|Sample Wiki Index]].
+Consulta el [[index|Índice de la wiki de ejemplo]].

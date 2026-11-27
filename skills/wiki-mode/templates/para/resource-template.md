@@ -12,19 +12,19 @@ tags:
 
 # {{title}}
 
-## Summary
+## Resumen
 
-(2-3 sentences: what is this, why is it here, what is it useful for?)
+(2-3 frases: ¿qué es esto, por qué está aquí, para qué sirve?)
 
-## Key content
+## Contenido clave
 
-(The actual reference material: quotes, summaries, links, structured information.)
+(El material de referencia en sí: citas, resúmenes, enlaces, información estructurada.)
 
-## Sources
+## Fuentes
 
-- (citations, links to external material)
+- (citas, enlaces a material externo)
 
-## Related
+## Relacionado
 
-- Areas using this: [[{{area-1}}]]
-- Projects using this: [[{{project-1}}]]
+- Áreas que lo usan: [[{{area-1}}]]
+- Proyectos que lo usan: [[{{project-1}}]]

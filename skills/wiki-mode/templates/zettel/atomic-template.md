@@ -13,21 +13,21 @@ tags:
 
 # {{id}} {{title}}
 
-## Claim
+## Afirmación
 
-(One atomic claim. Should answer one question or assert one observation. If you can't state it in 1-3 sentences, split into multiple zettels.)
+(Una afirmación atómica. Debería responder una pregunta o plantear una observación. Si no puedes enunciarla en 1-3 frases, divídela en varios zettels.)
 
-## Reasoning
+## Razonamiento
 
-(Why is this claim true? What does it rest on?)
+(¿Por qué es verdadera esta afirmación? ¿En qué se apoya?)
 
-## Sources
+## Fuentes
 
-- (external citations)
-- Parent zettel: [[{{parent-id}}]] (the broader claim this refines)
-- Child zettels: (claims that build on this one, populated as they're written)
+- (citas externas)
+- Zettel padre: [[{{parent-id}}]] (la afirmación más amplia que esta precisa)
+- Zettels hijos: (afirmaciones que se construyen sobre esta, que se añaden a medida que se escriben)
 
-## Cross-references
+## Referencias cruzadas
 
-- [[{{related-zettel-1}}]]: (relationship)
-- [[{{related-zettel-2}}]]: (relationship)
+- [[{{related-zettel-1}}]]: (relación)
+- [[{{related-zettel-2}}]]: (relación)

@@ -3,16 +3,17 @@ name: wiki-mode
 description: "Lee o configura la metodología de organización de la bóveda y sugiere destinos para el conocimiento que se planea crear con Generic, LYT, PARA o Zettelkasten. Esta skill no guarda contenido ni migra notas. Se activa con: modo wiki, modo de metodología, cuál es el modo de mi bóveda, define el modo de la bóveda, cambia a PARA, usa LYT, configura Zettelkasten, cambia el modo, configura el modo, enrutamiento por metodología."
 ---
 
-# Route by vault methodology
+# Enrutar según la metodología de la bóveda
 
-This skill returns filing suggestions. It does not write knowledge pages or
-move existing notes. If `.vault-meta/mode.json` is absent, use `generic`. If
-the file exists but is invalid, fail closed and repair it through a reviewed
-configuration operation before suggesting routes; never silently substitute
-Generic for corrupt user configuration.
+Esta skill devuelve sugerencias de organización. No escribe páginas de
+conocimiento ni mueve notas existentes. Si `.vault-meta/mode.json` no existe,
+usa `generic`. Si el archivo existe pero no es válido, falla de forma cerrada y
+repáralo mediante una operación de configuración revisada antes de sugerir
+rutas; nunca uses en silencio Genérico en lugar de una configuración de usuario
+corrupta.
 
-Resolve the installed product root from this skill's own location, not from the
-vault or current working directory:
+Resuelve la raíz del producto instalado a partir de la ubicación de esta skill,
+no de la bóveda ni del directorio de trabajo actual:
 
 ```bash
 PRODUCT_ROOT=/absolute/path/to/installed/claude-obsidian
@@ -25,9 +26,9 @@ Cada enlace `../wiki/references/` de este archivo se resuelve de la misma
 forma: respecto del directorio propio de esta skill dentro de `$PRODUCT_ROOT`,
 nunca respecto del directorio `wiki/` de la bóveda seleccionada.
 
-## Read and route safely
+## Leer y enrutar con seguridad
 
-Always select the vault explicitly:
+Selecciona siempre la bóveda de forma explícita:
 
 ```bash
 python3 "$MODE_HELPER" --vault "$VAULT" get
@@ -36,63 +37,69 @@ python3 "$MODE_HELPER" --vault "$VAULT" route concept "Concept name"
 python3 "$MODE_HELPER" --vault "$VAULT" route source "Source title"
 ```
 
-The helper validates the selected vault, confines paths, sanitizes names, and
-prints a suggestion only. A calling skill may override the suggestion when the
-user supplies a more specific project, area, MOC, or parent note, but it must
-still apply its eventual writes through one operation transaction.
+El script auxiliar valida la bóveda seleccionada, confina las rutas, sanea los nombres e
+imprime solo una sugerencia. Una skill que lo llame puede anular la sugerencia
+cuando el usuario aporta un proyecto, un área, un MOC o una nota padre más
+específicos, pero aun así debe aplicar sus escrituras finales mediante una sola
+transacción de operación.
 
-| Mode | Routing intent |
+| Modo | Intención de enrutamiento |
 |---|---|
-| `generic` | Type-based folders such as sources, entities, concepts, and sessions. |
-| `lyt` | Atomic notes under `wiki/notes/`, connected through MOCs. |
-| `para` | Projects, Areas, Resources, or Archives chosen by actionability. |
-| `zettelkasten` | Flat atomic notes with time-sortable, collision-resistant identifiers and explicit links. |
+| `generic` | Carpetas basadas en el tipo, como fuentes, entidades, conceptos y sesiones. |
+| `lyt` | Notas atómicas bajo `wiki/notes/`, conectadas mediante MOC. |
+| `para` | Proyectos, Áreas, Recursos o Archivo, elegidos según la capacidad de acción. |
+| `zettelkasten` | Notas atómicas planas con identificadores ordenables por tiempo y resistentes a colisiones, y enlaces explícitos. |
 
-Use the templates as structural guidance: [LYT atomic](templates/lyt/atomic-template.md),
-[LYT MOC](templates/lyt/moc-template.md), [PARA area](templates/para/area-template.md),
-[PARA project](templates/para/project-template.md),
-[PARA resource](templates/para/resource-template.md), or
-[Zettelkasten atomic](templates/zettel/atomic-template.md). They use canonical
-`type` values from `claude_obsidian/page_schema.py` and a separate flat
-`methodology_role` property:
+Usa las plantillas como guía estructural: [nota atómica de LYT](templates/lyt/atomic-template.md),
+[MOC de LYT](templates/lyt/moc-template.md), [área de PARA](templates/para/area-template.md),
+[proyecto de PARA](templates/para/project-template.md),
+[recurso de PARA](templates/para/resource-template.md) o
+[nota atómica de Zettelkasten](templates/zettel/atomic-template.md). Usan valores
+canónicos de `type` de `claude_obsidian/page_schema.py` y una propiedad plana
+aparte, `methodology_role`:
 
-| Template | Type | Methodology role |
+| Plantilla | Tipo | Rol en la metodología |
 |---|---|---|
-| LYT atomic | `concept` | `atomic` |
-| LYT MOC | `meta` | `moc` |
-| PARA area | `concept` | `area` |
-| PARA project | `entity` | `project` |
-| PARA resource collection | `concept` | `resource` |
-| Zettelkasten atomic | `concept` | `zettel` |
+| Nota atómica de LYT | `concept` | `atomic` |
+| MOC de LYT | `meta` | `moc` |
+| Área de PARA | `concept` | `area` |
+| Proyecto de PARA | `entity` | `project` |
+| Colección de recursos de PARA | `concept` | `resource` |
+| Nota atómica de Zettelkasten | `concept` | `zettel` |
 
-A resource template describes a topic collection. Use `source` instead when the
-new page represents a particular captured source. The methodology role does not
-add a router type: pass the canonical type and respect the chosen project, area,
-or MOC destination. Structural MOCs use an explicit destination; `meta` is not a
-routable new-note type. Existing user pages, custom type vocabularies, and saved
-Dataview queries remain unchanged. Any requested migration needs its own reviewed
-plan; switching mode never rewrites existing notes.
+Una plantilla de recursos describe una colección temática. Usa `source` en su
+lugar cuando la página nueva represente una fuente capturada concreta. El rol de
+metodología no agrega un tipo al enrutador: pasa el tipo canónico y respeta el
+destino elegido de proyecto, área o MOC. Los MOC estructurales usan un destino
+explícito; `meta` no es un tipo enrutable para notas nuevas. Las páginas
+existentes del usuario, los vocabularios de tipos personalizados y las consultas
+de Dataview guardadas permanecen sin cambios. Cualquier migración solicitada
+necesita su propio plan revisado; cambiar de modo nunca reescribe las notas
+existentes.
 
-## Change mode
+## Cambiar el modo
 
-A mode change is one configuration operation, dry-run first:
+Un cambio de modo es una sola operación de configuración, primero como
+simulación:
 
-1. Read the current `.vault-meta/mode.json`, or start from the helper's default
-   config when it is absent.
-2. Validate the requested mode as exactly `generic`, `lyt`, `para`, or
-   `zettelkasten`. Preserve the other mode-specific settings.
-3. Choose and retain a pinned UTC timestamp and operation ID for both commands.
-4. Preview the canonical configuration transaction; the command records the
-   current target hash and limits the write to `.vault-meta/mode.json`:
+1. Lee el `.vault-meta/mode.json` actual, o parte de la configuración
+   predeterminada del script auxiliar cuando no existe.
+2. Valida que el modo solicitado sea exactamente `generic`, `lyt`, `para` o
+   `zettelkasten`. Conserva los demás ajustes específicos del modo.
+3. Elige y conserva una marca de tiempo UTC fija y un ID de operación para ambos
+   comandos.
+4. Muestra una vista previa de la transacción de configuración canónica; el
+   comando registra el hash actual del destino y limita la escritura a
+   `.vault-meta/mode.json`:
 
    ```bash
    python3 "$CORE" mode set "$MODE" --vault "$VAULT" \
      --generated-at "$GENERATED_AT" --operation-id "$OPERATION_ID"
    ```
 
-5. Show the old mode, new mode, exact changed path, and complete preview. Copy
-   its `approved_plan_sha256` only after review.
-6. Apply by regenerating that exact vault-bound plan:
+5. Muestra el modo anterior, el modo nuevo, la ruta exacta modificada y la vista
+   previa completa. Copia su `approved_plan_sha256` solo después de revisarla.
+6. Aplica regenerando ese mismo plan vinculado a la bóveda:
 
    ```bash
    python3 "$CORE" mode set "$MODE" --vault "$VAULT" \
@@ -100,17 +107,19 @@ A mode change is one configuration operation, dry-run first:
      --approved-plan-sha256 "$APPROVAL_SHA256" --apply
    ```
 
-Follow the [operation transaction contract](../wiki/references/operation-transactions.md).
-Do not use `scripts/wiki-mode.py`'s legacy direct-write `set` action or a setup
-script to bypass this workflow.
+Sigue el [contrato de transacciones de operación](../wiki/references/operation-transactions.md).
+No uses la acción `set` heredada de escritura directa de `scripts/wiki-mode.py`
+ni un script de instalación para eludir este flujo.
 
-Changing mode affects routing for future operations only. Never bulk-create
-folders, move notes, rewrite wikilinks, or migrate existing pages as a side
-effect. If migration is later requested, plan and review it as a distinct
-operation with its own hashes and transaction.
+Cambiar el modo afecta solo al enrutamiento de las operaciones futuras. Nunca
+crees carpetas en bloque, muevas notas, reescribas wikilinks ni migres páginas
+existentes como efecto secundario. Si más adelante se pide una migración,
+planifícala y revísala como una operación distinta, con sus propios hashes y su
+propia transacción.
 
-## Checkpoint
+## Punto de control
 
-Observe the user's current structure, think about how they retrieve and act on
-notes, verify a few proposed routes before changing configuration, and grow by
-revisiting the mode only when real filing friction appears.
+Observa la estructura actual del usuario, piensa cómo busca sus notas y actúa
+sobre ellas, verifica unas cuantas rutas propuestas antes de cambiar la
+configuración y crece revisando el modo solo cuando aparezca una fricción real de
+organización.

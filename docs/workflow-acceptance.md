@@ -1,24 +1,28 @@
-# Knowledge workflow acceptance
+# Aceptación del flujo de trabajo de conocimiento
 
-Storage validity and knowledge completeness are separate checks. A recoverable
-transaction can omit the note's catalog entry or operation history. Save and
-Ingest use the named workflow gate:
+La validez del almacenamiento y la completitud del conocimiento son
+comprobaciones separadas. Una transacción recuperable puede omitir la entrada de
+catálogo de la nota o el historial de la operación. El guardado y la ingesta
+usan el control específico del flujo de trabajo:
 
 ```bash
 python3 "$CORE" workflow inspect "$BUNDLE" --vault "$VAULT"
-# Read storage_valid, workflow_complete, findings, and approval_sha256.
+# Lee storage_valid, workflow_complete, findings y approval_sha256.
 python3 "$CORE" workflow apply "$BUNDLE" --vault "$VAULT" \
   --approved-plan-sha256 "$APPROVAL_SHA256"
 ```
 
-Set `APPROVAL_SHA256` only from the reviewed inspect result. Generic
-`transaction inspect/apply` remains the storage interface for other authorized
-operations; it does not substitute for this workflow acceptance check.
+Define `APPROVAL_SHA256` solo a partir del resultado de la inspección ya
+revisado. `transaction inspect/apply` genérico sigue siendo la interfaz de
+almacenamiento para otras operaciones autorizadas; no sustituye esta
+comprobación de aceptación del flujo de trabajo.
 
-Save and Ingest content operations couple the note/page writes, a hash-bound active
-catalog write, a log entry, and hot context of at most 500 words and 32 KiB (the
-SessionStart context bound). The default catalog is `wiki/index.md`. To declare
-another active methodology MOC, place its exact vault-relative path in the bundle:
+Las operaciones de contenido de guardado y de ingesta acoplan las escrituras de
+la nota o página, una escritura vinculada a un hash del catálogo activo, una
+entrada de la bitácora y un contexto de caché caliente de como máximo 500
+palabras y 32 KiB (el límite de contexto de SessionStart). El catálogo
+predeterminado es `wiki/index.md`. Para declarar otro MOC de metodología activo,
+coloca su ruta exacta relativa a la bóveda en el paquete:
 
 ```json
 {
@@ -28,100 +32,124 @@ another active methodology MOC, place its exact vault-relative path in the bundl
 }
 ```
 
-This is a field inside a complete `claude-obsidian.transaction.v1` bundle, not a
-standalone applyable document. Include expected hashes and writes for declared
-catalogs. Every selected canonical content page, whether created or replaced,
-requires a visible reference in the prospective content of a declared catalog
-write. Use a path-qualified wikilink or relative Markdown link from that catalog
-to each selected canonical page. An already indexed note can keep the catalog
-bytes unchanged: supply its existing content as a `replace` write and bind its
-current SHA-256 in `expected_hashes`. No meaningless catalog text edit is needed.
-An unchanged catalog that omits a selected page fails the gate. `changed_paths`
-lists transaction targets; its presence alone does not prove that bytes changed.
-The catalog write and hash remain required for existing pages, keeping navigation
-and the note update in the same approved, recoverable operation and replay.
-Catalogs and selected content pages must use visible canonical paths: a
-dot-prefixed directory or filename cannot satisfy this navigation obligation.
+Este es un campo dentro de un paquete `claude-obsidian.transaction.v1` completo,
+no un documento independiente que se pueda aplicar. Incluye los hashes esperados
+y las escrituras de los catálogos declarados. Toda página de contenido canónica
+seleccionada, ya sea creada o reemplazada, requiere una referencia visible en el
+contenido previsto de una escritura de catálogo declarada. Usa un wikilink con
+ruta completa o un enlace Markdown relativo desde ese catálogo a cada página
+canónica seleccionada. Una nota que ya está indexada puede dejar sin cambios los
+bytes del catálogo: aporta su contenido existente como una escritura `replace` y
+vincula su SHA-256 actual en `expected_hashes`. No hace falta ninguna edición de
+texto sin sentido en el catálogo. Un catálogo sin cambios que omite una página
+seleccionada no pasa el control. `changed_paths` enumera los destinos de la
+transacción; su sola presencia no demuestra que los bytes hayan cambiado. La
+escritura del catálogo y el hash siguen siendo obligatorios para las páginas
+existentes, de modo que la navegación y la actualización de la nota queden en la
+misma operación aprobada y recuperable, y en su reejecución. Los catálogos y las
+páginas de contenido seleccionadas deben usar rutas canónicas visibles: un
+directorio o nombre de archivo con prefijo de punto no puede cumplir esta
+obligación de navegación.
 Un catálogo activo es un catálogo declarado en `workflow.catalogs` que es
 `wiki/index.md` o que ya existe (una escritura `replace` vinculada a un hash).
-A catalog that the same bundle creates must be linked from one of those active
-catalog writes; otherwise inspection reports `INACTIVE_CATALOG`, so a new
-throwaway page cannot stand in for navigation. Para enlazar un MOC nuevo desde
+Un catálogo que crea el mismo paquete debe estar enlazado desde una de esas
+escrituras de catálogo activo; de lo contrario, la inspección informa
+`INACTIVE_CATALOG`, de modo que una página nueva y desechable no pueda sustituir
+la navegación. Para enlazar un MOC nuevo desde
 el índice raíz, incluye `wiki/index.md` en la lista junto al MOC para que
 también quede declarado en `workflow.catalogs`; una escritura del índice no
-declarada no cuenta. The gate cannot judge whether an existing declared page
-is a useful MOC.
+declarada no cuenta. El control no puede juzgar si una página declarada ya
+existente es un MOC útil.
 
-Ingest includes both source and claim ledger writes; Save includes ledgers when
-evidence records changed. Ingest also needs a source: a create-only `.raw/`
-payload in the bundle, or a recorded source in the prospective source ledger
-(`MISSING_INGEST_SOURCE`). At least one ledger must change; byte-identical
-rewrites of both report `UNCHANGED_PROVENANCE`. The new first log entry, the
-first `## ` heading of the log body, uses `## [YYYY-MM-DD] save|...` or
-`## [YYYY-MM-DD] ingest|...`. It may sit directly below the log title and
-introduction, as in the log that `init` seeds. Every existing entry stays
-unchanged after the new one, and every other existing line keeps its order;
-otherwise inspection reports `LOG_HISTORY_NOT_PRESERVED`. The date must be a
-real calendar date, not only a matching digit pattern. Do not manufacture claims
-or source records to satisfy a validator.
+La ingesta incluye escrituras tanto del registro de fuentes como del registro de
+afirmaciones; el guardado incluye los registros cuando cambiaron las entradas
+de evidencia. La ingesta también necesita una fuente: contenido `.raw/` de solo
+creación en el paquete, o una fuente registrada en el registro de fuentes
+previsto (`MISSING_INGEST_SOURCE`). Al menos un registro debe cambiar; las
+reescrituras idénticas byte a byte de ambos informan `UNCHANGED_PROVENANCE`. La
+nueva primera entrada de la bitácora, el primer encabezado `## ` del cuerpo de
+la bitácora, usa `## [YYYY-MM-DD] save|...` o `## [YYYY-MM-DD] ingest|...`.
+Puede ir directamente debajo del título y la introducción de la bitácora, como
+en la bitácora que siembra `init`. Toda entrada existente permanece sin cambios
+después de la nueva, y toda otra línea existente conserva su orden; de lo
+contrario, la inspección informa `LOG_HISTORY_NOT_PRESERVED`. La fecha debe ser
+una fecha real del calendario, no solo un patrón de dígitos que coincida. No
+fabriques afirmaciones ni fuentes registradas para satisfacer un validador.
 
-Workflow inspection materializes hash-bound UTF-8 `content_file` drafts. After
-a successful apply, replay can use the committed target bytes when a disposable
-draft no longer exists. For managed address assignment, it can reverse only
-the exact generated second-line insertion, and only when those recovered bytes
-match the declared original hash. The declared content hash, original materialized bundle,
-approval and completed result still have to match. An available draft whose
-bytes changed is refused, as are changed targets, modes or expected hashes.
-Moving a draft with identical declared bytes does not change the materialized
-operation. Completed replay also requires the retained journal and expanded
-bundle: their identities, write coverage and content hashes must correlate
-with the result under the transaction lock. A receipt alone cannot certify a
-completed operation. Historical receipt-only records remain untouched during
-unrelated operations, but cannot authorize replay. This equivalence does not
-relax the transaction engine's replay or result-drift checks.
+La inspección del flujo de trabajo materializa borradores `content_file` UTF-8
+vinculados a un hash. Tras una aplicación exitosa, la reejecución puede usar los
+bytes de destino confirmados cuando un borrador desechable ya no existe. Para la
+asignación administrada de direcciones, solo puede revertir la inserción exacta
+generada en la segunda línea, y solo cuando esos bytes recuperados coinciden con
+el hash original declarado. El hash de contenido declarado, el paquete
+materializado original, la aprobación y el resultado completado siguen teniendo
+que coincidir. Se rechaza un borrador disponible cuyos bytes cambiaron, y
+también los destinos, modos o hashes esperados que cambiaron. Mover un borrador
+con bytes declarados idénticos no cambia la operación materializada. La
+reejecución de una operación completada exige además el diario conservado y el
+paquete expandido: sus identidades, la cobertura de escrituras y los hashes de
+contenido deben correlacionarse con el resultado bajo el bloqueo de la
+transacción. Un comprobante por sí solo no puede certificar una operación
+completada. Las entradas históricas que solo tienen comprobante permanecen
+intactas durante operaciones no relacionadas, pero no pueden autorizar una
+reejecución. Esta equivalencia no relaja las comprobaciones de reejecución ni de
+deriva del resultado del motor de transacciones.
 
-Malformed retained result JSON, invalid UTF-8, excessive JSON nesting, null or
-incomplete result metadata, non-text modes or operation types, and malformed
-replay writes return controlled transaction errors. A retained journal still in
-the `prepared` state cannot certify completion. A FIFO or other non-regular
-file at a receipt, log, or target path is refused without blocking. Completed
-replay does not read the current `wiki/log.md`; the retained result binds it.
-Reusing a completed operation ID with another operation type reports
-`OPERATION_ID_REUSED`, as `transaction apply` does for another bundle.
-Rejected replay does not authorize a new operation or modify the vault.
-An existing log with invalid UTF-8 returns `WORKFLOW_LOG_NOT_TEXT` before
-inspection can approve its replacement. Retain its original bytes and review
-a separate repair rather than silently discarding unparseable history.
+Un JSON de resultado retenido mal formado, el UTF-8 no válido, el anidamiento
+excesivo de JSON, los metadatos de resultado nulos o incompletos, los modos o
+tipos de operación que no son texto y las escrituras de reejecución mal formadas
+devuelven errores de transacción controlados. Un diario retenido que sigue en
+estado `prepared` no puede certificar la finalización. Un FIFO u otro archivo no
+regular en la ruta de un comprobante, de la bitácora o de un destino se rechaza
+sin bloquear. La reejecución de una operación completada no lee la
+`wiki/log.md` actual; el resultado retenido la vincula. Reutilizar el ID de una operación completada con
+otro tipo de operación informa `OPERATION_ID_REUSED`, igual que lo hace
+`transaction apply` con otro paquete. Una reejecución rechazada no autoriza una
+operación nueva ni modifica la bóveda. Una bitácora existente con UTF-8 no
+válido devuelve `WORKFLOW_LOG_NOT_TEXT` antes de que la inspección pueda aprobar
+su reemplazo. Conserva sus bytes originales y revisa una reparación aparte, en
+lugar de descartar en silencio un historial que no se puede analizar.
 
-Lint and workflow navigation share protection for HTML and Obsidian `%%` comments,
-matching-length inline code, backtick or tilde fences (closed by an equal or longer
-run), indented code, escaped opening brackets, and `$` or `$$` math. Masking preserves
-source offsets and line numbers. List continuation links remain visible when their
-indentation is relative to a list item rather than a code block. A list-contained
-fence ends when its list container ends, including an unclosed fence followed by
-an outside paragraph or sibling item. Literal destination text is not parsed as
-prose math or comments; enclosing code or comments still hide the whole link.
-Inline Markdown links support single-line labels with balanced brackets, angled
-destinations, balanced parentheses, and optional quoted or parenthesized titles.
-Escapes and inline code inside a label do not create extra label brackets.
-Decoded destinations still undergo vault confinement checks.
-Heading labels render supported inline links outside code; requested fragments
-name the resulting text and are not reinterpreted as new links. A literal
-wikilink inside inline code therefore remains a distinct heading label.
-This is a static navigation subset, not a full CommonMark or Obsidian renderer:
-reference-style links, HTML anchors, blockquote container parsing, plugin syntax,
-and native rendering are outside its coverage.
+El lint y la navegación del flujo de trabajo comparten la protección de los
+comentarios HTML y `%%` de Obsidian, el código en línea de igual longitud, las
+cercas de acentos graves o de tildes (cerradas por una secuencia igual o más
+larga), el código con sangría, los corchetes de apertura escapados y las
+fórmulas matemáticas con `$` o `$$`. El enmascarado conserva los desplazamientos
+del origen y los números de línea. Los enlaces de continuación de una lista
+siguen siendo visibles cuando su sangría es relativa a un elemento de la lista y
+no a un bloque de código. Una cerca contenida en una lista termina cuando
+termina su contenedor de lista, incluida una cerca sin cerrar seguida de un
+párrafo exterior o de un elemento hermano. El texto literal de un destino no se
+analiza como fórmula matemática ni como comentario de la prosa; el código o los
+comentarios que lo envuelven siguen ocultando el enlace completo. Los enlaces
+Markdown en línea admiten etiquetas de una sola línea con corchetes balanceados,
+destinos entre ángulos, paréntesis balanceados y títulos opcionales entre
+comillas o entre paréntesis. Los escapes y el código en línea dentro de una
+etiqueta no crean corchetes de etiqueta adicionales. Los destinos decodificados
+siguen pasando las comprobaciones de confinamiento en la bóveda. Las etiquetas
+de los encabezados renderizan los enlaces en línea admitidos fuera del código;
+los fragmentos solicitados nombran el texto resultante y no se reinterpretan
+como enlaces nuevos. Por lo tanto, un wikilink literal dentro de código en línea
+sigue siendo una etiqueta de encabezado distinta. Este es un subconjunto estático
+de navegación, no un renderizador completo de CommonMark ni de Obsidian: los
+enlaces de estilo referencia, las anclas HTML, el análisis de contenedores de
+citas, la sintaxis de complementos y el renderizado nativo quedan fuera de su
+cobertura.
 
-The deterministic gate checks declared structure and coupling. It cannot decide
-whether prose is useful, a citation supports a claim, or an answer is complete.
-Use the frozen Save/Ingest/Query scenarios under `tests/fixtures/forward/` for
-fresh-context host acceptance. Retain host/model versions, prompts and outputs,
-before/after hashes, operation receipts, reviewer findings, and exact missing
-checks. Query must leave every vault byte unchanged and abstain when support is
-missing. Test both a clean vault and a representative legacy copy.
+El control determinista comprueba la estructura y el acoplamiento declarados. No
+puede decidir si la prosa es útil, si una cita respalda una afirmación o si una
+respuesta está completa. Usa los escenarios congelados de guardado, ingesta y
+consulta que están en `tests/fixtures/forward/` para la aceptación del host con
+contexto nuevo. Conserva las versiones del host y del modelo, los prompts y las
+salidas, los hashes de antes y después, los comprobantes de operación, los
+hallazgos del revisor y las comprobaciones exactas que faltan. La consulta debe
+dejar sin cambios cada byte de la bóveda y abstenerse cuando falte respaldo.
+Prueba tanto una bóveda limpia como una copia heredada representativa.
 
-Mocked/offline fixtures, actual model runs, native Obsidian rendering, and human
-acceptance are distinct evidence classes. Do not promote one into another.
-The [offline prompt evaluator](prompt-evaluation.md) checks explicit response
-contracts and negative controls before any separately approved model trial;
-it does not replace the disposable-vault workflow acceptance above.
+Los fixtures simulados o sin conexión, las ejecuciones reales de modelos, el
+renderizado nativo de Obsidian y la aceptación humana son clases de evidencia
+distintas. No promuevas una clase a otra. El [evaluador de prompts sin
+conexión](prompt-evaluation.md) comprueba contratos de respuesta explícitos y
+controles negativos antes de cualquier prueba de modelo aprobada por separado;
+no reemplaza la aceptación del flujo de trabajo con bóveda desechable descrita
+arriba.

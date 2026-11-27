@@ -1,6 +1,6 @@
 ---
 type: meta
-title: Wiki Index
+title: Índice de la wiki
 status: evergreen
 created: {{generated_date}}
 updated: {{generated_date}}
@@ -9,25 +9,26 @@ tags:
   - index
 ---
 
-# Wiki Index
+# Índice de la wiki
 
-This catalog is updated by completed knowledge operations.
+Este catálogo se actualiza con las operaciones de conocimiento completadas.
 
-Start with [[overview|Vault overview]]. See [[hot|Recent context]] and
-[[log|Operation history]] for completed work.
+Empieza por [[overview|Vista general de la bóveda]]. Consulta
+[[hot|Contexto reciente]] y [[log|Historial de operaciones]] para ver el trabajo
+completado.
 
-## Sources
+## Fuentes
 
 - Aún no hay fuentes indexadas.
 
-## Concepts
+## Conceptos
 
 - Aún no hay conceptos indexados.
 
-## Entities
+## Entidades
 
 - Aún no hay entidades indexadas.
 
-## Questions
+## Preguntas
 
 - Aún no hay preguntas indexadas.

@@ -1,23 +1,24 @@
-# claude-obsidian vault schema
+# Esquema de la bóveda de claude-obsidian
 
-This is the compact human-readable schema for a user vault. Operational details
-live in the skills and executable contracts. Product code and user-vault data
-must remain separate.
+Este es el esquema compacto, legible para personas, de la bóveda de un usuario.
+Los detalles operativos están en las skills y en los contratos ejecutables. El
+código del producto y los datos de la bóveda del usuario deben permanecer
+separados.
 
-## Root layout
+## Estructura de la raíz
 
 ```text
 vault/
-├── .gitignore                  # excludes vault-local runtime/session state
-├── .claude-obsidian.json       # workspace identity and vault selection
-├── inbox/                      # visible source intake; never auto-deleted
-├── .raw/                       # immutable source bytes
-│   └── .manifest.json          # backward-compatible delta/address metadata
-├── wiki/                       # generated, user-owned knowledge
-│   ├── index.md                # catalog and navigation
-│   ├── log.md                  # completed operation history, newest first
-│   ├── hot.md                  # bounded recent context, not a transcript
-│   ├── overview.md             # high-level synthesis
+├── .gitignore                  # excluye el estado local de ejecución y de sesión de la bóveda
+├── .claude-obsidian.json       # identidad del espacio de trabajo y selección de bóveda
+├── inbox/                      # entrada visible de fuentes; nunca se elimina automáticamente
+├── .raw/                       # bytes inmutables de las fuentes
+│   └── .manifest.json          # metadatos de deltas y direcciones, compatibles con versiones anteriores
+├── wiki/                       # conocimiento generado, propiedad del usuario
+│   ├── index.md                # catálogo y navegación
+│   ├── log.md                  # historial de operaciones completadas, la más reciente primero
+│   ├── hot.md                  # contexto reciente acotado, no una transcripción
+│   ├── overview.md             # síntesis de alto nivel
 │   ├── sources/
 │   ├── entities/
 │   ├── concepts/
@@ -26,27 +27,28 @@ vault/
 │   └── meta/ledgers/
 │       ├── source-ledger.json
 │       └── claim-ledger.json
-├── .obsidian/                  # user-controlled Obsidian settings
-└── .vault-meta/                # ignored locks, journals, indexes, queue/config
+├── .obsidian/                  # ajustes de Obsidian controlados por el usuario
+└── .vault-meta/                # bloqueos, diarios, índices y cola/configuración ignorados
 ```
 
-LYT, PARA, or Zettelkasten mode may route new pages differently. Mode changes
-do not migrate old notes or change evidence semantics.
+El modo LYT, PARA o Zettelkasten puede dirigir las páginas nuevas de otra
+manera. Los cambios de modo no migran las notas antiguas ni modifican la
+semántica de la evidencia.
 
-## Source invariants
+## Invariantes de las fuentes
 
-- Existing source payloads below `.raw/` are never replaced.
-- `.raw/.manifest.json` is mutable metadata and changes only inside the same
-  transaction as the operation it records.
-- New byte capture is content-addressed by SHA-256.
-- A file in `inbox/` remains until the user removes it. The core may propose
-  deletion but never executes it.
-- Remote locators use validated HTTPS. Credentials do not belong in URLs,
-  source notes, bundles, queues, or tracked configuration.
+- El contenido de las fuentes existentes bajo `.raw/` nunca se reemplaza.
+- `.raw/.manifest.json` son metadatos modificables y solo cambian dentro de la
+  misma transacción que la operación que registran.
+- La captura de bytes nuevos se direcciona por contenido con SHA-256.
+- Un archivo en `inbox/` permanece hasta que el usuario lo elimine. El núcleo
+  puede proponer la eliminación, pero nunca la ejecuta.
+- Los localizadores remotos usan HTTPS validado. Las credenciales no deben ir en
+  URLs, notas de fuente, paquetes, colas ni configuración versionada.
 
-## Markdown page frontmatter
+## Frontmatter de las páginas Markdown
 
-Use flat YAML with plural keys and `YYYY-MM-DD` dates:
+Usa YAML plano con claves en plural y fechas `YYYY-MM-DD`:
 
 ```yaml
 ---
@@ -63,11 +65,11 @@ address: c-000001
 ---
 ```
 
-Required baseline properties are `type`, `title`, `status`, `created`,
-`updated`, and `tags`. `aliases` and `address` are optional unless a configured
-vault policy requires them.
+Las propiedades base obligatorias son `type`, `title`, `status`, `created`,
+`updated` y `tags`. `aliases` y `address` son opcionales, salvo que una política
+configurada de la bóveda los exija.
 
-Common page types:
+Tipos de página comunes:
 
 | Tipo | Propósito |
 |---|---|
@@ -81,33 +83,36 @@ Common page types:
 | `meta` | Página de índice, bitácora, caché, convención o mantenimiento |
 | `fold` | Resumen consolidado extractivo de entradas identificadas de la bitácora |
 
-`claude_obsidian/page_schema.py` is the one declaration of this vocabulary. The
-table above documents it for a reader; code reads the module rather than
-restating the values, and a test asserts the two stay in step.
+`claude_obsidian/page_schema.py` es la única declaración de este vocabulario. La
+tabla anterior lo documenta para el lector; el código lee el módulo en lugar de
+repetir los valores, y una prueba verifica que ambos coincidan.
 
-`source`, `entity`, `concept`, `question`, and `session` are *routable*: the
-methodology router can place a new page of that type. `comparison`, `overview`,
-`meta`, and `fold` are valid frontmatter and not routable, because the product
-creates them through a dedicated operation instead of filing a new note.
+`source`, `entity`, `concept`, `question` y `session` son *enrutables*: el
+enrutador de metodología puede ubicar una página nueva de ese tipo.
+`comparison`, `overview`, `meta` y `fold` son valores válidos de frontmatter y
+no son enrutables, porque el producto los crea mediante una operación dedicada
+en lugar de organizar una nota nueva.
 
-Common statuses are `seed`, `active`, `developing`, `evergreen`, `answered`,
-`provisional`, `contested`, `deprecated`, and `archived`. Use only statuses the
-vault's dashboards and conventions understand.
+Los estados comunes son `seed`, `active`, `developing`, `evergreen`,
+`answered`, `provisional`, `contested`, `deprecated` y `archived`. Usa solo
+estados que los paneles y las convenciones de la bóveda entiendan.
 
-## Obsidian syntax
+## Sintaxis de Obsidian
 
-- Internal references use `[[Target]]` or `[[Target|Alias]]`.
-- Headings and block references use `[[Target#Heading]]` and `[[Target#^block]]`.
-- Embeds use `![[Attachment.ext]]`.
-- Callouts use `> [!type] Title`.
-- Fenced code is data; link-like text inside it is not a graph edge.
-- Prefer basename links only when the basename is unique. Use a vault-relative
-  path when duplicates would be ambiguous.
+- Las referencias internas usan `[[Target]]` o `[[Target|Alias]]`.
+- Los encabezados y las referencias a bloque usan `[[Target#Heading]]` y
+  `[[Target#^block]]`.
+- Las incrustaciones usan `![[Attachment.ext]]`.
+- Los destacados usan `> [!type] Title`.
+- El código cercado es dato; el texto con forma de enlace que contiene no es una
+  conexión del grafo.
+- Prefiere los enlaces por nombre base solo cuando el nombre base sea único. Usa
+  una ruta relativa a la bóveda cuando los duplicados generen ambigüedad.
 
-Do not fabricate a backlink merely to make the graph symmetric. Add links that
-help a reader navigate or understand a relationship.
+No inventes un enlace entrante solo para que el grafo sea simétrico. Agrega
+enlaces que ayuden al lector a navegar o a entender una relación.
 
-## Core pages
+## Páginas principales
 
 ### `wiki/index.md`
 
@@ -120,50 +125,55 @@ navegación.
 
 ### `wiki/log.md`
 
-The log records completed logical operations, not individual file writes. Put
-the newest entry first and include the operation ID, operation type, principal
-pages, and a grounded outcome. Do not rewrite historical child entries when
-creating a fold.
+La bitácora registra operaciones lógicas completadas, no escrituras de archivos
+individuales. Pon primero la entrada más reciente e incluye el ID de la
+operación, el tipo de operación, las páginas principales y un resultado
+fundamentado. No reescribas las entradas hijas históricas al crear una
+consolidación.
 
 ### `wiki/hot.md`
 
-Hot context is short, sanitized, and useful for the next session. It may include
-recent facts, changed pages, active threads, and unresolved questions. It must
-not contain secrets, raw transcripts, tool instructions, or claims that lack
-the same qualification found in canonical pages.
+La caché caliente es breve, saneada y útil para la siguiente sesión. Puede
+incluir hechos recientes, páginas modificadas, hilos activos y preguntas sin
+resolver. No debe contener secretos, transcripciones sin procesar, instrucciones
+de herramientas ni afirmaciones que carezcan de la misma calificación que tienen
+en las páginas canónicas.
 
-Hooks may read and emit this file as bounded data. They do not update it.
+Los hooks pueden leer y emitir este archivo como datos acotados. No lo
+actualizan.
 
 ### `wiki/overview.md`
 
-The overview synthesizes stable, high-level structure and links to supporting
-pages. It changes less frequently than hot context.
+La vista general sintetiza la estructura estable y de alto nivel, y enlaza a las
+páginas que la respaldan. Cambia con menos frecuencia que la caché caliente.
 
-## Provenance ledgers
+## Registros de procedencia
 
-The source ledger separates evidence identity from prose. Each source record may
-include:
+El registro de fuentes separa la identidad de la evidencia de la prosa. Cada
+fuente registrada puede incluir:
 
-- stable ID and SHA-256;
-- vault-relative file locator or HTTPS locator;
-- authority: `official`, `primary`, `secondary`, `community`, `synthetic`, or
+- ID estable y SHA-256;
+- localizador de archivo relativo a la bóveda o localizador HTTPS;
+- autoridad: `official`, `primary`, `secondary`, `community`, `synthetic` o
   `unknown`;
-- independence key;
-- retrieval/review timestamps and `refresh_due`;
-- review state: `unreviewed`, `active`, `superseded`, or `rejected`;
-- linked pages.
+- clave de independencia;
+- marcas de tiempo de obtención y de revisión, y `refresh_due`;
+- estado de revisión: `unreviewed`, `active`, `superseded` o `rejected`;
+- páginas enlazadas.
 
-The claim ledger records a falsifiable claim, note location, supporting and
-contradicting source IDs, confidence, risk, review state, and assessment:
-`accepted`, `provisional`, `contested`, `unsupported`, or `deprecated`.
+El registro de afirmaciones guarda una afirmación falsable, su ubicación en la
+nota, los IDs de las fuentes que la respaldan y de las que la contradicen,
+confianza, riesgo, estado de revisión y valoración: `accepted`, `provisional`,
+`contested`, `unsupported` o `deprecated`.
 
-Accepted claims need active, fresh, non-synthetic support. High-risk accepted
-claims need two independent sources. Preserve contradictions and source
-lineage; do not silently select a winner.
+Las afirmaciones aceptadas necesitan respaldo activo, vigente y no sintético.
+Las afirmaciones aceptadas de alto riesgo necesitan dos fuentes independientes.
+Conserva las contradicciones y el linaje de las fuentes; no elijas un ganador en
+silencio.
 
-## Operation transaction
+## Transacción de operación
 
-One logical mutation is one bundle:
+Una modificación lógica es un paquete:
 
 ```json
 {
@@ -188,10 +198,11 @@ One logical mutation is one bundle:
 }
 ```
 
-Inline `content` is UTF-8 text. `content_file` may contain text or binary bytes
-and must match its declared hash. Raw payload paths are create-only.
+`content` en línea es texto UTF-8. `content_file` puede contener texto o bytes
+binarios y debe coincidir con su hash declarado. Las rutas de contenido sin
+procesar son de solo creación.
 
-Inspect before apply:
+Inspecciona antes de aplicar:
 
 ```bash
 python3 scripts/claude-obsidian.py transaction inspect <bundle> --vault <vault>
@@ -199,63 +210,72 @@ python3 scripts/claude-obsidian.py transaction apply <bundle> --vault <vault> \
   --approved-plan-sha256 <approval_sha256>
 ```
 
-Use the inspect result's exact `approval_sha256`. It binds the expanded plan
-to the canonical resolved vault root, so approval for one vault cannot be
-reused against another vault.
+Usa el `approval_sha256` exacto del resultado de la inspección. Vincula el plan
+expandido con la raíz canónica resuelta de la bóveda, de modo que la aprobación
+de una bóveda no pueda reutilizarse con otra.
 
-Parallel workers never apply bundles or edit shared pages. They return draft
-packets with evidence, target paths, and expected hashes to one orchestrator.
+Los agentes en paralelo nunca aplican paquetes ni editan páginas compartidas.
+Devuelven a un único orquestador paquetes de borrador con evidencia, rutas de
+destino y hashes esperados.
 
-## Workflow contracts
+## Contratos de flujo de trabajo
 
-### Ingest
+### Ingesta
 
-An ingest operation may include a create-only raw capture, source summary,
-entity/concept pages, provenance records, index/MOC updates, log, hot cache, and
-overview. Every canonical create or removal updates an active index or MOC;
-overview changes remain conditional on a changed high-level picture. Every
-extracted claim remains traceable to the source. Batch budgets bound source
-count, total bytes, pages, links, and elapsed work.
+Una operación de ingesta puede incluir una captura sin procesar de solo
+creación, un resumen de la fuente, páginas de entidades y conceptos, registros
+de procedencia, actualizaciones del índice o de los MOC, la bitácora, la caché
+caliente y la vista general. Cada creación o eliminación canónica actualiza un
+índice o MOC activo; los cambios en la vista general siguen condicionados a que
+cambie el panorama de alto nivel. Cada afirmación extraída sigue siendo
+rastreable hasta la fuente. Los presupuestos del lote acotan la cantidad de
+fuentes, el total de bytes, las páginas, los enlaces y el tiempo de trabajo.
 
-### Query
+### Consulta
 
-Query is read-only. Retrieve the smallest relevant evidence set, distinguish
-accepted/provisional/contested/unsupported/stale claims, cite vault pages and
-source records, and state gaps. If the user asks to keep the answer, invoke a
-separate Save operation.
+La consulta es de solo lectura. Busca el conjunto de evidencia relevante más
+pequeño, distingue las afirmaciones aceptadas, provisionales, en disputa, sin
+respaldo y desactualizadas, cita páginas de la bóveda y fuentes registradas, e
+indica los vacíos. Si el usuario pide conservar la respuesta, invoca una
+operación de guardado aparte.
 
-### Save
+### Guardado
 
-Save only content the user explicitly selected. Do not capture an entire
-conversation by default. The saved note, provenance where needed, index, log,
-and hot cache form one transaction.
+Guarda solo el contenido que el usuario haya seleccionado de forma explícita. No
+captures una conversación completa por defecto. La nota guardada, la procedencia
+cuando haga falta, el índice, la bitácora y la caché caliente forman una sola
+transacción.
 
 ### Autoresearch
 
-Research has an explicit question, source policy, egress consent, and stop
-budget. Web results first become a cited research dossier. Merging them into
-canonical pages is a separate reviewed operation.
+La investigación tiene una pregunta explícita, una política de fuentes,
+consentimiento de salida de red y un presupuesto de detención. Los resultados de
+la web se convierten primero en un dosier de investigación con citas.
+Fusionarlos en páginas canónicas es una operación aparte, con revisión.
 
 ### Lint
 
-Lint is deterministic and read-only. Report dead/ambiguous links, duplicate
-basenames, orphans, missing frontmatter, empty sections, stale index entries,
-configuration/read errors, and source/claim ledger contract violations. Repairs
-are separate transaction proposals.
+El lint es determinista y de solo lectura. Informa de enlaces rotos o ambiguos,
+nombres base duplicados, páginas huérfanas, frontmatter faltante, secciones
+vacías, entradas de índice obsoletas, errores de configuración o de lectura y
+violaciones del contrato de los registros de fuentes y de afirmaciones. Las
+reparaciones son propuestas de transacción aparte.
 
-## Safety and maintenance
+## Seguridad y mantenimiento
 
-- Run `doctor` to verify vault selection.
-- Run `lint` after meaningful operation batches.
-- Run `transaction recover` after an interrupted apply.
-- Use explicit `checkpoint` only when Git history is wanted.
-- Keep backups independent from transaction journals.
-- Never treat the product repository, plugin cache, a setup-file existence
-  check, or an AI statement as proof that a capability is verified.
-- `configured` means prerequisites are present. `verified` requires a declared
-  behavioral check to pass; a schema/self-check cannot promote the state. When
-  no automated verifier exists, the capability stays configured and reports
-  the tracked reason.
+- Ejecuta `doctor` para verificar la selección de la bóveda.
+- Ejecuta `lint` después de lotes significativos de operaciones.
+- Ejecuta `transaction recover` después de una aplicación interrumpida.
+- Usa un `checkpoint` explícito solo cuando se quiera historial de Git.
+- Mantén las copias de seguridad independientes de los diarios de transacciones.
+- Nunca tomes el repositorio del producto, la caché del plugin, la comprobación
+  de que existe un archivo de configuración ni una afirmación de una IA como
+  prueba de que una capacidad está verificada.
+- `configured` significa que los requisitos previos están presentes. `verified`
+  exige que pase una comprobación de comportamiento declarada; una comprobación
+  de esquema o una autocomprobación no puede promover el estado. Cuando no existe un verificador
+  automatizado, la capacidad sigue en estado configurado e informa del motivo
+  registrado.
 
-The executable contracts in `config/` and tests are the source of truth when
-this prose and behavior disagree.
+Los contratos ejecutables de `config/` y las pruebas son la fuente de verdad
+cuando esta prosa y el comportamiento no coinciden.
