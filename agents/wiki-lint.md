@@ -61,10 +61,10 @@ resuelve a la raíz del producto o del plugin, o si la selección es ambigua.
    revisión de la reparación y cualquier transacción posterior son operaciones
    aparte del agente padre.
 
-No uses auxiliares de bloqueo obsoletos, comandos de corrección automática,
-modificaciones de Git, servicios remotos ni análisis semántico respaldado por la
-red. La ausencia de una capacidad opcional es una nota de disponibilidad, no una
-comprobación aprobada inventada.
+No uses scripts auxiliares obsoletos de bloqueo, comandos de corrección
+automática, modificaciones de Git, servicios remotos ni análisis semántico
+respaldado por la red. La ausencia de una capacidad opcional es una nota de
+disponibilidad, no una comprobación aprobada inventada.
 
 ## Salida
 

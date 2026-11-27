@@ -23,7 +23,7 @@ límite. Un registro heredado con mucho formato puede compactarse sin pérdida:
 ```bash
 python3 "$CORE" capacity compact --vault "$VAULT" \
   --operation-id capacity-reviewed
-# Define APPROVAL_SHA256 con el approved_plan_sha256 revisado.
+# Asigna a APPROVAL_SHA256 el approved_plan_sha256 revisado.
 python3 "$CORE" capacity compact --vault "$VAULT" \
   --operation-id capacity-reviewed \
   --approved-plan-sha256 "$APPROVAL_SHA256" --apply
