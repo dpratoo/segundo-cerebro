@@ -184,7 +184,7 @@ verificación y la reversión.
 - Los permisos de Canvas exigen consentimiento explícito para las ediciones
   destructivas del tablero. La documentación de Defuddle describe la
   planificación de la extracción y la captura local. Se elimina la prueba
-  histórica de benchmark, cuyos auxiliares nunca se distribuyeron.
+  comparativa histórica, cuyos scripts auxiliares nunca se distribuyeron.
 - SessionStart también coincide con las sesiones bifurcadas en los hosts actuales
   de Claude Code, y conserva el consentimiento explícito de contexto y el
   comportamiento de hook de solo lectura.
@@ -211,7 +211,7 @@ verificación y la reversión.
   redirecciones, acotan las lecturas de respuestas y validan las entradas de
   consulta, candidatos y umbral antes de cualquier trabajo con el proveedor o la
   caché. Las cachés y umbrales con UTF-8 mal formado siguen errores controlados.
-- El fixture de Save sin conexión impone un contrato explícito y acotado de
+- El fixture de guardado sin conexión impone un contrato explícito y acotado de
   título a partir de palabras de la fuente y cuerpos de nota exactos. La guía de
   Canvas usa el catálogo admitido y distingue las ediciones de nodos de la
   eliminación o el cambio de nombre de archivos de tablero, que no se admiten; la
@@ -244,10 +244,10 @@ verificación y la reversión.
 - La salida del proveedor se valida y se serializa antes de publicarse. El
   Unicode mal formado recurre a la alternativa de forma segura sin descartar un
   índice listo que no ha cambiado.
-- Los catálogos de inicio y de ejemplo conectan sus páginas estructurales. Query
-  Quick tiene una salida explícita basada en evidencia y un presupuesto de
-  lectura; Save puede redactar un título faltante para el paso de revisión
-  existente.
+- Los catálogos de inicio y de ejemplo conectan sus páginas estructurales. La
+  consulta rápida tiene una salida explícita basada en evidencia y un
+  presupuesto de lectura; el guardado puede redactar un título faltante para el
+  paso de revisión existente.
 - El lint divide las rutas Markdown codificadas antes de decodificarlas, informa
   del contenido plano de la bóveda que no se analizó, distingue los destinos de
   origen ocultos y entiende las rutas de encabezado admitidas, los enlaces de
@@ -274,13 +274,13 @@ verificación y la reversión.
 
 ### Añadido
 
-- Evaluación de prompts de Query y Save sin conexión, con hashes de
+- Evaluación de prompts de consulta y de guardado sin conexión, con hashes de
   instrucciones, contratos de respuesta explícitos y controles negativos. No hace
   solicitudes a proveedores y mantiene el razonamiento controlado de los prompts
   separado de la aceptación operativa de las skills.
-- Inspección y aplicación de flujos de trabajo con nombre y por separado para
-  Save e Ingest, con una política de catálogos ligada a hashes y resultados
-  explícitos de completitud estructural.
+- Inspección y aplicación de flujos de trabajo con nombre y por separado para el
+  guardado y la ingesta, con una política de catálogos ligada a hashes y
+  resultados explícitos de completitud estructural.
 - Validación estática de la política de producto de Canvas y comprobaciones de
   texto de Base acotadas con honestidad.
 - Evaluación de búsqueda con etiquetas y sin conexión, con recall, MRR,
@@ -405,7 +405,7 @@ respeta gitignore y un adaptador de host para ZCode.
   lectura de 256 KiB además del tiempo de espera existente, lo que impide que una
   respuesta demasiado grande consuma memoria sin límite. Los fallos de lectura
   del cuerpo de la respuesta, el UTF-8 no válido, el anidamiento excesivo de JSON
-  y las formas de respuesta mal formadas fallan en modo cerrado.
+  y las formas de respuesta mal formadas fallan de forma cerrada.
 - `tests/test_contextual_prefix.py` y `tests/test_wiki_mode.py` ya no fallan en
   Windows nativo antes de terminar de ejecutar sus aserciones. Ambos imprimen `→`
   en las etiquetas de las pruebas; la codificación de consola predeterminada de
@@ -443,7 +443,7 @@ respeta gitignore y un adaptador de host para ZCode.
   que actualiza metadatos): vuelve a leer una vez y acepta el contenido solo si
   los bytes son idénticos a los de la primera lectura. Cualquier cambio de
   tamaño, inodo, dispositivo o modo, y cualquier cambio de contenido durante la
-  lectura, sigue fallando en modo cerrado con `CORRUPT_RUNTIME_STATE`.
+  lectura, sigue fallando de forma cerrada con `CORRUPT_RUNTIME_STATE`.
 - La resolución de enlaces del lint ya no informa que un wikilink es ambiguo
   cuando los candidatos adicionales son archivos ignorados por gitignore (por
   ejemplo, un binario compilado cuyo nombre coincide con una página, como
@@ -563,7 +563,7 @@ Refundación de la confiabilidad y la evidencia.
 ### Añadido
 
 - Núcleo `claude_obsidian` de biblioteca estándar con selección de bóveda que
-  falla en modo cerrado, transacciones de operación recuperables, recuperación
+  falla de forma cerrada, transacciones de operación recuperables, recuperación
   tras fallos, manifiestos exactos de rutas modificadas y puntos de control
   explícitos de Git.
 - Lint determinista de Obsidian, contratos de producto y de capacidades,
@@ -610,13 +610,13 @@ Refundación de la confiabilidad y la evidencia.
   informa del estado de recuperación; la inyección de contexto de SessionStart
   requiere la activación explícita `CLAUDE_OBSIDIAN_SESSION_CONTEXT=1`. Ninguno
   modifica el conocimiento ni Git.
-- Los auxiliares de configuración e instalación funcionan por defecto como vistas
-  previas, usan las bóvedas de usuario seleccionadas, evitan el estado de la caché
-  de plugins y conservan la configuración existente.
+- Los scripts auxiliares de configuración e instalación funcionan por defecto
+  como vistas previas, usan las bóvedas de usuario seleccionadas, evitan el
+  estado de la caché de plugins y conservan la configuración existente.
 - La instalación portátil crea enlaces por skill directamente detectables en la
   raíz de skills vigente de cada host, y las skills ejecutables resuelven los
-  auxiliares del producto mediante rutas absolutas de instalación y no mediante
-  el directorio de trabajo de la bóveda del usuario.
+  scripts auxiliares del producto mediante rutas absolutas de instalación y no
+  mediante el directorio de trabajo de la bóveda del usuario.
 - La búsqueda ahora elimina fragmentos obsoletos, invalida los índices derivados,
   deduplica antes del top-K, confina las rutas, usa prefijos de Nomic específicos
   de cada tarea y restaura el resultado completo de BM25 cuando no se puede
@@ -627,7 +627,7 @@ Refundación de la confiabilidad y la evidencia.
 - La búsqueda CJK ahora normaliza la entrada Unicode e indexa n-gramas de
   caracteres acotados para que las consultas en japonés, chino, coreano,
   bopomofo y de ancho mixto puedan coincidir con documentos más largos; los
-  índices derivados heredados fallan en modo cerrado con indicaciones para
+  índices derivados heredados fallan de forma cerrada con indicaciones para
   reconstruirlos.
 - El reordenamiento semántico opcional usa por defecto el modelo multilingüe
   Nomic v2 MoE, emplea la API de embeddings de entrada única vigente de Ollama,
@@ -661,7 +661,7 @@ Refundación de la confiabilidad y la evidencia.
 - Las identidades de procedencia ahora unifican las grafías de URL equivalentes
   según RFC (IPv6, IDN, Unicode/IRI, puerto por defecto, segmentos de punto y
   codificación porcentual) antes de contar la independencia de las fuentes; las
-  formas mal formadas o no escalares fallan en modo cerrado.
+  formas mal formadas o no escalares fallan de forma cerrada.
 - El enrutamiento de Zettelkasten ahora combina su prefijo UTC en microsegundos
   con un nonce UUIDv4, lo que evita colisiones entre vistas previas rápidas o
   concurrentes sin escrituras de asignador. Los metadatos de formato heredados se
@@ -678,16 +678,17 @@ Refundación de la confiabilidad y la evidencia.
   bloqueos por archivo de la ruta de modificación admitida.
 - Las afirmaciones comparativas, de rendimiento y de capacidad sin respaldo, que
   se quitan de la documentación vigente del producto.
-- Los fragmentos de CSS de Obsidian de la bóveda de contribuidores de la raíz,
+- Los fragmentos de CSS de Obsidian de la bóveda de colaboradores de la raíz,
   que ya no se incluyen en el artefacto público; se mantiene el fragmento de
   plantilla determinista propiedad del proyecto.
 
 ### Compatibilidad
 
 - Las bóvedas existentes siguen siendo legibles. La migración es aditiva,
-  idempotente y conserva el manifiesto raw heredado byte a byte.
-- `scripts/wiki-lock.sh` sigue siendo únicamente un auxiliar de compatibilidad
-  obsoleto de la v1.
+  idempotente y conserva byte a byte el manifiesto heredado de contenido sin
+  procesar.
+- `scripts/wiki-lock.sh` sigue siendo únicamente un script auxiliar de
+  compatibilidad obsoleto de la v1.
 - Las herramientas del producto nunca publican, hacen push, etiquetan ni modifican
   el estado público de colaboración sin la aprobación del propietario.
 
@@ -721,7 +722,8 @@ Refundación de la confiabilidad y la evidencia.
 
 ## [1.8.0] - 2026-05-17
 
-- Se añadieron modos de metodología opcionales: Generic, LYT, PARA y Zettelkasten.
+- Se añadieron modos de metodología opcionales: Genérico, LYT, PARA y
+  Zettelkasten.
 - Se añadieron el enrutamiento determinista de rutas y la configuración no
   destructiva de modos.
 
@@ -760,8 +762,8 @@ Refundación de la confiabilidad y la evidencia.
 
 - Se añadieron prototipos de consolidación, dirección determinista y teselado
   semántico de activación voluntaria.
-- Se añadieron el arnés de pruebas inicial y los auxiliares de configuración de
-  extensiones.
+- Se añadieron el arnés de pruebas inicial y los scripts auxiliares de
+  configuración de extensiones.
 
 ## [1.4.3] - prior
 
