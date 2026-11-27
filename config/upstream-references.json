@@ -406,55 +406,55 @@
   "local_fallbacks": [
     {
       "path": "docs/native-conformance.md",
-      "sha256": "96f46f402c1d7e2b992eb75e57cf5bc858e5fd119a3f83a3c87bcc180480fa74"
+      "sha256": "e97dfc160bb98c73dda1408b76c2ffab2c465ab6907bde5d71d6657b5dfaeb1b"
     },
     {
       "path": "docs/upstream-references.md",
-      "sha256": "93030e7ecb9799c4bd34cf6a82a0cc922bba932cb1b41cd53d75566d302e2376"
+      "sha256": "7202296694d4be2cb21b9af32b2afa0c7c034d153e41829449c589ea2d1ca91c"
     },
     {
       "path": "skills/defuddle/SKILL.md",
-      "sha256": "692e55ec5061cddbf5d7dff5afbef4618de3fa3961e19a6138f52753a183ec97"
+      "sha256": "fa32fd1c78c4ed5bf81189887003c35b408f51c479c503b06a782eebcd0406b1"
     },
     {
       "path": "skills/obsidian-bases/SKILL.md",
-      "sha256": "d64c3c2ddb4a32e300aaf18ba2355de22627017e9e159e46f4116aac82d2e602"
+      "sha256": "700035b7289599b02c13bfd21b28ae73feefdca05d906df8e1c6a0edf43e2f0c"
     },
     {
       "path": "skills/obsidian-markdown/SKILL.md",
-      "sha256": "16234d51987af4d322549077051fefc82a6aedb92170668be6ca817a302e41c3"
+      "sha256": "7139eeaf5a9d7bf04921a9c4ff610a51465fbee072fc33f573331d1db0dc9a3a"
     },
     {
       "path": "skills/wiki-mode/SKILL.md",
-      "sha256": "c17756cc6194360d9b0008f9b121b3c5e5b1fe898383e34ead3056ae7bbf98b4"
+      "sha256": "937f87209b0c3f419aba487093523ea943485513015b6c99cfe95a863c73b909"
     },
     {
       "path": "skills/wiki/references/coordination.md",
-      "sha256": "33315ec7bfe6f6dc63d10c0a75dc6ec26bd4860f039313f1d22534bbed5e37b6"
+      "sha256": "58bd64f0e25eea815ac68d6b637ca4c8ef23e23b7d06cc7f97724eaf9d61e1a0"
     },
     {
       "path": "skills/wiki/references/dataview.md",
-      "sha256": "d4b16761560fc258eefe9a4fdad6ca774154e5ac24a3573cc91b02e8037113be"
+      "sha256": "c0352874f08eed435e6bdc0ad000b441b2367caf268d1d3d79528d33f4cfed41"
     },
     {
       "path": "skills/wiki/references/frontmatter.md",
-      "sha256": "dd3da4e4b863c9c429509838248305cf27490b5fc787dae6842f7c588c6497ff"
+      "sha256": "68aa5ca57b1467c86efe4071f22932c2b50d1962eb86f8db603744a4dab3fe92"
     },
     {
       "path": "skills/wiki/references/knowledge-recipes.md",
-      "sha256": "30c5bbad1653a199446babba9b2aeee84965ede5d9cd7298ff48c58f34c7b256"
+      "sha256": "68b35531aeffe1522fb5bdd50ff31441c90459fad4090dd1cbc35800e7e16d92"
     },
     {
       "path": "skills/wiki/references/operation-transactions.md",
-      "sha256": "182a333e314f948d42504d48505bb76550276db17a27ae6081acfa9273330cd1"
+      "sha256": "e05bfd3bae585f0626423e631389a1f2ca7ed1db9a27de0672013f595104509d"
     },
     {
       "path": "skills/wiki/references/plugins.md",
-      "sha256": "cac30ee29fd762fdd91dfff2d2d6759d3d91ea5a3e1912ebd3309174cdc8c76f"
+      "sha256": "0b60ede3b6c5660c768659d88a4bb03a2f783766559fd3ad3f243b78ecaefbf1"
     },
     {
       "path": "skills/wiki/references/rest-api.md",
-      "sha256": "79179ede8e8b8279ac0ec9982c616b86b548428edf14175e86c0dd02e5932ffb"
+      "sha256": "b28bdd0d9516008c6c6b56eced7e06077d2ba844766eab92865ad7e5bd06da4c"
     }
   ]
 }
