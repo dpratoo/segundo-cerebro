@@ -66,17 +66,18 @@ Una operación lógica de conocimiento es una transacción recuperable:
    `scripts/claude-obsidian.py`.
 5. Informa el ID de la operación y las rutas exactas modificadas.
 
-No uses escrituras compartidas directas, el auxiliar obsoleto `wiki-lock.sh` ni
-commits automáticos genéricos del ciclo de vida. Los puntos de control de Git son
-independientes y explícitos. Las cargas de fuentes sin procesar son solo de
-creación; `.raw/.manifest.json` es el único archivo mutable de metadatos
-heredados de las fuentes sin procesar. Las reparaciones destructivas, la salida de red remota y
-las fusiones de investigación canónica requieren consentimiento explícito.
+No uses escrituras compartidas directas, el script auxiliar obsoleto
+`wiki-lock.sh` ni commits automáticos genéricos del ciclo de vida. Los puntos de
+control de Git son independientes y explícitos. El contenido sin procesar de las
+fuentes es solo de creación; `.raw/.manifest.json` es el único archivo mutable
+de metadatos heredados de las fuentes sin procesar. Las reparaciones
+destructivas, la salida de red remota y las fusiones de investigación canónica
+requieren consentimiento explícito.
 
 ## Convenciones de la bóveda
 
 - `inbox/`: entrada visible de capturas; nunca se elimina de forma automática.
-- `.raw/`: cargas de fuentes inmutables y manifiesto delta heredado.
+- `.raw/`: contenido inmutable de las fuentes y manifiesto delta heredado.
 - `wiki/`: páginas de conocimiento generadas.
 - `wiki/meta/ledgers/`: procedencia de fuentes y afirmaciones.
 - `wiki/hot.md`: contexto reciente acotado, nunca una transcripción.
@@ -91,11 +92,11 @@ evidencia, citas textuales, números de página ni niveles de confianza.
 ## Verificación
 
 Ejecuta `make test` después de los cambios de comportamiento. Este comando
-ejecuta cada suite de Python y de shell, además de los contratos de producto, capacidades, paquete,
-hooks y manifiestos. Los artefactos públicos se construyen en local con
-`release build` y se auditan sin publicar. Ningún agente puede hacer push, crear
-etiquetas, abrir o modificar issues, ni publicar una versión sin la aprobación
-explícita del propietario.
+ejecuta cada conjunto de pruebas de Python y de shell, además de los contratos
+de producto, capacidades, paquete, hooks y manifiestos. Los artefactos públicos
+se construyen en local con `release build` y se auditan sin publicar. Ningún
+agente puede hacer push, crear etiquetas, abrir o modificar issues, ni publicar
+una versión sin la aprobación explícita del propietario.
 
 La inyección de contexto de SessionStart de Claude está deshabilitada por defecto.
 Trata `CLAUDE_OBSIDIAN_SESSION_CONTEXT=1` como consentimiento explícito del

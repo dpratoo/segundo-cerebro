@@ -1,5 +1,5 @@
 ---
-name: Reporte de error
+name: Informe de error
 about: Algo está roto o se comporta de forma inesperada
 title: "[bug] "
 labels: bug
@@ -37,7 +37,7 @@ Paste relevant terminal output or error messages here.
 - [ ] Ejecuté la prueba de regresión relevante o `make test`: Sí / No
 - [ ] Confirmé que el repositorio del producto y la bóveda del usuario están separados: Sí / No
 - [ ] Revisé en CHANGELOG si hay problemas conocidos en mi versión
-- [ ] Busqué reportes similares en los issues existentes
+- [ ] Busqué informes similares en los issues existentes
 
 ## Contexto adicional
 Cualquier otra cosa que pueda ayudar (capturas de pantalla, issues relacionados, cambios recientes).

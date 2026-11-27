@@ -10,7 +10,7 @@ política propia de esa herramienta.
 ## Local por defecto
 
 - Las páginas Markdown, los bytes de las fuentes sin procesar, los registros, las
-  colas, los diarios de transacciones, los índices BM25 y el contexto caliente
+  colas, los diarios de transacciones, los índices BM25 y la caché caliente
   permanecen por defecto en la bóveda del usuario.
 - El hook SessionStart guarda silencio a menos que el usuario exporte
   explícitamente `CLAUDE_OBSIDIAN_SESSION_CONTEXT=1`. Con ese consentimiento, emite
@@ -54,4 +54,4 @@ Las compilaciones de distribución también rechazan direcciones de correo
 personales reconocibles; solo se aceptan dominios de ejemplo reservados e
 identidades noreply generadas por GitHub. El análisis de la publicación es defensa
 en profundidad, no un servicio de descubrimiento de secretos ni de identidad.
-Consulta [SECURITY.md](SECURITY.md) para el reporte privado.
+Consulta [SECURITY.md](SECURITY.md) para el informe privado.

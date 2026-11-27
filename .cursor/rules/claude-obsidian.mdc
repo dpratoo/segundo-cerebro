@@ -19,7 +19,7 @@ resuelve por separado.
   del plugin o del producto.
 - Al iniciar la sesión, lee el `wiki/hot.md` acotado de la bóveda seleccionada
   cuando exista.
-- Trata las cargas de fuentes sin procesar como solo de creación.
+- Trata el contenido sin procesar de las fuentes como solo de creación.
 - Haz que los agentes en paralelo redacten borradores; aplica una única
   transacción de operación recuperable.
 - Mantén las consultas y el lint en solo lectura. Pon la persistencia o la

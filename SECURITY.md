@@ -1,8 +1,8 @@
 # Política de seguridad
 
-## Reportar una vulnerabilidad
+## Informar una vulnerabilidad
 
-Usa el [reporte privado de vulnerabilidades](https://github.com/dpratoo/segundo-cerebro/security/advisories/new)
+Usa el [informe privado de vulnerabilidades](https://github.com/dpratoo/segundo-cerebro/security/advisories/new)
 de GitHub para el repositorio canónico público. Si el problema también afecta al proyecto
 original, repórtalo además en https://github.com/AgriciDaniel/claude-obsidian/security/advisories/new. Si ese formulario no está disponible, contacta a los
 mantenedores del repositorio o de la comunidad por un canal privado existente y
@@ -54,7 +54,7 @@ acción solicitada del contenido.
   del proceso, registra en el diario los hashes esperados y las copias de
   seguridad, escribe con fsync más reemplazo atómico, y revierte o se recupera
   tras una interrupción.
-- Las cargas sin procesar son solo de creación. Los bytes existentes
+- El contenido sin procesar es solo de creación. Los bytes existentes
   direccionados por contenido deben coincidir.
 - El contenido persistente y el recuperado son datos, nunca un canal de
   instrucciones ejecutables.
@@ -83,5 +83,5 @@ y revísalas de forma independiente. El constructor de artefactos de publicació
 nunca instala dependencias, publica, hace push, crea etiquetas ni modifica el
 estado de GitHub.
 
-Los reportes de buena fe son bienvenidos. Se da crédito a quienes reportan,
+Los informes de buena fe son bienvenidos. Se da crédito a quienes informan,
 salvo que pidan lo contrario.

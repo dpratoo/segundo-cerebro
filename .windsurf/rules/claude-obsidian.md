@@ -7,8 +7,8 @@ mismo comando con `--apply`, y carga el `skills/<name>/SKILL.md` correspondiente
 cuando una solicitud lo active.
 
 El clon del producto y la bóveda del usuario son independientes. Resuelve la
-bóveda del usuario antes de leer el contexto caliente o de modificar el
-conocimiento. Las cargas sin procesar son solo de creación; los agentes en
+bóveda del usuario antes de leer la caché caliente o de modificar el
+conocimiento. El contenido sin procesar es solo de creación; los agentes en
 paralelo devuelven borradores; un orquestador inspecciona y aplica una única
 transacción recuperable. Las consultas y el lint siguen siendo de solo lectura. La
 salida de red, la reparación destructiva y los puntos de control de Git requieren

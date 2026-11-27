@@ -56,7 +56,7 @@ archivos circundantes, pero los diseños son suyos.
 
 | Cambio | Colaborador | Pull request |
 |--------|-------------|--------------|
-| Prefijos de tarea Nomic `search_query` y `search_document` en el reordenador, incluido el auxiliar `with_task_prefix` y la invalidación del esquema de caché | maartengoet | https://github.com/AgriciDaniel/claude-obsidian/pull/77 |
+| Prefijos de tarea Nomic `search_query` y `search_document` en el reordenador, incluida la función auxiliar `with_task_prefix` y la invalidación del esquema de caché | maartengoet | https://github.com/AgriciDaniel/claude-obsidian/pull/77 |
 | Orden de la alternativa BM25 conservado en las rutas sin operación del reordenador (`bm25_score` antes de `score`) | vinsocci | https://github.com/AgriciDaniel/claude-obsidian/pull/62 |
 
 La versión 3.0.0 también se apoya en las siguientes correcciones diagnosticadas y
@@ -91,10 +91,10 @@ La versión 2.2.0 también se apoya en estos pull requests, implementados aquí 
 | `stop_status` lee diarios válidos grandes en lugar de informar que no se pueden leer | STiFLeR7 | https://github.com/AgriciDaniel/claude-obsidian/pull/172 |
 | `checkpoint` respeta los valores falsos de Git para `core.filemode` | STiFLeR7 | https://github.com/AgriciDaniel/claude-obsidian/pull/173 |
 
-Estos reportes de issues, varios con un diagnóstico o un parche probado, dieron
+Estos informes de issues, varios con un diagnóstico o un parche probado, dieron
 lugar a correcciones en la 3.0.0.
 
-| Reporte | Reportante | Issue |
+| Informe | Autor | Issue |
 |---------|------------|-------|
 | El lint dio por limpia una bóveda plana con 0 páginas analizadas | RoelKluin | https://github.com/AgriciDaniel/claude-obsidian/issues/200 |
 | Decodificar antes de dividir el fragmento rompía los enlaces codificados con `%23` | threnard | https://github.com/AgriciDaniel/claude-obsidian/issues/193 |

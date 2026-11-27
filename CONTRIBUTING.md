@@ -6,11 +6,11 @@ Este repositorio mantiene la traducción al español. Los cambios de
 funcionamiento (código, pruebas, contratos) corresponden al proyecto original:
 https://github.com/AgriciDaniel/claude-obsidian.
 
-Para un cambio sustancial, abre un issue que describa el problema del usuario, el
-comportamiento propuesto, el impacto en la compatibilidad, las implicaciones de
-privacidad y de salida de red, y una estrategia de pruebas herméticas. Los
-reportes de seguridad siguen [SECURITY.md](SECURITY.md), no el rastreador público
-de issues.
+Para un cambio sustancial, abre un issue que describa el problema del usuario,
+el comportamiento propuesto, el impacto en la compatibilidad, las implicaciones
+de privacidad y de salida de red, y una estrategia de pruebas herméticas. Los
+informes de seguridad siguen [SECURITY.md](SECURITY.md), no el rastreador
+público de issues.
 
 ## Contrato de ingeniería
 
